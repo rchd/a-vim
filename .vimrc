@@ -1,3 +1,21 @@
+":::'###:::::::::::::'##::::'##:'####:'##::::'##:'########:::'######::
+"::'## ##:::::::::::: ##:::: ##:. ##:: ###::'###: ##.... ##:'##... ##:
+":'##:. ##::::::::::: ##:::: ##:: ##:: ####'####: ##:::: ##: ##:::..::
+"'##:::. ##:'#######: ##:::: ##:: ##:: ## ### ##: ########:: ##:::::::
+" #########:........:. ##:: ##::: ##:: ##. #: ##: ##.. ##::: ##:::::::
+" ##.... ##:::::::::::. ## ##:::: ##:: ##:.:: ##: ##::. ##:: ##::: ##:
+" ##:::: ##::::::::::::. ###::::'####: ##:::: ##: ##:::. ##:. ######::
+"..:::::..::::::::::::::...:::::....::..:::::..::..:::::..:::......:::
+
+"#####################################################################
+"#
+"#
+"#
+"#
+"#
+"#####################################################################
+"basic setting "{{{
+let $PATH="~/bin:/local/usr/bin:/".$PATH
 set cscopequickfix=g-
 set shellslash
 set t_Co=256
@@ -6,7 +24,6 @@ set autoindent
 set ruler
 set relativenumber
 set hlsearch
-set rtp+=~/.vim/bundle/Vundle.vim
 set showcmd
 setlocal foldmethod=marker
 filetype off                  " required
@@ -35,8 +52,14 @@ set cursorline
 "set spell
 "set spelllang=en_us
 "set tabstop=1
+"}}}
 
-
+"#####################################################################
+"#
+"# Vundle
+"#
+"#####################################################################
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'Valloric/YouCompleteMe'
@@ -78,17 +101,32 @@ endif
 call vundle#end()
 
 
-let $PATH="~/bin:/local/usr/bin:/".$PATH
+"#####################################################################
+"#
+"#  startify
+"#
+"#####################################################################
 
-"startify
 let g:startify_custom_header=[
-			\'                       _          ',
-			\'     ____ _     _   __(_)___ ___',
-			\'    / __ `/____| | / / / __ `__ \',
-			\'   / /_/ /_____/ |/ / / / / / / /',
-			\'   \__,_/      |___/_/_/ /_/ /_/',
+			\'               ___           ___                       ___           ___           ___     ',
+			\'              /\  \         /\__\          ___        /\__\         /\  \         /\  \    ',
+			\'             /::\  \       /:/  /         /\  \      /::|  |       /::\  \       /::\  \   ',
+			\'            /:/\:\  \     /:/  /          \:\  \    /:|:|  |      /:/\:\  \     /:/\:\  \  ',
+			\'           /::\~\:\  \   /:/__/  ___      /::\__\  /:/|:|__|__   /::\~\:\  \   /:/  \:\  \ ',
+			\'          /:/\:\ \:\__\  |:|  | /\__\  __/:/\/__/ /:/ |::::\__\ /:/\:\ \:\__\ /:/__/ \:\__\ ',
+			\'          \/__\:\/:/  /  |:|  |/:/  / /\/:/  /    \/__/~~/:/  / \/_|::\/:/  / \:\  \  \/__/',
+			\'               \::/  /   |:|__/:/  /  \::/__/           /:/  /     |:|::/  /   \:\  \      ',
+			\'               /:/  /     \::::/__/    \:\__\          /:/  /      |:|\/__/     \:\  \     ',
+			\'              /:/  /       ~~~~         \/__/         /:/  /       |:|  |        \:\__\    ',
+			\'              \/__/                                   \/__/         \|__|         \/__/    ',
 			\]
 
+
+"#####################################################################
+"#
+"#  YouCompleteMe
+"#
+"#####################################################################
 " make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
@@ -100,40 +138,71 @@ let g:ycm_warning_symbol='>*'
 "nnoremap <leader>gf :YcmCompleter GoToDefinition<cr>
 "nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<cr>
 
+"#####################################################################
+"#
+"#  UltiSnips
+"#
+"#####################################################################
 " better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
-" airline
+"#####################################################################
+"#
+"#  airline
+"#
+"#####################################################################
 let g:airline#extensions#tabline#enabled=1
 " set the arrow of powerline
 if !has("gui_running")
 	let g:airline_powerline_fonts=1
 endif
 
+"#####################################################################
+"#
+"#  NERDTree
+"#
+"#####################################################################
 " set the width and position of NERDTree
 let g:NERDTreeWinSize=25
 let g:NERDTreeWinPos='left'
-noremap <Leader>n :NERDTree<cr>
-
-" let g:airline_theme='sample'
+let g:NERDTreeHijackNetrw = 0
 
 
+
+"#####################################################################
+"#
+"#  undotree
+"#
+"#####################################################################
 "undotree
 let g:undotree_WindowLayout=3
+let g:undotree_SplitWidth=30
+
+"#####################################################################
+"#
+"#  indentLine
+"#
+"#####################################################################
+let g:indentLine_char='¦'
+
+"#####################################################################
+"#
+"#  ctrlp
+"#
+"#####################################################################
 if executable("ag")
 	set grepprg=ag\ --nogroup\ --nocolor
 	let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
-let g:undotree_SplitWidth=30
-
-"indentLine
-let g:indentLine_char='¦'
 
 
-"let g:pymode_warnings=0
-
+"#####################################################################
+"#
+"#  ctrlsf
+"#
+"#####################################################################
 "setting ag command as the default search command
 let g:ctrlsf_ackprg='ag'
 
@@ -142,39 +211,67 @@ if executable("ag")
 	let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
+"#####################################################################
+"#
+"#  autoformat
+"#
+"#####################################################################
 "noremap <F3> :Autoformat<CR>
 au BufWrite * :Autoformat
 
+"#####################################################################
+"#
+"#  tagbar
+"#
+"#####################################################################
 "tagabr
 let g:tagbar_left=1
 let g:tagbar_width=25
 let g:tagbar_autopreview=1
 
-"emmet
+"#####################################################################
+"#
+"#  emmet
+"#
+"#####################################################################
 let g:user_emmet_install_global = 1
 autocmd FileType js,html,css EmmetInstall
 "let g:user_emmet_mode='n'    "only enable normal mode functions.
 "let g:user_emmet_mode='inv'  "enable all functions, which is equal to
 let g:user_emmet_mode='a'    "enable all function in all mode.
 
-"ale
+"#####################################################################
+"#
+"#  ale
+"#
+"#####################################################################
 let g:ale_set_loclist=0
 let g:ale_set_quickfix=1
 
+"#####################################################################
+"#
+"#  keyblind
+"#
+"#####################################################################
+"switch tab
 noremap <Leader>bn :bn<cr>
 noremap <Leader>bp :bp<cr>
+noremap <Leader>bd :bd<cr>
 
 " noremap <space>g :silent execute "grep! -r" . shellescape(expand("<cword>")) . " ."<cr>:copen<cr>
+" operatoring about quickfix
 noremap <leader>cn :cn<cr>
 noremap <Leader>cp :cp<cr>
 noremap <Leader>co :copen<cr>
 
-noremap <Leader>bd :bd<cr>
-
+"NERDTree
+noremap <Leader>n :NERDTree<cr>
+"TagbarToggle
+noremap <Leader>t :TagbarToggle<cr>
 " map / <Plug>(incsearch-forward)
 " map ? <Plug>(incsearch-backward)
 
-noremap <Leader>ev :e ~/.vimrc<cr>
+noremap <Leader>ev :e ~/a-vim/.vimrc<cr>
 noremap <Leader>sv :source ~/.vimrc<cr>
 
 nmap <Leader>z <Plug>Zeavim
@@ -183,6 +280,11 @@ nmap gz <Plug>ZVOperator
 nmap <Leader><Leader>z <Plug>ZVKeyDocset
 
 
+"#####################################################################
+"#
+"#  gui settting
+"#
+"#####################################################################
 let g:ctrlp_show_hidden = 1
 if has("gui_running")
 	colorscheme solarized
@@ -215,17 +317,17 @@ else
 
 endif
 
-autocmd vimenter * Startify
-autocmd vimenter * NERDTree
+"#####################################################################
+"#
+"#  autocmd
+"#
+"#####################################################################
+autocmd vimenter *
+			\ if !argc()
+			\  | Startify
+			\ | NERDTree
+			\ | endif
 "autocmd vimenter * Tagbar
-
-"let g:qf_list=getqflist()
-"if g:qf_list != []
-""autocmd vimenter * copen
-":copen
-"endif
-
-
 autocmd FileType python set sw=4
 autocmd FileType python set ts=4
 autocmd FileType python set sts=4
