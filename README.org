@@ -1,0 +1,46 @@
+* a-vimrc
+
+[[file:screenshot/vim_screenshot.jpg]]
+
+
+
+
+* 安装方法
+  1. 首先安装git从github上克隆上
+  2. 设置环境变量之后，输入如下代码
+  3. 还需要安装Vundle
+  4. 启动vim，执行PluginInstall命令
+
+
+
+
+* 插件列表 
+| 插件              | 说明                       |
+|-------------------+----------------------------|
+| nerdtree          | 目录树                     |
+| tagbar            | 代码解析生成符号玥         |
+| vim-startify      | 开始屏幕                   |
+| YouCompleteMe     | 代码补全                   |
+| vim-airline       | 类似于powerline            |
+| vim-airline-theme | airline主题相关插件        |
+| auto-paris        | 自动补全括号               |
+| ctrlp             | 文件搜索插件               |
+| gruvbox           | spacevim的主题             |
+| solarized         | 非常漂亮的主题             |
+| nerdcommenter     | 可以对代码注释             |
+| ultisnips         | 代码片段支持多种语言       |
+| supertab          |                            |
+| ale               | 语法检查插件               |
+| zeavim            | 在zeal中进行搜索           |
+| indentLine        | 缩进线                     |
+| vim-fugitive      | git插件包含对git的操作     |
+| ctrlsf            | 在所有文件中进行关键字搜索 |
+| vim-autoformat    | 对代码进行格式化           |
+| emmet-vim         | 高效编写HTML代码           |
+| vim-devicons      | 在gvim中显示图标           |
+| tmuxline          | 在tmux环境中统一样式       |
+|                   |                            |
+
+
+* 快捷键
+  

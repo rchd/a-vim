@@ -13,7 +13,6 @@ filetype off                  " required
 " set the runtime path to include Vundle and initialize
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
-"filetype plugin on
 "
 " Brief help
 " :PluginList       - lists configured plugins
@@ -49,8 +48,6 @@ Plugin 'https://github.com/ctrlpvim/ctrlp.vim.git'
 Plugin 'https://github.com/jalvesaq/Nvim-R.git'
 Plugin 'https://github.com/morhetz/gruvbox.git'
 Plugin 'https://github.com/altercation/solarized.git'
-"Plugin 'https://github.com/python-mode/python-mode.git'
-"Plugin 'https://github.com/vim-latex/vim-latex.git'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'vim-airline/vim-airline'
@@ -61,8 +58,6 @@ Plugin 'ervandew/supertab'
 Plugin 'w0rp/ale'
 Plugin 'KabbAmine/zeavim.vim'
 Plugin 'Yggdroot/indentLine'
-"Plugin 'xuhdev/vim-latex-live-preview'
-"Plugin 'gerw/vim-latex-suite'
 Plugin 'tpope/vim-surround'
 Plugin 'dyng/ctrlsf.vim'
 Plugin 'Chiel92/vim-autoformat'
@@ -224,11 +219,11 @@ autocmd vimenter * Startify
 autocmd vimenter * NERDTree
 "autocmd vimenter * Tagbar
 
-let g:qf_list=getqflist()
-if g:qf_list != []
-	"autocmd vimenter * copen
-	:copen
-endif
+"let g:qf_list=getqflist()
+"if g:qf_list != []
+""autocmd vimenter * copen
+":copen
+"endif
 
 
 autocmd FileType python set sw=4
