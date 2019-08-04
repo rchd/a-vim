@@ -26,26 +26,17 @@ set relativenumber
 set hlsearch
 set showcmd
 setlocal foldmethod=marker
-filetype off                  " required
-" set the runtime path to include Vundle and initialize
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-"
 
 " set chinese
 set encoding=UTF-8
 set fileencodings=utf-8,gb18030,gbk,gk2312
 set mouse=a
 set cursorline
+set nowrap
+filetype off                  " required
+" set the runtime path to include Vundle and initialize
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
 "set termencoding=utf-8
 "set langmenu=zh_CN.UTF-8
 "set fileencoding=utf-8
@@ -56,9 +47,43 @@ set cursorline
 
 "#####################################################################
 "#
+"# common function
+"#
+"#####################################################################
+
+function! StartifyCenter(lines) abort
+	let longest_line=max(map(copy(a:lines),'strwidth(v:val)'))
+	let centered_lines=map(copy(a:lines),
+				\'repeat(" ",(&columns / 2)-(longest_line/2)).v:val')
+	return centered_lines
+endfunction
+
+function! ToggleFullscreen()
+	if g:fullscreen == 1
+		let g:fullscreen = 0
+		let mod = "remove"
+	else
+		let g:fullscreen = 1
+		let mod = "add"
+	endif
+	call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
+endfunction
+
+"#####################################################################
+"#
 "# Vundle
 "#
 "#####################################################################
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+"
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
@@ -91,7 +116,9 @@ Plugin 'mattn/emmet-vim'
 Plugin 'mbbill/undotree'
 Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plugin 'klen/python-mode'
+Plugin 'fidian/hexmode'
 Plugin 'mhinz/vim-startify'
+Plugin 'liuchengxu/vim-which-key'
 if has("gui_running")
 	Plugin 'ryanoasis/vim-devicons'
 else
@@ -106,22 +133,23 @@ call vundle#end()
 "#  startify
 "#
 "#####################################################################
-
-let g:startify_custom_header=[
-			\'               ___           ___                       ___           ___           ___     ',
-			\'              /\  \         /\__\          ___        /\__\         /\  \         /\  \    ',
-			\'             /::\  \       /:/  /         /\  \      /::|  |       /::\  \       /::\  \   ',
-			\'            /:/\:\  \     /:/  /          \:\  \    /:|:|  |      /:/\:\  \     /:/\:\  \  ',
-			\'           /::\~\:\  \   /:/__/  ___      /::\__\  /:/|:|__|__   /::\~\:\  \   /:/  \:\  \ ',
-			\'          /:/\:\ \:\__\  |:|  | /\__\  __/:/\/__/ /:/ |::::\__\ /:/\:\ \:\__\ /:/__/ \:\__\ ',
-			\'          \/__\:\/:/  /  |:|  |/:/  / /\/:/  /    \/__/~~/:/  / \/_|::\/:/  / \:\  \  \/__/',
-			\'               \::/  /   |:|__/:/  /  \::/__/           /:/  /     |:|::/  /   \:\  \      ',
-			\'               /:/  /     \::::/__/    \:\__\          /:/  /      |:|\/__/     \:\  \     ',
-			\'              /:/  /       ~~~~         \/__/         /:/  /       |:|  |        \:\__\    ',
-			\'              \/__/                                   \/__/         \|__|         \/__/    ',
+"let g:startify_padding_left=30
+let s:header=[
+			\'     ___           ___                       ___           ___           ___     ',
+			\'    /\  \         /\__\          ___        /\__\         /\  \         /\  \    ',
+			\'   /::\  \       /:/  /         /\  \      /::|  |       /::\  \       /::\  \   ',
+			\'  /:/\:\  \     /:/  /          \:\  \    /:|:|  |      /:/\:\  \     /:/\:\  \  ',
+			\' /::\~\:\  \   /:/__/  ___      /::\__\  /:/|:|__|__   /::\~\:\  \   /:/  \:\  \ ',
+			\'/:/\:\ \:\__\  |:|  | /\__\  __/:/\/__/ /:/ |::::\__\ /:/\:\ \:\__\ /:/__/ \:\__\ ',
+			\'\/__\:\/:/  /  |:|  |/:/  / /\/:/  /    \/__/~~/:/  / \/_|::\/:/  / \:\  \  \/__/',
+			\'     \::/  /   |:|__/:/  /  \::/__/           /:/  /     |:|::/  /   \:\  \      ',
+			\'     /:/  /     \::::/__/    \:\__\          /:/  /      |:|\/__/     \:\  \     ',
+			\'    /:/  /       ~~~~         \/__/         /:/  /       |:|  |        \:\__\    ',
+			\'    \/__/                                   \/__/         \|__|         \/__/    ',
 			\]
 
-
+let g:startify_custom_header=StartifyCenter(s:header)
+let g:startify_custom_fotter=StartifyCenter(s:header)
 "#####################################################################
 "#
 "#  YouCompleteMe
@@ -134,9 +162,6 @@ let g:SuperTabDefaultCompletionType = '<C-n>'
 let g:ycm_error_symbol='>>'
 let g:ycm_warning_symbol='>*'
 
-"nnoremap <leader>gl :YcmCompleter GoToDeclaration<cr>
-"nnoremap <leader>gf :YcmCompleter GoToDefinition<cr>
-"nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<cr>
 
 "#####################################################################
 "#
@@ -257,8 +282,12 @@ let g:ale_set_quickfix=1
 noremap <Leader>bn :bn<cr>
 noremap <Leader>bp :bp<cr>
 noremap <Leader>bd :bd<cr>
+"edit .vimrc qucick
+noremap <Leader>ev :e ~/a-vim/.vimrc<cr>
+noremap <Leader>sv :source ~/.vimrc<cr>
 
 " noremap <space>g :silent execute "grep! -r" . shellescape(expand("<cword>")) . " ."<cr>:copen<cr>
+
 " operatoring about quickfix
 noremap <leader>cn :cn<cr>
 noremap <Leader>cp :cp<cr>
@@ -271,9 +300,13 @@ noremap <Leader>t :TagbarToggle<cr>
 " map / <Plug>(incsearch-forward)
 " map ? <Plug>(incsearch-backward)
 
-noremap <Leader>ev :e ~/a-vim/.vimrc<cr>
-noremap <Leader>sv :source ~/.vimrc<cr>
 
+"YouCompleteMe
+"nnoremap <leader>gl :YcmCompleter GoToDeclaration<cr>
+"nnoremap <leader>gf :YcmCompleter GoToDefinition<cr>
+"nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<cr>
+
+"zeavim
 nmap <Leader>z <Plug>Zeavim
 vmap <Leader>z <Plug>ZVVisSelection
 nmap gz <Plug>ZVOperator
@@ -297,16 +330,6 @@ if has("gui_running")
 	let g:tagbar_iconchars = ['▸', '▾']
 	"let g:tagar_previewwin_pos="rightbelow"
 	let g:fullscreen = 0
-	function! ToggleFullscreen()
-		if g:fullscreen == 1
-			let g:fullscreen = 0
-			let mod = "remove"
-		else
-			let g:fullscreen = 1
-			let mod = "add"
-		endif
-		call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
-	endfunction
 
 	map <silent> <F11> :call ToggleFullscreen()<CR>
 else
@@ -319,12 +342,62 @@ endif
 
 "#####################################################################
 "#
+"# which key
+"#
+"#####################################################################
+nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
+let g:mapleader = "\<Space>"
+let g:maplocalleader = ','
+nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
+nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
+set timeoutlen=500
+let g:which_key_map={}
+let g:which_key_map['w'] = {
+			\ 'name' : '+windows' ,
+			\ 'w' : ['<C-W>w'     , 'other-window']          ,
+			\ 'd' : ['<C-W>c'     , 'delete-window']         ,
+			\ '-' : ['<C-W>s'     , 'split-window-below']    ,
+			\ '|' : ['<C-W>v'     , 'split-window-right']    ,
+			\ '2' : ['<C-W>v'     , 'layout-double-columns'] ,
+			\ 'h' : ['<C-W>h'     , 'window-left']           ,
+			\ 'j' : ['<C-W>j'     , 'window-below']          ,
+			\ 'l' : ['<C-W>l'     , 'window-right']          ,
+			\ 'k' : ['<C-W>k'     , 'window-up']             ,
+			\ 'H' : ['<C-W>5<'    , 'expand-window-left']    ,
+			\ 'J' : ['resize +5'  , 'expand-window-below']   ,
+			\ 'L' : ['<C-W>5>'    , 'expand-window-right']   ,
+			\ 'K' : ['resize -5'  , 'expand-window-up']      ,
+			\ '=' : ['<C-W>='     , 'balance-window']        ,
+			\ 's' : ['<C-W>s'     , 'split-window-below']    ,
+			\ 'v' : ['<C-W>v'     , 'split-window-below']    ,
+			\ '?' : ['Windows'    , 'fzf-window']            ,
+			\ }
+let g:which_key_map['g']={
+			\ 'name' : '+git/version-control' ,
+			\ 'b' : ['Gblame'     , 'fugitive-blame']             ,
+			\ 'c' : ['BCommits'   , 'commits-for-current-buffer'] ,
+			\ 'C' : ['Gcommit'    , 'fugitive-commit']            ,
+			\ 'd' : ['Gdiff'      , 'fugitive-diff']              ,
+			\ 'e' : ['Gedit'      , 'fugitive-edit']              ,
+			\ 'l' : ['Glog'       , 'fugitive-log']               ,
+			\ 'r' : ['Gread'      , 'fugitive-read']              ,
+			\ 's' : ['Gstatus'    , 'fugitive-status']            ,
+			\ 'w' : ['Gwrite'     , 'fugitive-write']             ,
+			\ 'p' : ['Git push'   , 'fugitive-push']              ,
+			\ 'y' : ['Goyo'       , 'goyo-mode']                  ,
+			\}
+call which_key#register('<Space>', "g:which_key_map")
+
+nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<CR>
+vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<CR>
+"#####################################################################
+"#
 "#  autocmd
 "#
 "#####################################################################
 autocmd vimenter *
 			\ if !argc()
-			\  | Startify
+			\ | Startify
 			\ | NERDTree
 			\ | endif
 "autocmd vimenter * Tagbar
@@ -332,3 +405,6 @@ autocmd FileType python set sw=4
 autocmd FileType python set ts=4
 autocmd FileType python set sts=4
 
+autocmd! FileType which_key
+autocmd  FileType which_key set laststatus=0 noshowmode noruler
+			\| autocmd BufLeave <buffer> set laststatus=2 showmode ruler

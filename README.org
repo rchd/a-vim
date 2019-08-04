@@ -3,15 +3,11 @@
 [[file:screenshot/vim_screenshot.jpg]]
 
 
-
-
 * 安装方法
   1. 首先安装git从github上克隆上
   2. 设置环境变量之后，输入如下代码
   3. 还需要安装Vundle
   4. 启动vim，执行PluginInstall命令
-
-
 
 
 * 插件列表 
@@ -43,4 +39,10 @@
 
 
 * 快捷键
+| 键位 | 命令          |
+|------+---------------|
+| \n   | :NERDTree     |
+| \t   | :TagbarToggle |
+| \bn  | :bnext        |
+|      |               |
   
