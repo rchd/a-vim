@@ -76,57 +76,58 @@ endfunction
 "#####################################################################
 "
 " Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+" :plugList       - lists configured plugins
+" :plugInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :plugSearch foo - searches for foo; append `!` to refresh local cache
+" :plugClean      - confirms removal of unused plugins; append `!` to auto-approve removal
 "
 " see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+" Put your non-plug stuff after this line
 "
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'https://github.com/scrooloose/nerdtree.git'
-Plugin 'https://github.com/jiangmiao/auto-pairs.git'
-Plugin 'https://github.com/majutsushi/tagbar.git'
-Plugin 'https://github.com/Shougo/vimshell.vim.git'
-Plugin 'https://github.com/ctrlpvim/ctrlp.vim.git'
-Plugin 'https://github.com/jalvesaq/Nvim-R.git'
-Plugin 'https://github.com/morhetz/gruvbox.git'
-Plugin 'https://github.com/altercation/solarized.git'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'Shougo/vimproc.vim'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'ervandew/supertab'
-Plugin 'w0rp/ale'
-Plugin 'KabbAmine/zeavim.vim'
-Plugin 'Yggdroot/indentLine'
-Plugin 'tpope/vim-surround'
-Plugin 'dyng/ctrlsf.vim'
-Plugin 'Chiel92/vim-autoformat'
-Plugin 'tpope/vim-fugitive'
-Plugin 'junegunn/gv.vim'
-Plugin 'pangloss/vim-javascript'
-Plugin 'mattn/emmet-vim'
-Plugin 'mbbill/undotree'
-Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plugin 'klen/python-mode'
-Plugin 'fidian/hexmode'
-Plugin 'mhinz/vim-startify'
-Plugin 'liuchengxu/vim-which-key'
+"set rtp+=~/.vim/bundle/Vundle.vim
+"call vundle#begin()
+call plug#begin('~/.vim/bundle')
+Plug 'VundleVim/Vundle.vim'
+Plug 'Valloric/YouCompleteMe'
+Plug 'https://github.com/scrooloose/nerdtree.git'
+Plug 'https://github.com/jiangmiao/auto-pairs.git'
+Plug 'https://github.com/majutsushi/tagbar.git'
+Plug 'https://github.com/Shougo/vimshell.vim.git'
+Plug 'https://github.com/ctrlpvim/ctrlp.vim.git'
+Plug 'https://github.com/jalvesaq/Nvim-R.git'
+Plug 'https://github.com/morhetz/gruvbox.git'
+Plug 'https://github.com/altercation/solarized.git'
+Plug 'scrooloose/nerdcommenter'
+Plug 'Shougo/vimproc.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'ervandew/supertab'
+Plug 'w0rp/ale'
+Plug 'KabbAmine/zeavim.vim'
+Plug 'Yggdroot/indentLine'
+Plug 'tpope/vim-surround'
+Plug 'dyng/ctrlsf.vim'
+Plug 'Chiel92/vim-autoformat'
+Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'mattn/emmet-vim'
+Plug 'mbbill/undotree'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'klen/python-mode'
+Plug 'fidian/hexmode'
+Plug 'mhinz/vim-startify'
+Plug 'liuchengxu/vim-which-key'
 if has("gui_running")
-	Plugin 'ryanoasis/vim-devicons'
+	Plug 'ryanoasis/vim-devicons'
 else
-	Plugin 'edkolev/tmuxline.vim'
+	Plug 'edkolev/tmuxline.vim'
 endif
-"Plugin 'cosminadrianpopescu/vim-sql-workbench'
-call vundle#end()
-
+"plug 'cosminadrianpopescu/vim-sql-workbench'
+"call vundle#end()
+call plug#end()
 
 "#####################################################################
 "#
@@ -135,17 +136,17 @@ call vundle#end()
 "#####################################################################
 "let g:startify_padding_left=30
 let s:header=[
-			\'     ___           ___                       ___           ___           ___     ',
-			\'    /\  \         /\__\          ___        /\__\         /\  \         /\  \    ',
-			\'   /::\  \       /:/  /         /\  \      /::|  |       /::\  \       /::\  \   ',
-			\'  /:/\:\  \     /:/  /          \:\  \    /:|:|  |      /:/\:\  \     /:/\:\  \  ',
-			\' /::\~\:\  \   /:/__/  ___      /::\__\  /:/|:|__|__   /::\~\:\  \   /:/  \:\  \ ',
-			\'/:/\:\ \:\__\  |:|  | /\__\  __/:/\/__/ /:/ |::::\__\ /:/\:\ \:\__\ /:/__/ \:\__\ ',
-			\'\/__\:\/:/  /  |:|  |/:/  / /\/:/  /    \/__/~~/:/  / \/_|::\/:/  / \:\  \  \/__/',
-			\'     \::/  /   |:|__/:/  /  \::/__/           /:/  /     |:|::/  /   \:\  \      ',
-			\'     /:/  /     \::::/__/    \:\__\          /:/  /      |:|\/__/     \:\  \     ',
-			\'    /:/  /       ~~~~         \/__/         /:/  /       |:|  |        \:\__\    ',
-			\'    \/__/                                   \/__/         \|__|         \/__/    ',
+			\'        ___           ___                       ___           ___           ___     ',
+			\'       /\  \         /\__\          ___        /\__\         /\  \         /\  \    ',
+			\'      /::\  \       /:/  /         /\  \      /::|  |       /::\  \       /::\  \   ',
+			\'     /:/\:\  \     /:/  /          \:\  \    /:|:|  |      /:/\:\  \     /:/\:\  \  ',
+			\'    /::\~\:\  \   /:/__/  ___      /::\__\  /:/|:|__|__   /::\~\:\  \   /:/  \:\  \ ',
+			\'   /:/\:\ \:\__\  |:|  | /\__\  __/:/\/__/ /:/ |::::\__\ /:/\:\ \:\__\ /:/__/ \:\__\ ',
+			\'   \/__\:\/:/  /  |:|  |/:/  / /\/:/  /    \/__/~~/:/  / \/_|::\/:/  / \:\  \  \/__/',
+			\'        \::/  /   |:|__/:/  /  \::/__/           /:/  /     |:|::/  /   \:\  \      ',
+			\'        /:/  /     \::::/__/    \:\__\          /:/  /      |:|\/__/     \:\  \     ',
+			\'       /:/  /       ~~~~         \/__/         /:/  /       |:|  |        \:\__\    ',
+			\'       \/__/                                   \/__/         \|__|         \/__/    ',
 			\]
 
 let g:startify_custom_header=StartifyCenter(s:header)
