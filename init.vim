@@ -95,10 +95,10 @@ Plug 'https://github.com/majutsushi/tagbar.git'
 Plug 'https://github.com/Shougo/vimshell.vim.git'
 Plug 'https://github.com/ctrlpvim/ctrlp.vim.git'
 Plug 'https://github.com/jalvesaq/Nvim-R.git'
-Plug 'https://github.com/morhetz/gruvbox.git'
+"Plug 'https://github.com/morhetz/gruvbox.git'
 Plug 'https://github.com/altercation/solarized.git'
 Plug 'scrooloose/nerdcommenter'
-Plug 'Shougo/vimproc.vim'
+"Plug 'Shougo/vimproc.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'SirVer/ultisnips'
@@ -120,6 +120,9 @@ Plug 'klen/python-mode'
 Plug 'fidian/hexmode'
 Plug 'mhinz/vim-startify'
 Plug 'liuchengxu/vim-which-key'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'easymotion/vim-easymotion'
+Plug 'godlygeek/tabular'
 if has("gui_running")
 	Plug 'ryanoasis/vim-devicons'
 else
@@ -149,7 +152,7 @@ let s:header=[
 			\'       \/__/                                   \/__/         \|__|         \/__/    ',
 			\]
 
-let g:startify_custom_header=StartifyCenter(s:header)
+let g:startify_custom_header=s:header
 let g:startify_custom_fotter=StartifyCenter(s:header)
 "#####################################################################
 "#
@@ -343,6 +346,38 @@ endif
 
 "#####################################################################
 "#
+"#  easymotion
+"#
+"#####################################################################
+"map <Leader> <Plug>(easymotion-prefix)
+" <Leader>f{char} to move to {char}
+map  <Leader>f <Plug>(easymotion-bd-f)
+nmap <Leader>f <Plug>(easymotion-overwin-f)
+
+" s{char}{char} to move to {char}{char}
+nmap s <Plug>(easymotion-overwin-f2)
+
+" Move to line
+map <Leader>L <Plug>(easymotion-bd-jk)
+nmap <Leader>L <Plug>(easymotion-overwin-line)
+
+" Move to word
+map  <Leader>w <Plug>(easymotion-bd-w)
+nmap <Leader>w <Plug>(easymotion-overwin-w)
+
+"#####################################################################
+"#
+"# tabular
+"#
+"#####################################################################
+
+nmap <Leader>a= :Tabularize /=<CR>
+vmap <Leader>a= :Tabularize /=<CR>
+nmap <Leader>a: :Tabularize /:<CR>
+vmap <Leader>a: :Tabularize /:<CR>
+
+"#####################################################################
+"#
 "# which key
 "#
 "#####################################################################
@@ -373,6 +408,17 @@ let g:which_key_map['w'] = {
 			\ 'v' : ['<C-W>v'     , 'split-window-below']    ,
 			\ '?' : ['Windows'    , 'fzf-window']            ,
 			\ }
+let g:which_key_map['b']={
+			\'name' : '+buffer',
+			\'n' : ['bnext'     , 'next-buffer']     ,
+			\'b' : ['bprevious' , 'previous-buffer'] ,
+			\'d' : ['bdelete'   , 'delete-buffer']   ,
+			\}
+let g:which_key_map['s']={
+			\'name':'+search/session',
+			\'l':['SLoad','load-session'],
+			\'s':['SSave','save-session'],
+			\}
 let g:which_key_map['g']={
 			\ 'name' : '+git/version-control' ,
 			\ 'b' : ['Gblame'     , 'fugitive-blame']             ,
