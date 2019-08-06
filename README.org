@@ -5,9 +5,12 @@
 
 * 安装方法
   1. 首先安装git从github上克隆上
+
   2. 设置环境变量之后，输入如下代码
-  3. 还需要安装Vundle
-  4. 启动vim，执行PluginInstall命令
+  #+BEGIN_SRC sh
+    cd a-vim
+    ./install.sh
+  #+END_SRC
 
 
 * 插件列表 
@@ -35,6 +38,9 @@
 | emmet-vim         | 高效编写HTML代码           |
 | vim-devicons      | 在gvim中显示图标           |
 | tmuxline          | 在tmux环境中统一样式       |
+| tabluar           | 对代码进行格式化           |
+| easymotion        | 强大的模糊搜索             |
+| vim-which-key     | 显示按键提示               |
 |                   |                            |
 
 

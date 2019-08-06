@@ -16,6 +16,8 @@
 "#####################################################################
 "basic setting "{{{
 let $PATH="~/bin:/local/usr/bin:/".$PATH
+let g:mapleader = "\<Space>"
+let g:maplocalleader = ','
 set cscopequickfix=g-
 set shellslash
 set t_Co=256
@@ -71,21 +73,10 @@ endfunction
 
 "#####################################################################
 "#
-"# Vundle
+"# vim-plug
 "#
 "#####################################################################
 "
-" Brief help
-" :plugList       - lists configured plugins
-" :plugInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :plugSearch foo - searches for foo; append `!` to refresh local cache
-" :plugClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-plug stuff after this line
-"
-"set rtp+=~/.vim/bundle/Vundle.vim
-"call vundle#begin()
 call plug#begin('~/.vim/bundle')
 Plug 'VundleVim/Vundle.vim'
 Plug 'Valloric/YouCompleteMe'
@@ -98,7 +89,6 @@ Plug 'https://github.com/jalvesaq/Nvim-R.git'
 "Plug 'https://github.com/morhetz/gruvbox.git'
 Plug 'https://github.com/altercation/solarized.git'
 Plug 'scrooloose/nerdcommenter'
-"Plug 'Shougo/vimproc.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'SirVer/ultisnips'
@@ -129,7 +119,6 @@ else
 	Plug 'edkolev/tmuxline.vim'
 endif
 "plug 'cosminadrianpopescu/vim-sql-workbench'
-"call vundle#end()
 call plug#end()
 
 "#####################################################################
@@ -293,12 +282,12 @@ noremap <Leader>sv :source ~/.vimrc<cr>
 " noremap <space>g :silent execute "grep! -r" . shellescape(expand("<cword>")) . " ."<cr>:copen<cr>
 
 " operatoring about quickfix
-noremap <leader>cn :cn<cr>
-noremap <Leader>cp :cp<cr>
-noremap <Leader>co :copen<cr>
+noremap <leader>qn :cn<cr>
+noremap <Leader>qp :cp<cr>
+noremap <Leader>qo :copen<cr>
 
 "NERDTree
-noremap <Leader>n :NERDTree<cr>
+noremap <Leader>n :NERDTreeToggle<cr>
 "TagbarToggle
 noremap <Leader>t :TagbarToggle<cr>
 " map / <Plug>(incsearch-forward)
@@ -317,6 +306,15 @@ nmap gz <Plug>ZVOperator
 nmap <Leader><Leader>z <Plug>ZVKeyDocset
 
 
+"tabular
+nmap <Leader>a= :Tabularize /=<CR>
+vmap <Leader>a= :Tabularize /=<CR>
+nmap <Leader>a: :Tabularize /:<CR>
+vmap <Leader>a: :Tabularize /:<CR>
+
+"undotree
+nmap <Leader>ut :UndotreeToggle<cr>
+"nmap <Leader>u
 "#####################################################################
 "#
 "#  gui settting
@@ -351,30 +349,20 @@ endif
 "#####################################################################
 "map <Leader> <Plug>(easymotion-prefix)
 " <Leader>f{char} to move to {char}
-map  <Leader>f <Plug>(easymotion-bd-f)
-nmap <Leader>f <Plug>(easymotion-overwin-f)
+"map  <Leader>f <Plug>(easymotion-bd-f)
+"nmap <Leader>f <Plug>(easymotion-overwin-f)
 
-" s{char}{char} to move to {char}{char}
-nmap s <Plug>(easymotion-overwin-f2)
+"" s{char}{char} to move to {char}{char}
+"nmap s <Plug>(easymotion-overwin-f2)
 
-" Move to line
-map <Leader>L <Plug>(easymotion-bd-jk)
-nmap <Leader>L <Plug>(easymotion-overwin-line)
+"" Move to line
+"map <Leader>L <Plug>(easymotion-bd-jk)
+"nmap <Leader>L <Plug>(easymotion-overwin-line)
 
-" Move to word
-map  <Leader>w <Plug>(easymotion-bd-w)
-nmap <Leader>w <Plug>(easymotion-overwin-w)
+"" Move to word
+"map  <Leader>w <Plug>(easymotion-bd-w)
+"nmap <Leader>w <Plug>(easymotion-overwin-w)
 
-"#####################################################################
-"#
-"# tabular
-"#
-"#####################################################################
-
-nmap <Leader>a= :Tabularize /=<CR>
-vmap <Leader>a= :Tabularize /=<CR>
-nmap <Leader>a: :Tabularize /:<CR>
-vmap <Leader>a: :Tabularize /:<CR>
 
 "#####################################################################
 "#
@@ -382,36 +370,34 @@ vmap <Leader>a: :Tabularize /:<CR>
 "#
 "#####################################################################
 nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
-let g:mapleader = "\<Space>"
-let g:maplocalleader = ','
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 set timeoutlen=500
 let g:which_key_map={}
 let g:which_key_map['w'] = {
 			\ 'name' : '+windows' ,
-			\ 'w' : ['<C-W>w'     , 'other-window']          ,
-			\ 'd' : ['<C-W>c'     , 'delete-window']         ,
-			\ '-' : ['<C-W>s'     , 'split-window-below']    ,
-			\ '|' : ['<C-W>v'     , 'split-window-right']    ,
-			\ '2' : ['<C-W>v'     , 'layout-double-columns'] ,
-			\ 'h' : ['<C-W>h'     , 'window-left']           ,
-			\ 'j' : ['<C-W>j'     , 'window-below']          ,
-			\ 'l' : ['<C-W>l'     , 'window-right']          ,
-			\ 'k' : ['<C-W>k'     , 'window-up']             ,
-			\ 'H' : ['<C-W>5<'    , 'expand-window-left']    ,
-			\ 'J' : ['resize +5'  , 'expand-window-below']   ,
-			\ 'L' : ['<C-W>5>'    , 'expand-window-right']   ,
-			\ 'K' : ['resize -5'  , 'expand-window-up']      ,
-			\ '=' : ['<C-W>='     , 'balance-window']        ,
-			\ 's' : ['<C-W>s'     , 'split-window-below']    ,
-			\ 'v' : ['<C-W>v'     , 'split-window-below']    ,
-			\ '?' : ['Windows'    , 'fzf-window']            ,
+			\ 'w'    : ['<C-W>w'     , 'other-window']          ,
+			\ 'd'    : ['<C-W>c'     , 'delete-window']         ,
+			\ '-'    : ['<C-W>s'     , 'split-window-below']    ,
+			\ '|'    : ['<C-W>v'     , 'split-window-right']    ,
+			\ '2'    : ['<C-W>v'     , 'layout-double-columns'] ,
+			\ 'h'    : ['<C-W>h'     , 'window-left']           ,
+			\ 'j'    : ['<C-W>j'     , 'window-below']          ,
+			\ 'l'    : ['<C-W>l'     , 'window-right']          ,
+			\ 'k'    : ['<C-W>k'     , 'window-up']             ,
+			\ 'H'    : ['<C-W>5<'    , 'expand-window-left']    ,
+			\ 'J'    : ['resize +5'  , 'expand-window-below']   ,
+			\ 'L'    : ['<C-W>5>'    , 'expand-window-right']   ,
+			\ 'K'    : ['resize -5'  , 'expand-window-up']      ,
+			\ '='    : ['<C-W>='     , 'balance-window']        ,
+			\ 's'    : ['<C-W>s'     , 'split-window-below']    ,
+			\ 'v'    : ['<C-W>v'     , 'split-window-below']    ,
+			\ '?'    : ['Windows'    , 'fzf-window']            ,
 			\ }
 let g:which_key_map['b']={
 			\'name' : '+buffer',
 			\'n' : ['bnext'     , 'next-buffer']     ,
-			\'b' : ['bprevious' , 'previous-buffer'] ,
+			\'p' : ['bprevious' , 'previous-buffer'] ,
 			\'d' : ['bdelete'   , 'delete-buffer']   ,
 			\}
 let g:which_key_map['s']={
@@ -432,6 +418,15 @@ let g:which_key_map['g']={
 			\ 'w' : ['Gwrite'     , 'fugitive-write']             ,
 			\ 'p' : ['Git push'   , 'fugitive-push']              ,
 			\ 'y' : ['Goyo'       , 'goyo-mode']                  ,
+			\}
+let g:which_key_map['a']={
+			\'name':'+align',
+			\}
+let g:which_key_map['q']={
+			\'name':'+quickfix',
+			\}
+let g:which_key_map['c']={
+			\'name':'+comment',
 			\}
 call which_key#register('<Space>', "g:which_key_map")
 
