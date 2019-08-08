@@ -113,6 +113,7 @@ Plug 'liuchengxu/vim-which-key'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'easymotion/vim-easymotion'
 Plug 'godlygeek/tabular'
+"Plug 'kana/vim-textobj-function'
 if has("gui_running")
 	Plug 'ryanoasis/vim-devicons'
 else
@@ -272,9 +273,9 @@ let g:ale_set_quickfix=1
 "#
 "#####################################################################
 "switch tab
-noremap <Leader>bn :bn<cr>
-noremap <Leader>bp :bp<cr>
-noremap <Leader>bd :bd<cr>
+noremap <Leader>bn :bnext<cr>
+noremap <Leader>bp :bprevious<cr>
+noremap <Leader>bd :bdelete<cr>
 "edit .vimrc qucick
 noremap <Leader>ev :e ~/a-vim/.vimrc<cr>
 noremap <Leader>sv :source ~/.vimrc<cr>
@@ -299,6 +300,11 @@ noremap <Leader>t :TagbarToggle<cr>
 "nnoremap <leader>gf :YcmCompleter GoToDefinition<cr>
 "nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<cr>
 
+"map / <Plug><easymotion-sn>
+"omap / <Plug>(easymotion-tn)
+"map n<Plug>(easymotion-next)
+"map N<Plug>(easymotion-prev)
+
 "zeavim
 nmap <Leader>z <Plug>Zeavim
 vmap <Leader>z <Plug>ZVVisSelection
@@ -311,7 +317,8 @@ nmap <Leader>a= :Tabularize /=<CR>
 vmap <Leader>a= :Tabularize /=<CR>
 nmap <Leader>a: :Tabularize /:<CR>
 vmap <Leader>a: :Tabularize /:<CR>
-
+nmap <Leader>a, :Tabularize /,<CR>
+vmap <Leader>a, :Tabularize /,<CR>
 "undotree
 nmap <Leader>ut :UndotreeToggle<cr>
 "nmap <Leader>u
@@ -349,19 +356,19 @@ endif
 "#####################################################################
 "map <Leader> <Plug>(easymotion-prefix)
 " <Leader>f{char} to move to {char}
-"map  <Leader>f <Plug>(easymotion-bd-f)
-"nmap <Leader>f <Plug>(easymotion-overwin-f)
+map  <Leader>ef <Plug>(easymotion-bd-f)
+nmap <Leader>ef <Plug>(easymotion-overwin-f)
 
 "" s{char}{char} to move to {char}{char}
 "nmap s <Plug>(easymotion-overwin-f2)
 
 "" Move to line
-"map <Leader>L <Plug>(easymotion-bd-jk)
-"nmap <Leader>L <Plug>(easymotion-overwin-line)
+map <Leader>eL <Plug>(easymotion-bd-jk)
+nmap <Leader>eL <Plug>(easymotion-overwin-line)
 
 "" Move to word
-"map  <Leader>w <Plug>(easymotion-bd-w)
-"nmap <Leader>w <Plug>(easymotion-overwin-w)
+map  <Leader>ew <Plug>(easymotion-bd-w)
+nmap <Leader>ew <Plug>(easymotion-overwin-w)
 
 
 "#####################################################################
@@ -400,6 +407,9 @@ let g:which_key_map['b']={
 			\'p' : ['bprevious' , 'previous-buffer'] ,
 			\'d' : ['bdelete'   , 'delete-buffer']   ,
 			\}
+let g:which_key_map['e']={
+			\'name':'+jump/vimrc',
+			\}
 let g:which_key_map['s']={
 			\'name':'+search/session',
 			\'l':['SLoad','load-session'],
@@ -428,6 +438,9 @@ let g:which_key_map['q']={
 let g:which_key_map['c']={
 			\'name':'+comment',
 			\}
+let g:which_key_map['z']={
+			\'name':'+zeal',
+			\}
 call which_key#register('<Space>', "g:which_key_map")
 
 nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<CR>
@@ -448,5 +461,5 @@ autocmd FileType python set ts=4
 autocmd FileType python set sts=4
 
 autocmd! FileType which_key
-autocmd  FileType which_key set laststatus=0 noshowmode noruler
-			\| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+"autocmd  FileType which_key set laststatus=0 noshowmode noruler
+autocmd BufLeave <buffer> set laststatus=2 showmode ruler
