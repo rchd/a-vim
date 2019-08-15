@@ -21,30 +21,26 @@ let g:maplocalleader = ','
 set cscopequickfix=g-
 set shellslash
 set t_Co=256
-set nocompatible              " be improved, required
+set nocompatible      " be improved, required
 set autoindent
 set ruler
 set relativenumber
 set hlsearch
 set showcmd
-setlocal foldmethod=marker
+set foldmethod=marker
+set hidden            " Allw buffer switching saving
+set showmode          " Display current mode
+set splitright        " Puts new vsplit windows to the right of the current
+set splitbelow        " Puts new split windows to the bottom of the current
 
-" set chinese
 set encoding=UTF-8
 set fileencodings=utf-8,gb18030,gbk,gk2312
 set mouse=a
 set cursorline
 set nowrap
 filetype off                  " required
-" set the runtime path to include Vundle and initialize
 filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"set termencoding=utf-8
-"set langmenu=zh_CN.UTF-8
-"set fileencoding=utf-8
-"set spell
-"set spelllang=en_us
-"set tabstop=1
+set spell
 "}}}
 
 "#####################################################################
@@ -52,7 +48,7 @@ filetype plugin indent on    " required
 "# common function
 "#
 "#####################################################################
-
+"{{{
 function! StartifyCenter(lines) abort
 	let longest_line=max(map(copy(a:lines),'strwidth(v:val)'))
 	let centered_lines=map(copy(a:lines),
@@ -60,7 +56,7 @@ function! StartifyCenter(lines) abort
 	return centered_lines
 endfunction
 
-function! ToggleFullscreen()
+function! ToggleFullScreen()
 	if g:fullscreen == 1
 		let g:fullscreen = 0
 		let mod = "remove"
@@ -70,13 +66,13 @@ function! ToggleFullscreen()
 	endif
 	call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
 endfunction
-
+"}}}
 "#####################################################################
 "#
 "# vim-plug
 "#
 "#####################################################################
-"
+"{{{
 call plug#begin('~/.vim/bundle')
 Plug 'VundleVim/Vundle.vim'
 Plug 'Valloric/YouCompleteMe'
@@ -112,21 +108,22 @@ Plug 'mhinz/vim-startify'
 Plug 'liuchengxu/vim-which-key'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'easymotion/vim-easymotion'
+Plug 'ryanoasis/vim-devicons'
 Plug 'godlygeek/tabular'
 "Plug 'kana/vim-textobj-function'
-if has("gui_running")
-	Plug 'ryanoasis/vim-devicons'
-else
+if !has("gui_running")
 	Plug 'edkolev/tmuxline.vim'
+	Plug 'Joshdlck/onedark.vim'
 endif
 "plug 'cosminadrianpopescu/vim-sql-workbench'
 call plug#end()
-
+"}}}
 "#####################################################################
 "#
 "#  startify
 "#
 "#####################################################################
+"{{{
 "let g:startify_padding_left=30
 let s:header=[
 			\'        ___           ___                       ___           ___           ___     ',
@@ -144,50 +141,55 @@ let s:header=[
 
 let g:startify_custom_header=s:header
 let g:startify_custom_fotter=StartifyCenter(s:header)
+"}}}
 "#####################################################################
 "#
 "#  YouCompleteMe
 "#
 "#####################################################################
+"{{{
 " make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType = '<C-n>'
 let g:ycm_error_symbol='>>'
 let g:ycm_warning_symbol='>*'
-
+"}}}
 
 "#####################################################################
 "#
 "#  UltiSnips
 "#
 "#####################################################################
+"{{{
 " better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-
+"}}}
 "#####################################################################
 "#
 "#  airline
 "#
 "#####################################################################
+"{{{
 let g:airline#extensions#tabline#enabled=1
 " set the arrow of powerline
 if !has("gui_running")
 	let g:airline_powerline_fonts=1
 endif
-
+"}}}
 "#####################################################################
 "#
 "#  NERDTree
 "#
 "#####################################################################
+"{{{
 " set the width and position of NERDTree
 let g:NERDTreeWinSize=25
 let g:NERDTreeWinPos='left'
 let g:NERDTreeHijackNetrw = 0
-
+"}}}
 
 
 "#####################################################################
@@ -195,17 +197,18 @@ let g:NERDTreeHijackNetrw = 0
 "#  undotree
 "#
 "#####################################################################
-"undotree
+"undotree{{{
 let g:undotree_WindowLayout=3
 let g:undotree_SplitWidth=30
-
+"}}}
 "#####################################################################
 "#
 "#  indentLine
 "#
 "#####################################################################
+"{{{
 let g:indentLine_char='¦'
-
+"}}}
 "#####################################################################
 "#
 "#  ctrlp
@@ -243,35 +246,38 @@ au BufWrite * :Autoformat
 "#  tagbar
 "#
 "#####################################################################
-"tagabr
+"tagabr{{{
 let g:tagbar_left=1
 let g:tagbar_width=25
 let g:tagbar_autopreview=1
-
+"}}}
 "#####################################################################
 "#
 "#  emmet
 "#
 "#####################################################################
+"{{{
 let g:user_emmet_install_global = 1
 autocmd FileType js,html,css EmmetInstall
 "let g:user_emmet_mode='n'    "only enable normal mode functions.
 "let g:user_emmet_mode='inv'  "enable all functions, which is equal to
 let g:user_emmet_mode='a'    "enable all function in all mode.
-
+"}}}
 "#####################################################################
 "#
 "#  ale
 "#
 "#####################################################################
+"{{{
 let g:ale_set_loclist=0
 let g:ale_set_quickfix=1
-
+"}}}
 "#####################################################################
 "#
 "#  keyblind
 "#
 "#####################################################################
+"{{{
 "switch tab
 noremap <Leader>bn :bnext<cr>
 noremap <Leader>bp :bprevious<cr>
@@ -322,15 +328,17 @@ vmap <Leader>a, :Tabularize /,<CR>
 "undotree
 nmap <Leader>ut :UndotreeToggle<cr>
 "nmap <Leader>u
+"}}}
 "#####################################################################
 "#
 "#  gui settting
 "#
 "#####################################################################
+"{{{
+colorscheme solarized
 let g:ctrlp_show_hidden = 1
 if has("gui_running")
-	colorscheme solarized
-	:set background=dark
+	:set background=light
 	:set guioptions-=r
 	:set guioptions-=L "remove the scroll bar
 	:set guioptions-=m "remove the menu bar
@@ -340,20 +348,22 @@ if has("gui_running")
 	"let g:tagar_previewwin_pos="rightbelow"
 	let g:fullscreen = 0
 
-	map <silent> <F11> :call ToggleFullscreen()<CR>
+	map <silent> <F11> :call ToggleFullScreen()<CR>
 else
+	:set background=dark
 	highlight CursorLine   cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
 	"highlight CursorColumn cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
 	let g:NERDTreeDirArrowExpandable='|+'
 	let g:NERDTreeDirArrowCollapsible='|-'
 
 endif
-
+"}}}
 "#####################################################################
 "#
 "#  easymotion
 "#
 "#####################################################################
+"{{{
 "map <Leader> <Plug>(easymotion-prefix)
 " <Leader>f{char} to move to {char}
 map  <Leader>ef <Plug>(easymotion-bd-f)
@@ -363,19 +373,20 @@ nmap <Leader>ef <Plug>(easymotion-overwin-f)
 "nmap s <Plug>(easymotion-overwin-f2)
 
 "" Move to line
-map <Leader>eL <Plug>(easymotion-bd-jk)
-nmap <Leader>eL <Plug>(easymotion-overwin-line)
+map <Leader>el <Plug>(easymotion-bd-jk)
+nmap <Leader>el <Plug>(easymotion-overwin-line)
 
 "" Move to word
 map  <Leader>ew <Plug>(easymotion-bd-w)
 nmap <Leader>ew <Plug>(easymotion-overwin-w)
-
+"}}}
 
 "#####################################################################
 "#
 "# which key
 "#
 "#####################################################################
+"{{{
 nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
@@ -445,21 +456,27 @@ call which_key#register('<Space>', "g:which_key_map")
 
 nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<CR>
 vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<CR>
+"}}}
 "#####################################################################
 "#
 "#  autocmd
 "#
 "#####################################################################
-autocmd vimenter *
-			\ if !argc()
-			\ | Startify
-			\ | NERDTree
-			\ | endif
-"autocmd vimenter * Tagbar
-autocmd FileType python set sw=4
-autocmd FileType python set ts=4
-autocmd FileType python set sts=4
+"{{{
+augroup strartUpSetting
+	autocmd vimenter *
+				\ if !argc()
+				\ | Startify
+				\ | NERDTree
+				\ | endif
+	"autocmd vimenter * Tagbar
+	autocmd FileType python set sw=4
+	autocmd FileType python set ts=4
+	autocmd FileType python set sts=4
+augroup END
 
 autocmd! FileType which_key
 "autocmd  FileType which_key set laststatus=0 noshowmode noruler
 autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+
+"}}}
