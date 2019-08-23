@@ -110,7 +110,6 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'easymotion/vim-easymotion'
 Plug 'ryanoasis/vim-devicons'
 Plug 'godlygeek/tabular'
-"Plug 'kana/vim-textobj-function'
 if !has("gui_running")
 	Plug 'edkolev/tmuxline.vim'
 	Plug 'Joshdlck/onedark.vim'
@@ -268,10 +267,9 @@ let g:user_emmet_mode='a'    "enable all function in all mode.
 "#  ale
 "#
 "#####################################################################
-"{{{
 let g:ale_set_loclist=0
 let g:ale_set_quickfix=1
-"}}}
+
 "#####################################################################
 "#
 "#  keyblind
@@ -295,6 +293,7 @@ noremap <Leader>qo :copen<cr>
 
 "NERDTree
 noremap <Leader>n :NERDTreeToggle<cr>
+
 "TagbarToggle
 noremap <Leader>t :TagbarToggle<cr>
 " map / <Plug>(incsearch-forward)
@@ -305,7 +304,7 @@ noremap <Leader>t :TagbarToggle<cr>
 "nnoremap <leader>gl :YcmCompleter GoToDeclaration<cr>
 "nnoremap <leader>gf :YcmCompleter GoToDefinition<cr>
 "nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<cr>
-
+p
 "map / <Plug><easymotion-sn>
 "omap / <Plug>(easymotion-tn)
 "map n<Plug>(easymotion-next)
@@ -444,7 +443,7 @@ let g:which_key_map['a']={
 			\'name':'+align',
 			\}
 let g:which_key_map['q']={
-			\'name':'+quickfix',
+			\'name':'+ quickfix',
 			\}
 let g:which_key_map['c']={
 			\'name':'+comment',

@@ -13,42 +13,66 @@
   #+END_SRC
 
 
+* 基本设置
+  设置行号
+  设置编码为utf8
+  设置搜索高亮
+  设置自动缩进
+  折叠方式设为标签折叠
+
+
 * 插件列表 
-| 插件              | 说明                       |
-|-------------------+----------------------------|
-| nerdtree          | 目录树                     |
-| tagbar            | 代码解析生成符号玥         |
-| vim-startify      | 开始屏幕                   |
-| YouCompleteMe     | 代码补全                   |
-| vim-airline       | 类似于powerline            |
-| vim-airline-theme | airline主题相关插件        |
-| auto-paris        | 自动补全括号               |
-| ctrlp             | 文件搜索插件               |
-| gruvbox           | spacevim的主题             |
-| solarized         | 非常漂亮的主题             |
-| nerdcommenter     | 可以对代码注释             |
-| ultisnips         | 代码片段支持多种语言       |
-| supertab          |                            |
-| ale               | 语法检查插件               |
-| zeavim            | 在zeal中进行搜索           |
-| indentLine        | 缩进线                     |
-| vim-fugitive      | git插件包含对git的操作     |
-| ctrlsf            | 在所有文件中进行关键字搜索 |
-| vim-autoformat    | 对代码进行格式化           |
-| emmet-vim         | 高效编写HTML代码           |
-| vim-devicons      | 在gvim中显示图标           |
-| tmuxline          | 在tmux环境中统一样式       |
-| tabluar           | 对代码进行格式化           |
-| easymotion        | 强大的模糊搜索             |
-| vim-which-key     | 显示按键提示               |
-|                   |                            |
+| 插件                 | 说明                       |
+|----------------------+----------------------------|
+| nerdtree             | 目录树                     |
+| tagbar               | 代码解析生成符号玥         |
+| vim-startify         | 开始屏幕                   |
+| YouCompleteMe        | 代码补全                   |
+| vim-airline          | 类似于powerline            |
+| vim-airline-theme    | airline主题相关插件        |
+| auto-paris           | 自动补全括号               |
+| ctrlp                | 文件搜索插件               |
+| gruvbox              | spacevim的主题             |
+| solarized            | 非常漂亮的主题             |
+| nerdcommenter        | 可以对代码注释             |
+| ultisnips            | 代码片段支持多种语言       |
+| supertab             |                            |
+| ale                  | 语法检查插件               |
+| zeavim               | 在zeal中进行搜索           |
+| indentLine           | 缩进线                     |
+| vim-fugitive         | git插件包含对git的操作     |
+| ctrlsf               | 在所有文件中进行关键字搜索 |
+| vim-autoformat       | 对代码进行格式化           |
+| emmet-vim            | 高效编写HTML代码           |
+| vim-devicons         | 在vim中显示图标            |
+| tmuxline             | 在tmux环境中统一样式       |
+| tabluar              | 对代码进行格式化           |
+| easymotion           | 强大的模糊搜索             |
+| vim-which-key        | 显示按键提示               |
+| ctrlsf               | 对不同文件进行搜索         |
+| undotree             | 对撤消动作使用树进行表示   |
+| vim-multiple-cursors | 多行编辑                   |
+| vim-easymotion       | 在不同窗口之间快速跳转     |
+| tabular              | 文本对齐                   |
+| tmuxline             | 把tmux的状态栏与vim统一    |
+|                      |                            |
 
 
 * 快捷键
-| 键位 | 命令          |
-|------+---------------|
-| \n   | :NERDTree     |
-| \t   | :TagbarToggle |
-| \bn  | :bnext        |
-|      |               |
+
+为了方便，把<Leader>键映射为空格键 
+
+| 键位 | 说明              | 命令          |
+|------+-------------------+---------------|
+| \n   | 打开目录树        | :NERDTree     |
+| \t   | 打开对象浏览窗口  | :TagbarToggle |
+| \bn  | 切换下一个缓冲区  | :bnext        |
+| \bp  | 切换上下个缓冲区  | :bprev        |
+| \bd  | 删除当前缓冲区    | :bdelete      |
+| \qo  | 打开quickfix      | :copen        |
+| \cn  | 定位到下一个错误  | :cnext        |
+| \cp  | 定位到上一个错误  | :cprev        |
+| \a=  | 根据=对齐文本     | ;Taularize /= |
+| \a,  | 根据,能者为师文本 | Tabularize /, |
+|      |                   |               |
   
