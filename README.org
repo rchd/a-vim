@@ -1,3 +1,12 @@
+#+BEGIN_QUOTE
+                  _           
+  __ _     __   _(_)_ __ ___  
+ / _` |____\ \ / / | '_ ` _ \ 
+| (_| |_____\ V /| | | | | | |
+ \__,_|      \_/ |_|_| |_| |_|
+                          
+#+END_QUOTE
+                          
 * a-vimrc
 
 [[file:screenshot/vim_screenshot.jpg]]
@@ -62,17 +71,18 @@
 
 为了方便，把<Leader>键映射为空格键 
 
-| 键位 | 说明              | 命令          |
-|------+-------------------+---------------|
-| \n   | 打开目录树        | :NERDTree     |
-| \t   | 打开对象浏览窗口  | :TagbarToggle |
-| \bn  | 切换下一个缓冲区  | :bnext        |
-| \bp  | 切换上下个缓冲区  | :bprev        |
-| \bd  | 删除当前缓冲区    | :bdelete      |
-| \qo  | 打开quickfix      | :copen        |
-| \cn  | 定位到下一个错误  | :cnext        |
-| \cp  | 定位到上一个错误  | :cprev        |
-| \a=  | 根据=对齐文本     | ;Taularize /= |
-| \a,  | 根据,能者为师文本 | Tabularize /, |
-|      |                   |               |
+| 键位 | 说明             | 命令           |
+|------+------------------+----------------|
+| \n   | 打开目录树       | :NERDTree      |
+| \t   | 打开对象浏览窗口 | :TagbarToggle  |
+| \bn  | 切换下一个缓冲区 | :bnext         |
+| \bp  | 切换上下个缓冲区 | :bprev         |
+| \bd  | 删除当前缓冲区   | :bdelete       |
+| \qo  | 打开quickfix     | :copen         |
+| \cn  | 定位到下一个错误 | :cnext         |
+| \cp  | 定位到上一个错误 | :cprev         |
+| \a=  | 根据=对齐文本    | ;Taularize /=  |
+| \a,  | 根据,对齐文本    | :Tabularize /, |
+| \a:  | 根据:对齐文本    | :Tabularize /: |
+|      |                  |                |
   

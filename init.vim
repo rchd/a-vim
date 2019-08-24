@@ -318,12 +318,12 @@ nmap <Leader><Leader>z <Plug>ZVKeyDocset
 
 
 "tabular
-nmap <Leader>a= :Tabularize /=<CR>
-vmap <Leader>a= :Tabularize /=<CR>
-nmap <Leader>a: :Tabularize /:<CR>
-vmap <Leader>a: :Tabularize /:<CR>
-nmap <Leader>a, :Tabularize /,<CR>
-vmap <Leader>a, :Tabularize /,<CR>
+"nmap <Leader>a= :Tabularize /=<CR>
+"vmap <Leader>a= :Tabularize /=<CR>
+"nmap <Leader>a: :Tabularize /:<CR>
+"vmap <Leader>a: :Tabularize /:<CR>
+"nmap <Leader>a, :Tabularize /,<CR>
+"vmap <Leader>a, :Tabularize /,<CR>
 "undotree
 nmap <Leader>ut :UndotreeToggle<cr>
 "nmap <Leader>u
@@ -422,28 +422,31 @@ let g:which_key_map['e']={
 			\}
 let g:which_key_map['s']={
 			\'name':'+search/session',
-			\'l':['SLoad','load-session'],
-			\'s':['SSave','save-session'],
+			\'l' : ['SLoad' , 'load-session'] ,
+			\'s' : ['SSave' , 'save-session'] ,
 			\}
 let g:which_key_map['g']={
-			\ 'name' : '+git/version-control' ,
-			\ 'b' : ['Gblame'     , 'fugitive-blame']             ,
-			\ 'c' : ['BCommits'   , 'commits-for-current-buffer'] ,
-			\ 'C' : ['Gcommit'    , 'fugitive-commit']            ,
-			\ 'd' : ['Gdiff'      , 'fugitive-diff']              ,
-			\ 'e' : ['Gedit'      , 'fugitive-edit']              ,
-			\ 'l' : ['Glog'       , 'fugitive-log']               ,
-			\ 'r' : ['Gread'      , 'fugitive-read']              ,
-			\ 's' : ['Gstatus'    , 'fugitive-status']            ,
-			\ 'w' : ['Gwrite'     , 'fugitive-write']             ,
-			\ 'p' : ['Git push'   , 'fugitive-push']              ,
-			\ 'y' : ['Goyo'       , 'goyo-mode']                  ,
+			\ 'name'  : '+git/version-control' ,
+			\ 'b'     : ['Gblame'     , 'fugitive-blame']             ,
+			\ 'c'     : ['BCommits'   , 'commits-for-current-buffer'] ,
+			\ 'C'     : ['Gcommit'    , 'fugitive-commit']            ,
+			\ 'd'     : ['Gdiff'      , 'fugitive-diff']              ,
+			\ 'e'     : ['Gedit'      , 'fugitive-edit']              ,
+			\ 'l'     : ['Glog'       , 'fugitive-log']               ,
+			\ 'r'     : ['Gread'      , 'fugitive-read']              ,
+			\ 's'     : ['Gstatus'    , 'fugitive-status']            ,
+			\ 'w'     : ['Gwrite'     , 'fugitive-write']             ,
+			\ 'p'     : ['Git push'   , 'fugitive-push']              ,
+			\ 'y'     : ['Goyo'       , 'goyo-mode']                  ,
 			\}
 let g:which_key_map['a']={
-			\'name':'+align',
+			\'name': '+align',
+			\',' : ['Tabularize /,' , 'tabularize-align']		  ,
+			\'=' : ['Tabularize /=' , 'tabularize-align']		  ,
+			\':' : ['Tabularize /:' , 'tabularize-align']		  ,
 			\}
 let g:which_key_map['q']={
-			\'name':'+ quickfix',
+			\'name':'+quickfix',
 			\}
 let g:which_key_map['c']={
 			\'name':'+comment',
