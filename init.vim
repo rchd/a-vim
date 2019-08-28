@@ -17,6 +17,7 @@
 "basic setting "{{{
 let $PATH="~/bin:/local/usr/bin:/".$PATH
 let g:mapleader = "\<Space>"
+let loaded_matchparen = 1
 let g:maplocalleader = ','
 set cscopequickfix=g-
 set shellslash
@@ -66,6 +67,19 @@ function! ToggleFullScreen()
 	endif
 	call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
 endfunction
+
+function! BookmarkUnmapKeys()
+	unmap mm
+	unmap mi
+	unmap mn
+	unmap mp
+	unmap ma
+	unmap mc
+	unmap mx
+	unmap mkk
+	unmap mjj
+endfunction
+
 "}}}
 "#####################################################################
 "#
@@ -110,10 +124,12 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'easymotion/vim-easymotion'
 Plug 'ryanoasis/vim-devicons'
 Plug 'godlygeek/tabular'
-if !has("gui_running")
-	Plug 'edkolev/tmuxline.vim'
-	Plug 'Joshdlck/onedark.vim'
-endif
+Plug 'mattesgroeger/vim-bookmarks'
+Plug 'joshdick/onedark.vim'
+Plug 'edkolev/tmuxline.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/goyo.vim'
 "plug 'cosminadrianpopescu/vim-sql-workbench'
 call plug#end()
 "}}}
@@ -272,7 +288,7 @@ let g:ale_set_quickfix=1
 
 "#####################################################################
 "#
-"#  keyblind
+"#  keybind
 "#
 "#####################################################################
 "{{{
@@ -380,6 +396,29 @@ map  <Leader>ew <Plug>(easymotion-bd-w)
 nmap <Leader>ew <Plug>(easymotion-overwin-w)
 "}}}
 
+
+"#####################################################################
+"#
+"#  goyo
+"#
+"#####################################################################
+
+let g:goyo_width=160
+
+
+"#####################################################################
+"#
+"#  vim-bookmarks
+"#
+"#####################################################################
+nmap <Leader>mt <Plug>BookmarkToggle
+nmap <Leader>mi <Plug>BookmarkAnnotate
+nmap <Leader>ms <Plug>BookmarkShowAll
+nmap <Leader>mn <Plug>BookmarkNext
+nmap <Leader>mp <Plug>BookmarkPrev
+nmap <Leader>mc <Plug>BookmarkClear
+"nmap <Leader>m <Plug>BookmarkClearAll
+
 "#####################################################################
 "#
 "# which key
@@ -416,6 +455,16 @@ let g:which_key_map['b']={
 			\'n' : ['bnext'     , 'next-buffer']     ,
 			\'p' : ['bprevious' , 'previous-buffer'] ,
 			\'d' : ['bdelete'   , 'delete-buffer']   ,
+			\'s' : ['Buffers'   , 'switch-buffer']   ,
+			\}
+let g:which_key_map['m']={
+			\'name':'+mark',
+			\'s':'bookmark-show',
+			\'n':'bookmark-next',
+			\'p':'bookmark-prev',
+			\'i':'bookmark-insert',
+			\'t':'bookmark-toggle',
+			\'c':'bookmar-clear',
 			\}
 let g:which_key_map['e']={
 			\'name':'+jump/vimrc',
@@ -481,4 +530,5 @@ autocmd! FileType which_key
 "autocmd  FileType which_key set laststatus=0 noshowmode noruler
 autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 
+autocmd BufEnter * :call BookmarkUnmapKeys()
 "}}}
