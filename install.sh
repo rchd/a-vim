@@ -1,9 +1,4 @@
-#!/bin/bash
-
-function install_vim(){ #{{{
-	sudo apt-get update
-	sudo apt install vim gvim
-}#}}}
+#!/bin/sh
 
 function install_vim_plug(){ #{{{
 	if [[ ! -f "~/.vim/autoload/plug.vim" ]]; then
@@ -51,6 +46,6 @@ function main() { #{{{
 	copy_init_vim_to_vimrc
 	install_vim_plugin
 	compile_youcompleteme
-} #}}}
+}#}}}
 
 main

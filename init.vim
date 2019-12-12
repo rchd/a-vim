@@ -22,26 +22,30 @@ let g:maplocalleader = ','
 set cscopequickfix=g-
 set shellslash
 set t_Co=256
-set nocompatible      " be improved, required
+set nocompatible                           " be improved, required
 set autoindent
 set ruler
 set relativenumber
+set number
 set hlsearch
 set showcmd
 set foldmethod=marker
-set hidden            " Allw buffer switching saving
-set showmode          " Display current mode
-set splitright        " Puts new vsplit windows to the right of the current
-set splitbelow        " Puts new split windows to the bottom of the current
-
+set hidden                                 " Allw buffer switching saving
+set showmode                               " Display current mode
+set splitright                             " Puts new vsplit windows to the right of the current
+set splitbelow                             " Puts new split windows to the bottom of the current
+set fileformat=unix
 set encoding=UTF-8
+set nobackup
 set fileencodings=utf-8,gb18030,gbk,gk2312
 set mouse=a
 set cursorline
 set nowrap
-filetype off                  " required
-filetype plugin indent on    " required
-set spell
+"set paste
+filetype off                               " required
+filetype plugin indent on                  " required
+"set spell
+
 "}}}
 
 "#####################################################################
@@ -68,17 +72,24 @@ function! ToggleFullScreen()
 	call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
 endfunction
 
-function! BookmarkUnmapKeys()
-	unmap mm
-	unmap mi
-	unmap mn
-	unmap mp
-	unmap ma
-	unmap mc
-	unmap mx
-	unmap mkk
-	unmap mjj
-endfunction
+"function! SearchInMan()
+""let l:word=expand("<cword")
+":silent execute "Man " . shellescape(expand("<cword>")) . " ."<cr>
+
+"endfunction
+
+
+"function! BookmarkUnmapKeys()
+"unmap mm
+"unmap mi
+"unmap mn
+"unmap mp
+"unmap ma
+"unmap mc
+"unmap mx
+"unmap mkk
+"unmap mjj
+"endfunction
 
 "}}}
 "#####################################################################
@@ -88,16 +99,19 @@ endfunction
 "#####################################################################
 "{{{
 call plug#begin('~/.vim/bundle')
-Plug 'VundleVim/Vundle.vim'
+
 Plug 'Valloric/YouCompleteMe'
 Plug 'https://github.com/scrooloose/nerdtree.git'
 Plug 'https://github.com/jiangmiao/auto-pairs.git'
 Plug 'https://github.com/majutsushi/tagbar.git'
 Plug 'https://github.com/Shougo/vimshell.vim.git'
-Plug 'https://github.com/ctrlpvim/ctrlp.vim.git'
+"Plug 'https://github.com/ctrlpvim/ctrlp.vim.git'
 Plug 'https://github.com/jalvesaq/Nvim-R.git'
-"Plug 'https://github.com/morhetz/gruvbox.git'
-Plug 'https://github.com/altercation/solarized.git'
+if !has('gui_running')
+	Plug 'https://github.com/morhetz/gruvbox.git'
+endif
+"Plug 'https://github.com/altercation/solarized.git'
+Plug 'https://github.com/dracula/vim.git'
 Plug 'scrooloose/nerdcommenter'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -116,22 +130,27 @@ Plug 'pangloss/vim-javascript'
 Plug 'mattn/emmet-vim'
 Plug 'mbbill/undotree'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'klen/python-mode'
+"Plug 'klen/python-mode'
 Plug 'fidian/hexmode'
 Plug 'mhinz/vim-startify'
 Plug 'liuchengxu/vim-which-key'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'easymotion/vim-easymotion'
-Plug 'ryanoasis/vim-devicons'
+"Plug 'ryanoasis/vim-devicons'
 Plug 'godlygeek/tabular'
+Plug 'sirtaj/vim-openscad'
 Plug 'mattesgroeger/vim-bookmarks'
 Plug 'joshdick/onedark.vim'
-Plug 'edkolev/tmuxline.vim'
+"Plug 'edkolev/tmuxline.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
+Plug 'whatyouhide/vim-gotham'
+Plug 'vim-utils/vim-man'
 "plug 'cosminadrianpopescu/vim-sql-workbench'
 call plug#end()
+
+
 "}}}
 "#####################################################################
 "#
@@ -169,6 +188,7 @@ let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType = '<C-n>'
 let g:ycm_error_symbol='>>'
 let g:ycm_warning_symbol='>*'
+let g:ycm_global_ycm_extra_conf="~/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
 "}}}
 
 "#####################################################################
@@ -229,10 +249,10 @@ let g:indentLine_char='¦'
 "#  ctrlp
 "#
 "#####################################################################
-if executable("ag")
-	set grepprg=ag\ --nogroup\ --nocolor
-	let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-endif
+"if executable("ag")
+"set grepprg=ag\ --nogroup\ --nocolor
+"let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+"endif
 
 
 "#####################################################################
@@ -247,6 +267,8 @@ if executable("ag")
 	set grepprg=ag\ --nogroup\ --nocolor
 	let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
+
+
 
 "#####################################################################
 "#
@@ -297,21 +319,21 @@ noremap <Leader>bn :bnext<cr>
 noremap <Leader>bp :bprevious<cr>
 noremap <Leader>bd :bdelete<cr>
 "edit .vimrc qucick
-noremap <Leader>ev :e ~/a-vim/.vimrc<cr>
-noremap <Leader>sv :source ~/.vimrc<cr>
+noremap <Leader>ev :e ~/a-vim/init.vim<cr>
+noremap <Leader>sv :source ~/a-vim/init.vim<cr>
 
 " noremap <space>g :silent execute "grep! -r" . shellescape(expand("<cword>")) . " ."<cr>:copen<cr>
-
+noremap <space>sm :silent execute "Man " . shellescape(expand("<cword>")) . " ."<cr>
 " operatoring about quickfix
 noremap <leader>qn :cn<cr>
 noremap <Leader>qp :cp<cr>
 noremap <Leader>qo :copen<cr>
 
 "NERDTree
-noremap <Leader>n :NERDTreeToggle<cr>
+noremap <Leader>tn :NERDTreeToggle<cr>
 
 "TagbarToggle
-noremap <Leader>t :TagbarToggle<cr>
+noremap <Leader>tt :TagbarToggle<cr>
 " map / <Plug>(incsearch-forward)
 " map ? <Plug>(incsearch-backward)
 
@@ -320,29 +342,38 @@ noremap <Leader>t :TagbarToggle<cr>
 "nnoremap <leader>gl :YcmCompleter GoToDeclaration<cr>
 "nnoremap <leader>gf :YcmCompleter GoToDefinition<cr>
 "nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<cr>
-p
+
 "map / <Plug><easymotion-sn>
 "omap / <Plug>(easymotion-tn)
 "map n<Plug>(easymotion-next)
 "map N<Plug>(easymotion-prev)
 
 "zeavim
-nmap <Leader>z <Plug>Zeavim
-vmap <Leader>z <Plug>ZVVisSelection
-nmap gz <Plug>ZVOperator
-nmap <Leader><Leader>z <Plug>ZVKeyDocset
+nmap <Leader>zs <Plug>Zeavim
+"vmap <Leader>zv <Plug>ZVVisSelection
+"nmap <Leader>zo <Plug>ZVOperator
+nmap <Leader>zk <Plug>ZVKeyDocset
 
 
 "tabular
-"nmap <Leader>a= :Tabularize /=<CR>
-"vmap <Leader>a= :Tabularize /=<CR>
-"nmap <Leader>a: :Tabularize /:<CR>
-"vmap <Leader>a: :Tabularize /:<CR>
-"nmap <Leader>a, :Tabularize /,<CR>
-"vmap <Leader>a, :Tabularize /,<CR>
+nmap <Leader>a= :Tabularize /=<CR>
+vmap <Leader>a= :Tabularize /=<CR>
+nmap <Leader>a: :Tabularize /:<CR>
+vmap <Leader>a: :Tabularize /:<CR>
+nmap <Leader>a, :Tabularize /,<CR>
+vmap <Leader>a, :Tabularize /,<CR>
 "undotree
-nmap <Leader>ut :UndotreeToggle<cr>
+nmap <Leader>tu :UndotreeToggle<cr>
 "nmap <Leader>u
+"CtrlSF
+"nmap     <Leader>sf <Plug>CtrlSFPrompt
+"vmap     <Leader>sf <Plug>CtrlSFVwordPath
+"vmap     <Leader>sF <Plug>CtrlSFVwordExec
+nmap     <Leader>sn <Plug>CtrlSFCwordPath
+"nmap     <Leader>sp <Plug>CtrlSFPwordPath
+"nnoremap <Leader>so :CtrlSFOpen<CR>
+nnoremap <Leader>st :CtrlSFToggle<CR>
+inoremap <Leader>st <Esc>:CtrlSFToggle<CR>
 "}}}
 "#####################################################################
 "#
@@ -350,26 +381,32 @@ nmap <Leader>ut :UndotreeToggle<cr>
 "#
 "#####################################################################
 "{{{
-colorscheme solarized
+"colorscheme onedark
 let g:ctrlp_show_hidden = 1
 if has("gui_running")
-	:set background=light
-	:set guioptions-=r
-	:set guioptions-=L "remove the scroll bar
-	:set guioptions-=m "remove the menu bar
-	:set guioptions-=T "remove the tab bar
-	:set guifont=Monaco
+	":set background  = light
+	:colorscheme dracula
+	:set background=dark
+	":set guioptions -= r
+	":set guioptions -= L "remove the scroll bar
+	":set guioptions -= m "remove the menu bar
+	":set guioptions -= T "remove the tab bar
+	:set guioptions="";
+	:set guifont     =Monospace\ Bold\ 12
 	let g:tagbar_iconchars = ['▸', '▾']
 	"let g:tagar_previewwin_pos="rightbelow"
 	let g:fullscreen = 0
 
 	map <silent> <F11> :call ToggleFullScreen()<CR>
 else
-	:set background=dark
+	":set background=dark
 	highlight CursorLine   cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
 	"highlight CursorColumn cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
+	"colorscheme gruvbox
 	let g:NERDTreeDirArrowExpandable='|+'
 	let g:NERDTreeDirArrowCollapsible='|-'
+	"AirlineTheme aurora
+
 
 endif
 "}}}
@@ -411,14 +448,14 @@ let g:goyo_width=160
 "#  vim-bookmarks
 "#
 "#####################################################################
-nmap <Leader>mt <Plug>BookmarkToggle
+nmap <Leader>mt <Plug>BookmarkToggle"{{{
 nmap <Leader>mi <Plug>BookmarkAnnotate
 nmap <Leader>ms <Plug>BookmarkShowAll
 nmap <Leader>mn <Plug>BookmarkNext
 nmap <Leader>mp <Plug>BookmarkPrev
 nmap <Leader>mc <Plug>BookmarkClear
 "nmap <Leader>m <Plug>BookmarkClearAll
-
+"}}}
 "#####################################################################
 "#
 "# which key
@@ -429,6 +466,8 @@ nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 set timeoutlen=500
+
+
 let g:which_key_map={}
 let g:which_key_map['w'] = {
 			\ 'name' : '+windows' ,
@@ -464,7 +503,7 @@ let g:which_key_map['m']={
 			\'p':'bookmark-prev',
 			\'i':'bookmark-insert',
 			\'t':'bookmark-toggle',
-			\'c':'bookmar-clear',
+			\'c':'bookmark-clear',
 			\}
 let g:which_key_map['e']={
 			\'name':'+jump/vimrc',
@@ -473,6 +512,10 @@ let g:which_key_map['s']={
 			\'name':'+search/session',
 			\'l' : ['SLoad' , 'load-session'] ,
 			\'s' : ['SSave' , 'save-session'] ,
+			\'f':['FZF','file-search'],
+			\'m': 'man-search',
+			\'t':'ctrlsf-toogle',
+			\'n':'ctrlsf-search',
 			\}
 let g:which_key_map['g']={
 			\ 'name'  : '+git/version-control' ,
@@ -488,21 +531,33 @@ let g:which_key_map['g']={
 			\ 'p'     : ['Git push'   , 'fugitive-push']              ,
 			\ 'y'     : ['Goyo'       , 'goyo-mode']                  ,
 			\}
+let g:which_key_map['t']={
+			\'name' : '+tool-window'    ,
+			\'n'    : 'NERDTree-window' ,
+			\'t'    : 'Tagbar-window'   ,
+			\'u'    : 'UndoTree-window' ,
+			\}
 let g:which_key_map['a']={
-			\'name': '+align',
-			\',' : ['Tabularize /,' , 'tabularize-align']		  ,
-			\'=' : ['Tabularize /=' , 'tabularize-align']		  ,
-			\':' : ['Tabularize /:' , 'tabularize-align']		  ,
+			\'name' : '+align',
+			\','    : 'tabularize-align'		  ,
+			\'='    : 'tabularize-align'		  ,
+			\':'    : 'tabularize-align'		  ,
 			\}
 let g:which_key_map['q']={
 			\'name':'+quickfix',
+			\'o':'quickfix-open',
+			\'n':'next-error',
+			\'p':'previous-error',
 			\}
 let g:which_key_map['c']={
 			\'name':'+comment',
 			\}
 let g:which_key_map['z']={
-			\'name':'+zeal',
+			\'name':'+zeal-search',
+			\'s':'zeal-search',
+			\'k':'zeal-cursor',
 			\}
+let g:which_key_map.d = 'which_key_ignore'
 call which_key#register('<Space>', "g:which_key_map")
 
 nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<CR>
@@ -526,9 +581,10 @@ augroup strartUpSetting
 	autocmd FileType python set sts=4
 augroup END
 
+"autocmd VimLeave * NERDTreeClose
+
 autocmd! FileType which_key
 "autocmd  FileType which_key set laststatus=0 noshowmode noruler
 autocmd BufLeave <buffer> set laststatus=2 showmode ruler
-
-autocmd BufEnter * :call BookmarkUnmapKeys()
+"autocmd BufEnter * :call BookmarkUnmapKeys()
 "}}}
