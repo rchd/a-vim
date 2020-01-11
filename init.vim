@@ -100,50 +100,64 @@ endfunction
 "{{{
 call plug#begin('~/.vim/bundle')
 
+Plug 'scrooloose/nerdtree' 
+"Auto Complete
 Plug 'Valloric/YouCompleteMe'
-Plug 'https://github.com/scrooloose/nerdtree.git'
-Plug 'https://github.com/jiangmiao/auto-pairs.git'
-Plug 'https://github.com/majutsushi/tagbar.git'
-Plug 'https://github.com/Shougo/vimshell.vim.git'
-"Plug 'https://github.com/ctrlpvim/ctrlp.vim.git'
-Plug 'https://github.com/jalvesaq/Nvim-R.git'
-if !has('gui_running')
-	Plug 'https://github.com/morhetz/gruvbox.git'
-endif
-"Plug 'https://github.com/altercation/solarized.git'
-Plug 'https://github.com/dracula/vim.git'
-Plug 'scrooloose/nerdcommenter'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'ervandew/supertab'
+
+if !has('gui_running')
+	Plug 'ryanoasis/vim-devicons'
+	Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+	Plug 'https://github.com/morhetz/gruvbox.git'
+	Plug 'edkolev/tmuxline.vim'
+else
+	Plug 'https://github.com/dracula/vim.git'
+endif
+"The appearness about vim
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+"Plug 'https://github.com/altercation/solarized.git'
+Plug 'scrooloose/nerdcommenter'
+Plug 'https://github.com/jiangmiao/auto-pairs.git'
 Plug 'w0rp/ale'
-Plug 'KabbAmine/zeavim.vim'
-Plug 'Yggdroot/indentLine'
+"Plug 'Yggdroot/indentLine'
 Plug 'tpope/vim-surround'
+
+"Userful tool
 Plug 'dyng/ctrlsf.vim'
-Plug 'Chiel92/vim-autoformat'
-Plug 'tpope/vim-fugitive'
-Plug 'junegunn/gv.vim'
-Plug 'pangloss/vim-javascript'
-Plug 'mattn/emmet-vim'
-Plug 'mbbill/undotree'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-"Plug 'klen/python-mode'
-Plug 'fidian/hexmode'
-Plug 'mhinz/vim-startify'
-Plug 'liuchengxu/vim-which-key'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'easymotion/vim-easymotion'
-"Plug 'ryanoasis/vim-devicons'
-Plug 'godlygeek/tabular'
-Plug 'sirtaj/vim-openscad'
 Plug 'mattesgroeger/vim-bookmarks'
-Plug 'joshdick/onedark.vim'
-"Plug 'edkolev/tmuxline.vim'
+Plug 'KabbAmine/zeavim.vim'
+Plug 'easymotion/vim-easymotion'
+Plug 'godlygeek/tabular'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+
+"git
+Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
+
+Plug 'fidian/hexmode'
+Plug 'Chiel92/vim-autoformat'
+Plug 'mhinz/vim-startify'
+
+Plug 'liuchengxu/vim-which-key'
+Plug 'joshdick/onedark.vim'
+
+
+Plug 'lvht/phpcd.vim'          , { 'for': 'php'       , 'do': 'composer install' }
+Plug 'jalvesaq/Nvim-R'         , {'for':'R'}
+Plug 'sirtaj/vim-openscad'     , {'for':'scad'}
+Plug 'pangloss/vim-javascript' , {'for':'javascript'}
+Plug 'mattn/emmet-vim'         , {'for':'html         , javascript'}
+Plug 'klen/python-mode'        , {'for':'python'}
+
+Plug 'majutsushi/tagbar'   , {'on':'TagbarToggle'}
+Plug 'mbbill/undotree'     , {'on':'UndotreeToggle'}
+
 Plug 'junegunn/goyo.vim'
 Plug 'whatyouhide/vim-gotham'
 Plug 'vim-utils/vim-man'
@@ -594,3 +608,5 @@ autocmd! FileType which_key
 autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 "autocmd BufEnter * :call BookmarkUnmapKeys()
 "}}}
+
+
