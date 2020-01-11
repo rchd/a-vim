@@ -276,7 +276,7 @@ endif
 "#
 "#####################################################################
 "noremap <F3> :Autoformat<CR>
-au BufWrite * :Autoformat
+"au BufWrite * :Autoformat
 
 "#####################################################################
 "#
@@ -399,10 +399,10 @@ if has("gui_running")
 
 	map <silent> <F11> :call ToggleFullScreen()<CR>
 else
-	":set background=dark
 	highlight CursorLine   cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
 	"highlight CursorColumn cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
-	"colorscheme gruvbox
+	colorscheme gruvbox
+	set background=dark
 	let g:NERDTreeDirArrowExpandable='|+'
 	let g:NERDTreeDirArrowCollapsible='|-'
 	"AirlineTheme aurora
@@ -496,26 +496,32 @@ let g:which_key_map['b']={
 			\'d' : ['bdelete'   , 'delete-buffer']   ,
 			\'s' : ['Buffers'   , 'switch-buffer']   ,
 			\}
+let g:which_key_map['p']={
+			\'name':'+plugin',
+			\'s':['PlugStatus'  , 'plug-status' ]  ,
+			\'i':['PlugInstall' , 'plug-install' ] ,
+			\'u':['PlugUpdate'  , 'plug-update' ]  ,
+			\}
 let g:which_key_map['m']={
 			\'name':'+mark',
-			\'s':'bookmark-show',
-			\'n':'bookmark-next',
-			\'p':'bookmark-prev',
-			\'i':'bookmark-insert',
-			\'t':'bookmark-toggle',
-			\'c':'bookmark-clear',
+			\'s':'bookmark-show'   ,
+			\'n':'bookmark-next'   ,
+			\'p':'bookmark-prev'   ,
+			\'i':'bookmark-insert' ,
+			\'t':'bookmark-toggle' ,
+			\'c':'bookmark-clear'  ,
 			\}
 let g:which_key_map['e']={
 			\'name':'+jump/vimrc',
 			\}
 let g:which_key_map['s']={
 			\'name':'+search/session',
-			\'l' : ['SLoad' , 'load-session'] ,
-			\'s' : ['SSave' , 'save-session'] ,
-			\'f':['FZF','file-search'],
-			\'m': 'man-search',
-			\'t':'ctrlsf-toogle',
-			\'n':'ctrlsf-search',
+			\'l' : ['SLoad'        , 'load-session'] ,
+			\'s' : ['SSave'        , 'save-session'] ,
+			\'f' : ['FZF'          , 'file-search']  ,
+			\'m' : 'man-search'    ,
+			\'t' : 'ctrlsf-toogle' ,
+			\'n' : 'ctrlsf-search' ,
 			\}
 let g:which_key_map['g']={
 			\ 'name'  : '+git/version-control' ,
@@ -545,9 +551,9 @@ let g:which_key_map['a']={
 			\}
 let g:which_key_map['q']={
 			\'name':'+quickfix',
-			\'o':'quickfix-open',
-			\'n':'next-error',
-			\'p':'previous-error',
+			\'o':'quickfix-open'  ,
+			\'n':'next-error'     ,
+			\'p':'previous-error' ,
 			\}
 let g:which_key_map['c']={
 			\'name':'+comment',
