@@ -14,7 +14,7 @@
 "#
 "#
 "#####################################################################
-"basic setting "{{{
+"basic seting "{{{
 let $PATH="~/bin:/local/usr/bin:/".$PATH
 let g:mapleader = "\<Space>"
 let loaded_matchparen = 1
@@ -100,7 +100,6 @@ endfunction
 "{{{
 call plug#begin('~/.vim/bundle')
 
-Plug 'scrooloose/nerdtree' 
 "Auto Complete
 Plug 'Valloric/YouCompleteMe'
 Plug 'ervandew/supertab'
@@ -118,9 +117,11 @@ endif
 "The appearness about vim
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'joshdick/onedark.vim'
 
 "Plug 'https://github.com/altercation/solarized.git'
 Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree' 
 Plug 'https://github.com/jiangmiao/auto-pairs.git'
 Plug 'w0rp/ale'
 "Plug 'Yggdroot/indentLine'
@@ -135,17 +136,17 @@ Plug 'easymotion/vim-easymotion'
 Plug 'godlygeek/tabular'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'fidian/hexmode'
+Plug 'Chiel92/vim-autoformat'
+Plug 'mhinz/vim-startify'
+Plug 'https://github.com/skywind3000/asyncrun.vim.git'
 
 "git
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 
-Plug 'fidian/hexmode'
-Plug 'Chiel92/vim-autoformat'
-Plug 'mhinz/vim-startify'
 
 Plug 'liuchengxu/vim-which-key'
-Plug 'joshdick/onedark.vim'
 
 
 Plug 'lvht/phpcd.vim'          , { 'for': 'php'       , 'do': 'composer install' }
@@ -153,10 +154,11 @@ Plug 'jalvesaq/Nvim-R'         , {'for':'R'}
 Plug 'sirtaj/vim-openscad'     , {'for':'scad'}
 Plug 'pangloss/vim-javascript' , {'for':'javascript'}
 Plug 'mattn/emmet-vim'         , {'for':'html         , javascript'}
-Plug 'klen/python-mode'        , {'for':'python'}
+"Plug 'klen/python-mode'        , {'for':'python'}
 
-Plug 'majutsushi/tagbar'   , {'on':'TagbarToggle'}
-Plug 'mbbill/undotree'     , {'on':'UndotreeToggle'}
+Plug 'majutsushi/tagbar' , {'on':'TagbarToggle'}
+Plug 'mbbill/undotree'   , {'on':'UndotreeToggle'}
+Plug 'gu-fan/colorv.vim' , {'on':'ColorV'}
 
 Plug 'junegunn/goyo.vim'
 Plug 'whatyouhide/vim-gotham'
@@ -328,7 +330,7 @@ let g:ale_set_quickfix=1
 "#
 "#####################################################################
 "{{{
-"switch tab
+"switch buffer
 noremap <Leader>bn :bnext<cr>
 noremap <Leader>bp :bprevious<cr>
 noremap <Leader>bd :bdelete<cr>
@@ -336,18 +338,22 @@ noremap <Leader>bd :bdelete<cr>
 noremap <Leader>ev :e ~/a-vim/init.vim<cr>
 noremap <Leader>sv :source ~/a-vim/init.vim<cr>
 
-" noremap <space>g :silent execute "grep! -r" . shellescape(expand("<cword>")) . " ."<cr>:copen<cr>
+"noremap <space>g :silent execute "grep! -r" . shellescape(expand("<cword>")) . " ."<cr>:copen<cr>
 noremap <space>sm :silent execute "Man " . shellescape(expand("<cword>")) . " ."<cr>
 " operatoring about quickfix
 noremap <leader>qn :cn<cr>
 noremap <Leader>qp :cp<cr>
 noremap <Leader>qo :copen<cr>
 
+noremap <Leader>th :Hexmode<cr>
+
 "NERDTree
 noremap <Leader>tn :NERDTreeToggle<cr>
 
 "TagbarToggle
 noremap <Leader>tt :TagbarToggle<cr>
+"ColorV
+noremap <Leader>tc :ColorV<cr>
 " map / <Plug>(incsearch-forward)
 " map ? <Plug>(incsearch-backward)
 
@@ -388,6 +394,12 @@ nmap     <Leader>sn <Plug>CtrlSFCwordPath
 "nnoremap <Leader>so :CtrlSFOpen<CR>
 nnoremap <Leader>st :CtrlSFToggle<CR>
 inoremap <Leader>st <Esc>:CtrlSFToggle<CR>
+
+
+"Asyncrun
+noremap <Leader>sb  :AsyncRun firefox -search  <cword><CR>
+
+
 "}}}
 "#####################################################################
 "#
@@ -533,6 +545,7 @@ let g:which_key_map['s']={
 			\'l' : ['SLoad'        , 'load-session'] ,
 			\'s' : ['SSave'        , 'save-session'] ,
 			\'f' : ['FZF'          , 'file-search']  ,
+			\'b' : 'broswer-search',
 			\'m' : 'man-search'    ,
 			\'t' : 'ctrlsf-toogle' ,
 			\'n' : 'ctrlsf-search' ,
