@@ -89,6 +89,8 @@
 | vim-easymotion       | 在不同窗口之间快速跳转     |
 | tabular              | 文本对齐                   |
 | tmuxline             | 把tmux的状态栏与vim统一    |
+| fzf                  | 文件搜索插件，速度非常快   |
+| phpcd                | php补全插件，与YCM协同工作 |
 |                      |                            |
 
 
@@ -96,18 +98,26 @@
 
 为了方便，把<Leader>键映射为空格键 
 
-| 键位 | 说明             | 命令           |
-|------+------------------+----------------|
-| \n   | 打开目录树       | :NERDTree      |
-| \t   | 打开对象浏览窗口 | :TagbarToggle  |
-| \bn  | 切换下一个缓冲区 | :bnext         |
-| \bp  | 切换上下个缓冲区 | :bprev         |
-| \bd  | 删除当前缓冲区   | :bdelete       |
-| \qo  | 打开quickfix     | :copen         |
-| \cn  | 定位到下一个错误 | :cnext         |
-| \cp  | 定位到上一个错误 | :cprev         |
-| \a=  | 根据=对齐文本    | ;Taularize /=  |
-| \a,  | 根据,对齐文本    | :Tabularize /, |
-| \a:  | 根据:对齐文本    | :Tabularize /: |
-|      |                  |                |
-  
+| 键位 | 说明                   | 命令           |
+|------+------------------------+----------------|
+| \tn  | 打开目录树             | :NERDTree      |
+| \tu  | 打开历史编辑窗口       | :Undotree      |
+| \tt  | 打开对象浏览窗口       | :TagbarToggle  |
+| \bn  | 切换下一个缓冲区       | :bnext         |
+| \bp  | 切换上下个缓冲区       | :bprev         |
+| \bd  | 删除当前缓冲区         | :bdelete       |
+| \qo  | 打开quickfix           | :copen         |
+| \cn  | 定位到下一个错误       | :cnext         |
+| \cp  | 定位到上一个错误       | :cprev         |
+| \a=  | 根据=对齐文本          | ;Taularize /=  |
+| \a,  | 根据,对齐文本          | :Tabularize /, |
+| \a:  | 根据:对齐文本          | :Tabularize /: |
+| \gb  | 相当于git blame命令    | :Gblame        |
+| \gc  | 查看当前文件日志       | :GCommts       |
+| \gC  | 提交当前文件           | :Gcommit       |
+| \gd  | 查看尚未提交的文件更新 | :Gdiff         |
+| \ge  | 查看提交的日志         | :Glog          |
+| \gp  | 将提交推送到服务器     | :Gpush         |
+|      |                        |                |
+#+TBLFM: 
+

@@ -101,7 +101,7 @@ endfunction
 call plug#begin('~/.vim/bundle')
 
 "Auto Complete
-Plug 'Valloric/YouCompleteMe'
+Plug 'Valloric/YouCompleteMe',
 Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -111,6 +111,7 @@ if !has('gui_running')
 	Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 	Plug 'https://github.com/morhetz/gruvbox.git'
 	Plug 'edkolev/tmuxline.vim'
+	"Plug 'https://github.com/benmills/vimux.git'
 else
 	Plug 'https://github.com/dracula/vim.git'
 endif
@@ -119,7 +120,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'joshdick/onedark.vim'
 
-"Plug 'https://github.com/altercation/solarized.git'
+Plug 'https://github.com/altercation/solarized.git'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree' 
 Plug 'https://github.com/jiangmiao/auto-pairs.git'
@@ -154,6 +155,7 @@ Plug 'jalvesaq/Nvim-R'         , {'for':'R'}
 Plug 'sirtaj/vim-openscad'     , {'for':'scad'}
 Plug 'pangloss/vim-javascript' , {'for':'javascript'}
 Plug 'mattn/emmet-vim'         , {'for':'html         , javascript'}
+Plug 'ivanov/vim-ipython',{'for':'python'}
 "Plug 'klen/python-mode'        , {'for':'python'}
 
 Plug 'majutsushi/tagbar' , {'on':'TagbarToggle'}
