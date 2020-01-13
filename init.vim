@@ -151,8 +151,8 @@ Plug 'liuchengxu/vim-which-key'
 
 
 Plug 'lvht/phpcd.vim'          , { 'for': 'php'       , 'do': 'composer install' }
-Plug 'jalvesaq/Nvim-R'         , {'for':'R'}
-Plug 'sirtaj/vim-openscad'     , {'for':'scad'}
+"Plug 'jalvesaq/Nvim-R'         , {'for':'R'}
+"Plug 'sirtaj/vim-openscad'     , {'for':'scad'}
 Plug 'pangloss/vim-javascript' , {'for':'javascript'}
 Plug 'mattn/emmet-vim'         , {'for':'html         , javascript'}
 Plug 'ivanov/vim-ipython',{'for':'python'}
@@ -267,10 +267,10 @@ let g:indentLine_char='¦'
 "#  ctrlp
 "#
 "#####################################################################
-"if executable("ag")
+if executable("ag")
 "set grepprg=ag\ --nogroup\ --nocolor
-"let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-"endif
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
 
 
 "#####################################################################
@@ -282,7 +282,7 @@ let g:indentLine_char='¦'
 let g:ctrlsf_ackprg='ag'
 
 if executable("ag")
-	set grepprg=ag\ --nogroup\ --nocolor
+	"set grepprg=ag\ --nogroup\ --nocolor
 	let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
@@ -340,7 +340,7 @@ noremap <Leader>bd :bdelete<cr>
 noremap <Leader>ev :e ~/a-vim/init.vim<cr>
 noremap <Leader>sv :source ~/a-vim/init.vim<cr>
 
-"noremap <space>g :silent execute "grep! -r" . shellescape(expand("<cword>")) . " ."<cr>:copen<cr>
+"noremap <space>sg :silent execute "grep! -r" . shellescape(expand("<cword>")) . " ."<cr>:copen<cr>
 noremap <space>sm :silent execute "Man " . shellescape(expand("<cword>")) . " ."<cr>
 " operatoring about quickfix
 noremap <leader>qn :cn<cr>
@@ -574,9 +574,9 @@ let g:which_key_map['t']={
 			\}
 let g:which_key_map['a']={
 			\'name' : '+align',
-			\','    : 'tabularize-align'		  ,
-			\'='    : 'tabularize-align'		  ,
-			\':'    : 'tabularize-align'		  ,
+			\','    : 'tabularize-align',
+			\'='    : 'tabularize-align',
+			\':'    : 'tabularize-align',
 			\}
 let g:which_key_map['q']={
 			\'name':'+quickfix',
@@ -586,6 +586,19 @@ let g:which_key_map['q']={
 			\}
 let g:which_key_map['c']={
 			\'name':'+comment',
+			\'c'   : 'nerdcommenter-comment'   ,
+			\'u'   : 'nerdcommenter-uncomment' ,
+			\'<Space>' : 'nerdcommenter-toggle'    ,
+			\'m'   : 'nerdcommenter-minimal'   ,
+			\'l'   : 'nerdcommenter-alignleft' ,
+			\'b'   : 'nerdcommenter-alignboth' ,
+			\'i'   : 'nerdcommenter-invert'    ,
+			\'y'   : 'nerdcommenter-yank'      ,
+			\'s'   : 'nerdcommenter-sexy'      ,
+			\'A'   : 'nerdcommenter-append'    ,
+			\'$'   : 'nerdcommenter-toeol'     ,
+			\'n'    : 'nerdcommenter-nested'    ,
+			\'a':'nerdcommenter-altdelims',
 			\}
 let g:which_key_map['z']={
 			\'name':'+zeal-search',
