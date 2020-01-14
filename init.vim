@@ -72,24 +72,6 @@ function! ToggleFullScreen()
 	call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
 endfunction
 
-"function! SearchInMan()
-""let l:word=expand("<cword")
-":silent execute "Man " . shellescape(expand("<cword>")) . " ."<cr>
-
-"endfunction
-
-
-"function! BookmarkUnmapKeys()
-"unmap mm
-"unmap mi
-"unmap mn
-"unmap mp
-"unmap ma
-"unmap mc
-"unmap mx
-"unmap mkk
-"unmap mjj
-"endfunction
 
 "}}}
 "#####################################################################
@@ -146,16 +128,16 @@ Plug 'https://github.com/skywind3000/asyncrun.vim.git'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 
-
+"The guide of key
 Plug 'liuchengxu/vim-which-key'
 
 
 Plug 'lvht/phpcd.vim'          , { 'for': 'php'       , 'do': 'composer install' }
 "Plug 'jalvesaq/Nvim-R'         , {'for':'R'}
 "Plug 'sirtaj/vim-openscad'     , {'for':'scad'}
-Plug 'pangloss/vim-javascript' , {'for':'javascript'}
-Plug 'mattn/emmet-vim'         , {'for':'html         , javascript'}
-Plug 'ivanov/vim-ipython',{'for':'python'}
+Plug 'pangloss/vim-javascript' , {'for':'js'}
+Plug 'mattn/emmet-vim'         , {'for':['html,js']}
+"Plug 'ivanov/vim-ipython',{'for':'python'}
 "Plug 'klen/python-mode'        , {'for':'python'}
 
 Plug 'majutsushi/tagbar' , {'on':'TagbarToggle'}
@@ -206,7 +188,8 @@ let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType = '<C-n>'
 let g:ycm_error_symbol='>>'
 let g:ycm_warning_symbol='>*'
-let g:ycm_global_ycm_extra_conf="~/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
+let g:ycm_global_ycm_extra_conf="~/.vim/bundle/YouCompleteMe/
+			\third_party/ycmd/.ycm_extra_conf.py"
 "}}}
 
 "#####################################################################
@@ -340,8 +323,10 @@ noremap <Leader>bd :bdelete<cr>
 noremap <Leader>ev :e ~/a-vim/init.vim<cr>
 noremap <Leader>sv :source ~/a-vim/init.vim<cr>
 
-"noremap <space>sg :silent execute "grep! -r" . shellescape(expand("<cword>")) . " ."<cr>:copen<cr>
-noremap <space>sm :silent execute "Man " . shellescape(expand("<cword>")) . " ."<cr>
+"noremap <space>sg :silent execute "grep! -r" . 
+			"\shellescape(expand("<cword>")) . " ."<cr>:copen<cr>
+noremap <space>sm :silent execute "Man " . 
+			\shellescape(expand("<cword>")) . " ."<cr>
 " operatoring about quickfix
 noremap <leader>qn :cn<cr>
 noremap <Leader>qp :cp<cr>
@@ -529,6 +514,7 @@ let g:which_key_map['p']={
 			\'s':['PlugStatus'  , 'plug-status' ]  ,
 			\'i':['PlugInstall' , 'plug-install' ] ,
 			\'u':['PlugUpdate'  , 'plug-update' ]  ,
+			\'c':['PlugClean'   , 'plug-clean']    ,
 			\}
 let g:which_key_map['m']={
 			\'name':'+mark',
@@ -586,19 +572,19 @@ let g:which_key_map['q']={
 			\}
 let g:which_key_map['c']={
 			\'name':'+comment',
-			\'c'   : 'nerdcommenter-comment'   ,
-			\'u'   : 'nerdcommenter-uncomment' ,
+			\'c'       : 'nerdcommenter-comment'   ,
+			\'u'       : 'nerdcommenter-uncomment' ,
 			\'<Space>' : 'nerdcommenter-toggle'    ,
-			\'m'   : 'nerdcommenter-minimal'   ,
-			\'l'   : 'nerdcommenter-alignleft' ,
-			\'b'   : 'nerdcommenter-alignboth' ,
-			\'i'   : 'nerdcommenter-invert'    ,
-			\'y'   : 'nerdcommenter-yank'      ,
-			\'s'   : 'nerdcommenter-sexy'      ,
-			\'A'   : 'nerdcommenter-append'    ,
-			\'$'   : 'nerdcommenter-toeol'     ,
-			\'n'    : 'nerdcommenter-nested'    ,
-			\'a':'nerdcommenter-altdelims',
+			\'m'       : 'nerdcommenter-minimal'   ,
+			\'l'       : 'nerdcommenter-alignleft' ,
+			\'b'       : 'nerdcommenter-alignboth' ,
+			\'i'       : 'nerdcommenter-invert'    ,
+			\'y'       : 'nerdcommenter-yank'      ,
+			\'s'       : 'nerdcommenter-sexy'      ,
+			\'A'       : 'nerdcommenter-append'    ,
+			\'$'       : 'nerdcommenter-toeol'     ,
+			\'n'       : 'nerdcommenter-nested'    ,
+			\'a'       : 'nerdcommenter-altdelims' ,
 			\}
 let g:which_key_map['z']={
 			\'name':'+zeal-search',

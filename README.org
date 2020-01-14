@@ -118,6 +118,10 @@
 | \gd  | 查看尚未提交的文件更新 | :Gdiff         |
 | \ge  | 查看提交的日志         | :Glog          |
 | \gp  | 将提交推送到服务器     | :Gpush         |
+| \ps  | 查看插件状态           | :PlugStatus    |
+| \pu  | 更新所有插件           | :PlugUpdate    |
+| \pi  | 安装所有插件           | :PlugInstall   |
+| \pc  | 清除额外的插件上       | :PlugClean     |
 |      |                        |                |
 #+TBLFM: 
 
