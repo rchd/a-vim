@@ -9,7 +9,7 @@
                           
 * a-vimrc
 
-[[file:screenshot/vim_screenshot.jpg]]
+1[[file:screenshot/vim_screenshot.jpg]]2
 
 
 * 安装方法

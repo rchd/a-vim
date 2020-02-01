@@ -2,7 +2,7 @@
 "::'## ##:::::::::::: ##:::: ##:. ##:: ###::'###: ##.... ##:'##... ##:
 ":'##:. ##::::::::::: ##:::: ##:: ##:: ####'####: ##:::: ##: ##:::..::
 "'##:::. ##:'#######: ##:::: ##:: ##:: ## ### ##: ########:: ##:::::::
-" #########:........:. ##:: ##::: ##:: ##. #: ##: ##.. ##::: ##:::::::
+" #########:........:. ##:: ##::: ##:: ##. #: ##: ##.. ##::: ##::::::: 
 " ##.... ##:::::::::::. ## ##:::: ##:: ##:.:: ##: ##::. ##:: ##::: ##:
 " ##:::: ##::::::::::::. ###::::'####: ##:::: ##: ##:::. ##:. ######::
 "..:::::..::::::::::::::...:::::....::..:::::..::..:::::..:::......:::
@@ -89,6 +89,7 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 if !has('gui_running')
+	"Loading plugin when gvim running  
 	Plug 'ryanoasis/vim-devicons'
 	Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 	Plug 'https://github.com/morhetz/gruvbox.git'
@@ -127,16 +128,21 @@ Plug 'https://github.com/skywind3000/asyncrun.vim.git'
 "git
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
+"Plug 'junegunn/vim-github-dashboard'
 
 "The guide of key
 Plug 'liuchengxu/vim-which-key'
 
 
-Plug 'lvht/phpcd.vim'          , { 'for': 'php'       , 'do': 'composer install' }
 "Plug 'jalvesaq/Nvim-R'         , {'for':'R'}
 "Plug 'sirtaj/vim-openscad'     , {'for':'scad'}
+"Web develop
 Plug 'pangloss/vim-javascript' , {'for':'js'}
-Plug 'mattn/emmet-vim'         , {'for':['html,js']}
+Plug 'ap/vim-css-color',{'for':'css'}
+Plug 'mxw/vim-jsx',{'for':'js'}
+Plug 'lvht/phpcd.vim'          , { 'for': 'php'       , 'do': 'composer install' }
+"Plug 'mattn/emmet-vim'         , {'for':['html,js']}
+
 "Plug 'ivanov/vim-ipython',{'for':'python'}
 "Plug 'klen/python-mode'        , {'for':'python'}
 
@@ -149,7 +155,6 @@ Plug 'whatyouhide/vim-gotham'
 Plug 'vim-utils/vim-man'
 "plug 'cosminadrianpopescu/vim-sql-workbench'
 call plug#end()
-
 
 "}}}
 "#####################################################################
