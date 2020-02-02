@@ -41,6 +41,8 @@ set fileencodings=utf-8,gb18030,gbk,gk2312
 set mouse=a
 set cursorline
 set nowrap
+set tabstop=4
+set shiftwidth=4
 "set paste
 filetype off                               " required
 filetype plugin indent on                  " required
@@ -300,11 +302,11 @@ let g:tagbar_autopreview=1
 "#
 "#####################################################################
 "{{{
-let g:user_emmet_install_global = 1
-autocmd FileType js,html,css EmmetInstall
-"let g:user_emmet_mode='n'    "only enable normal mode functions.
-"let g:user_emmet_mode='inv'  "enable all functions, which is equal to
-let g:user_emmet_mode='a'    "enable all function in all mode.
+"let g:user_emmet_install_global = 1
+"autocmd FileType js,html,css EmmetInstall
+""let g:user_emmet_mode='n'    "only enable normal mode functions.
+""let g:user_emmet_mode='inv'  "enable all functions, which is equal to
+"let g:user_emmet_mode='a'    "enable all function in all mode.
 "}}}
 "#####################################################################
 "#
@@ -618,6 +620,11 @@ augroup strartUpSetting
 	autocmd FileType python set sw=4
 	autocmd FileType python set ts=4
 	autocmd FileType python set sts=4
+	autocmd FileType html   set tabstop=2
+	autocmd FileType js 		set tabstop=2
+	autocmd FileType html 	set shiftwidth=2
+	autocmd FileType js 		set shiftwidth=2
+	
 augroup END
 
 "autocmd VimLeave * NERDTreeClose
