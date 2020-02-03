@@ -96,7 +96,6 @@ if !has('gui_running')
 	Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 	Plug 'https://github.com/morhetz/gruvbox.git'
 	Plug 'edkolev/tmuxline.vim'
-	"Plug 'https://github.com/benmills/vimux.git'
 else
 	Plug 'https://github.com/dracula/vim.git'
 endif
@@ -110,7 +109,6 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree' 
 Plug 'https://github.com/jiangmiao/auto-pairs.git'
 Plug 'w0rp/ale'
-"Plug 'Yggdroot/indentLine'
 Plug 'tpope/vim-surround'
 
 "Userful tool
@@ -145,7 +143,6 @@ Plug 'mxw/vim-jsx',{'for':'js'}
 Plug 'lvht/phpcd.vim'          , { 'for': 'php'       , 'do': 'composer install' }
 "Plug 'mattn/emmet-vim'         , {'for':['html,js']}
 
-"Plug 'ivanov/vim-ipython',{'for':'python'}
 "Plug 'klen/python-mode'        , {'for':'python'}
 
 Plug 'majutsushi/tagbar' , {'on':'TagbarToggle'}
