@@ -43,6 +43,8 @@ set cursorline
 set nowrap
 set tabstop=4
 set shiftwidth=4
+set softtabstop=4
+set expandtab
 "set paste
 filetype off                               " required
 filetype plugin indent on                  " required
@@ -57,21 +59,21 @@ filetype plugin indent on                  " required
 "#####################################################################
 "{{{
 function! StartifyCenter(lines) abort
-	let longest_line=max(map(copy(a:lines),'strwidth(v:val)'))
-	let centered_lines=map(copy(a:lines),
-				\'repeat(" ",(&columns / 2)-(longest_line/2)).v:val')
-	return centered_lines
+    let longest_line=max(map(copy(a:lines),'strwidth(v:val)'))
+    let centered_lines=map(copy(a:lines),
+                \'repeat(" ",(&columns / 2)-(longest_line/2)).v:val')
+    return centered_lines
 endfunction
 
 function! ToggleFullScreen()
-	if g:fullscreen == 1
-		let g:fullscreen = 0
-		let mod = "remove"
-	else
-		let g:fullscreen = 1
-		let mod = "add"
-	endif
-	call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
+    if g:fullscreen == 1
+        let g:fullscreen = 0
+        let mod = "remove"
+    else
+        let g:fullscreen = 1
+        let mod = "add"
+    endif
+    call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
 endfunction
 
 
@@ -91,13 +93,13 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 if !has('gui_running')
-	"Loading plugin when gvim running  
-	Plug 'ryanoasis/vim-devicons'
-	Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-	Plug 'https://github.com/morhetz/gruvbox.git'
-	Plug 'edkolev/tmuxline.vim'
+    "Loading plugin when gvim running  
+    Plug 'ryanoasis/vim-devicons'
+    Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+    Plug 'https://github.com/morhetz/gruvbox.git'
+    Plug 'edkolev/tmuxline.vim'
 else
-	Plug 'https://github.com/dracula/vim.git'
+    Plug 'https://github.com/dracula/vim.git'
 endif
 "The appearness about vim
 Plug 'vim-airline/vim-airline'
@@ -121,6 +123,7 @@ Plug 'godlygeek/tabular'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'fidian/hexmode'
+Plug 'nathanaelkane/vim-indent-guides'
 Plug 'Chiel92/vim-autoformat'
 Plug 'mhinz/vim-startify'
 Plug 'https://github.com/skywind3000/asyncrun.vim.git'
@@ -164,18 +167,18 @@ call plug#end()
 "{{{
 "let g:startify_padding_left=30
 let s:header=[
-			\'        ___           ___                       ___           ___           ___     ',
-			\'       /\  \         /\__\          ___        /\__\         /\  \         /\  \    ',
-			\'      /::\  \       /:/  /         /\  \      /::|  |       /::\  \       /::\  \   ',
-			\'     /:/\:\  \     /:/  /          \:\  \    /:|:|  |      /:/\:\  \     /:/\:\  \  ',
-			\'    /::\~\:\  \   /:/__/  ___      /::\__\  /:/|:|__|__   /::\~\:\  \   /:/  \:\  \ ',
-			\'   /:/\:\ \:\__\  |:|  | /\__\  __/:/\/__/ /:/ |::::\__\ /:/\:\ \:\__\ /:/__/ \:\__\ ',
-			\'   \/__\:\/:/  /  |:|  |/:/  / /\/:/  /    \/__/~~/:/  / \/_|::\/:/  / \:\  \  \/__/',
-			\'        \::/  /   |:|__/:/  /  \::/__/           /:/  /     |:|::/  /   \:\  \      ',
-			\'        /:/  /     \::::/__/    \:\__\          /:/  /      |:|\/__/     \:\  \     ',
-			\'       /:/  /       ~~~~         \/__/         /:/  /       |:|  |        \:\__\    ',
-			\'       \/__/                                   \/__/         \|__|         \/__/    ',
-			\]
+            \'        ___           ___                       ___           ___           ___     ',
+            \'       /\  \         /\__\          ___        /\__\         /\  \         /\  \    ',
+            \'      /::\  \       /:/  /         /\  \      /::|  |       /::\  \       /::\  \   ',
+            \'     /:/\:\  \     /:/  /          \:\  \    /:|:|  |      /:/\:\  \     /:/\:\  \  ',
+            \'    /::\~\:\  \   /:/__/  ___      /::\__\  /:/|:|__|__   /::\~\:\  \   /:/  \:\  \ ',
+            \'   /:/\:\ \:\__\  |:|  | /\__\  __/:/\/__/ /:/ |::::\__\ /:/\:\ \:\__\ /:/__/ \:\__\ ',
+            \'   \/__\:\/:/  /  |:|  |/:/  / /\/:/  /    \/__/~~/:/  / \/_|::\/:/  / \:\  \  \/__/',
+            \'        \::/  /   |:|__/:/  /  \::/__/           /:/  /     |:|::/  /   \:\  \      ',
+            \'        /:/  /     \::::/__/    \:\__\          /:/  /      |:|\/__/     \:\  \     ',
+            \'       /:/  /       ~~~~         \/__/         /:/  /       |:|  |        \:\__\    ',
+            \'       \/__/                                   \/__/         \|__|         \/__/    ',
+            \]
 
 let g:startify_custom_header=s:header
 let g:startify_custom_fotter=StartifyCenter(s:header)
@@ -193,7 +196,7 @@ let g:SuperTabDefaultCompletionType = '<C-n>'
 let g:ycm_error_symbol='>>'
 let g:ycm_warning_symbol='>*'
 let g:ycm_global_ycm_extra_conf="~/.vim/bundle/YouCompleteMe/
-			\third_party/ycmd/.ycm_extra_conf.py"
+            \third_party/ycmd/.ycm_extra_conf.py"
 "}}}
 
 "#####################################################################
@@ -216,7 +219,7 @@ let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 let g:airline#extensions#tabline#enabled=1
 " set the arrow of powerline
 if !has("gui_running")
-	let g:airline_powerline_fonts=1
+    let g:airline_powerline_fonts=1
 endif
 "}}}
 "#####################################################################
@@ -243,11 +246,20 @@ let g:undotree_SplitWidth=30
 "}}}
 "#####################################################################
 "#
-"#  indentLine
+"#  vim-indent-guides
 "#
 "#####################################################################
 "{{{
-let g:indentLine_char='¦'
+let g:indent_guides_enable_on_vim_startup=1
+let g:indent_guides_start_level=2
+let g:indent_guides_guide_size=1
+"let g:indent_guides_auto_colors = 0
+let g:indent_guides_exclude_filetypes=['help','tagbar','nerdtree']
+let g:indent_guides_default_mapping=0
+let g:indent_guides_space_guides=1
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=37
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=36
+"let g:indent_guides_color_change_percent = 1
 "}}}
 "#####################################################################
 "#
@@ -255,8 +267,8 @@ let g:indentLine_char='¦'
 "#
 "#####################################################################
 if executable("ag")
-"set grepprg=ag\ --nogroup\ --nocolor
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    "set grepprg=ag\ --nogroup\ --nocolor
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
 
@@ -269,8 +281,8 @@ endif
 let g:ctrlsf_ackprg='ag'
 
 if executable("ag")
-	"set grepprg=ag\ --nogroup\ --nocolor
-	let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    "set grepprg=ag\ --nogroup\ --nocolor
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
 
@@ -328,9 +340,9 @@ noremap <Leader>ev :e ~/a-vim/init.vim<cr>
 noremap <Leader>sv :source ~/a-vim/init.vim<cr>
 
 "noremap <space>sg :silent execute "grep! -r" . 
-			"\shellescape(expand("<cword>")) . " ."<cr>:copen<cr>
+"\shellescape(expand("<cword>")) . " ."<cr>:copen<cr>
 noremap <space>sm :silent execute "Man " . 
-			\shellescape(expand("<cword>")) . " ."<cr>
+            \shellescape(expand("<cword>")) . " ."<cr>
 " operatoring about quickfix
 noremap <leader>qn :cn<cr>
 noremap <Leader>qp :cp<cr>
@@ -401,28 +413,28 @@ noremap <Leader>sb  :AsyncRun firefox -search  <cword><CR>
 "colorscheme onedark
 let g:ctrlp_show_hidden = 1
 if has("gui_running")
-	":set background  = light
-	:colorscheme dracula
-	:set background=dark
-	":set guioptions -= r
-	":set guioptions -= L "remove the scroll bar
-	":set guioptions -= m "remove the menu bar
-	":set guioptions -= T "remove the tab bar
-	:set guioptions="";
-	:set guifont     =Monospace\ Bold\ 12
-	let g:tagbar_iconchars = ['▸', '▾']
-	"let g:tagar_previewwin_pos="rightbelow"
-	let g:fullscreen = 0
+    ":set background  = light
+    :colorscheme dracula
+    :set background=dark
+    ":set guioptions -= r
+    ":set guioptions -= L "remove the scroll bar
+    ":set guioptions -= m "remove the menu bar
+    ":set guioptions -= T "remove the tab bar
+    :set guioptions="";
+    :set guifont     =Monospace\ Bold\ 12
+    let g:tagbar_iconchars = ['▸', '▾']
+    "let g:tagar_previewwin_pos="rightbelow"
+    let g:fullscreen = 0
 
-	map <silent> <F11> :call ToggleFullScreen()<CR>
+    map <silent> <F11> :call ToggleFullScreen()<CR>
 else
-	highlight CursorLine   cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
-	"highlight CursorColumn cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
-	colorscheme gruvbox
-	set background=dark
-	let g:NERDTreeDirArrowExpandable='|+'
-	let g:NERDTreeDirArrowCollapsible='|-'
-	"AirlineTheme aurora
+    highlight CursorLine   cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
+    "highlight CursorColumn cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
+    colorscheme gruvbox
+    set background=dark
+    let g:NERDTreeDirArrowExpandable='|+'
+    let g:NERDTreeDirArrowCollapsible='|-'
+    "AirlineTheme aurora
 
 
 endif
@@ -487,114 +499,114 @@ set timeoutlen=500
 
 let g:which_key_map={}
 let g:which_key_map['w'] = {
-			\ 'name' : '+windows' ,
-			\ 'w'    : ['<C-W>w'     , 'other-window']          ,
-			\ 'd'    : ['<C-W>c'     , 'delete-window']         ,
-			\ '-'    : ['<C-W>s'     , 'split-window-below']    ,
-			\ '|'    : ['<C-W>v'     , 'split-window-right']    ,
-			\ '2'    : ['<C-W>v'     , 'layout-double-columns'] ,
-			\ 'h'    : ['<C-W>h'     , 'window-left']           ,
-			\ 'j'    : ['<C-W>j'     , 'window-below']          ,
-			\ 'l'    : ['<C-W>l'     , 'window-right']          ,
-			\ 'k'    : ['<C-W>k'     , 'window-up']             ,
-			\ 'H'    : ['<C-W>5<'    , 'expand-window-left']    ,
-			\ 'J'    : ['resize +5'  , 'expand-window-below']   ,
-			\ 'L'    : ['<C-W>5>'    , 'expand-window-right']   ,
-			\ 'K'    : ['resize -5'  , 'expand-window-up']      ,
-			\ '='    : ['<C-W>='     , 'balance-window']        ,
-			\ 's'    : ['<C-W>s'     , 'split-window-below']    ,
-			\ 'v'    : ['<C-W>v'     , 'split-window-below']    ,
-			\ '?'    : ['Windows'    , 'fzf-window']            ,
-			\ }
+            \ 'name' : '+windows' ,
+            \ 'w'    : ['<C-W>w'     , 'other-window']          ,
+            \ 'd'    : ['<C-W>c'     , 'delete-window']         ,
+            \ '-'    : ['<C-W>s'     , 'split-window-below']    ,
+            \ '|'    : ['<C-W>v'     , 'split-window-right']    ,
+            \ '2'    : ['<C-W>v'     , 'layout-double-columns'] ,
+            \ 'h'    : ['<C-W>h'     , 'window-left']           ,
+            \ 'j'    : ['<C-W>j'     , 'window-below']          ,
+            \ 'l'    : ['<C-W>l'     , 'window-right']          ,
+            \ 'k'    : ['<C-W>k'     , 'window-up']             ,
+            \ 'H'    : ['<C-W>5<'    , 'expand-window-left']    ,
+            \ 'J'    : ['resize +5'  , 'expand-window-below']   ,
+            \ 'L'    : ['<C-W>5>'    , 'expand-window-right']   ,
+            \ 'K'    : ['resize -5'  , 'expand-window-up']      ,
+            \ '='    : ['<C-W>='     , 'balance-window']        ,
+            \ 's'    : ['<C-W>s'     , 'split-window-below']    ,
+            \ 'v'    : ['<C-W>v'     , 'split-window-below']    ,
+            \ '?'    : ['Windows'    , 'fzf-window']            ,
+            \ }
 let g:which_key_map['b']={
-			\'name' : '+buffer',
-			\'n' : ['bnext'     , 'next-buffer']     ,
-			\'p' : ['bprevious' , 'previous-buffer'] ,
-			\'d' : ['bdelete'   , 'delete-buffer']   ,
-			\'s' : ['Buffers'   , 'switch-buffer']   ,
-			\}
+            \'name' : '+buffer',
+            \'n' : ['bnext'     , 'next-buffer']     ,
+            \'p' : ['bprevious' , 'previous-buffer'] ,
+            \'d' : ['bdelete'   , 'delete-buffer']   ,
+            \'s' : ['Buffers'   , 'switch-buffer']   ,
+            \}
 let g:which_key_map['p']={
-			\'name':'+plugin',
-			\'s':['PlugStatus'  , 'plug-status' ]  ,
-			\'i':['PlugInstall' , 'plug-install' ] ,
-			\'u':['PlugUpdate'  , 'plug-update' ]  ,
-			\'c':['PlugClean'   , 'plug-clean']    ,
-			\}
+            \'name':'+plugin',
+            \'s':['PlugStatus'  , 'plug-status' ]  ,
+            \'i':['PlugInstall' , 'plug-install' ] ,
+            \'u':['PlugUpdate'  , 'plug-update' ]  ,
+            \'c':['PlugClean'   , 'plug-clean']    ,
+            \}
 let g:which_key_map['m']={
-			\'name':'+mark',
-			\'s':'bookmark-show'   ,
-			\'n':'bookmark-next'   ,
-			\'p':'bookmark-prev'   ,
-			\'i':'bookmark-insert' ,
-			\'t':'bookmark-toggle' ,
-			\'c':'bookmark-clear'  ,
-			\}
+            \'name':'+mark',
+            \'s':'bookmark-show'   ,
+            \'n':'bookmark-next'   ,
+            \'p':'bookmark-prev'   ,
+            \'i':'bookmark-insert' ,
+            \'t':'bookmark-toggle' ,
+            \'c':'bookmark-clear'  ,
+            \}
 let g:which_key_map['e']={
-			\'name':'+jump/vimrc',
-			\}
+            \'name':'+jump/vimrc',
+            \}
 let g:which_key_map['s']={
-			\'name':'+search/session',
-			\'l' : ['SLoad'        , 'load-session'] ,
-			\'s' : ['SSave'        , 'save-session'] ,
-			\'f' : ['FZF'          , 'file-search']  ,
-			\'b' : 'broswer-search',
-			\'m' : 'man-search'    ,
-			\'t' : 'ctrlsf-toogle' ,
-			\'n' : 'ctrlsf-search' ,
-			\}
+            \'name':'+search/session',
+            \'l' : ['SLoad'        , 'load-session'] ,
+            \'s' : ['SSave'        , 'save-session'] ,
+            \'f' : ['FZF'          , 'file-search']  ,
+            \'b' : 'broswer-search',
+            \'m' : 'man-search'    ,
+            \'t' : 'ctrlsf-toogle' ,
+            \'n' : 'ctrlsf-search' ,
+            \}
 let g:which_key_map['g']={
-			\ 'name'  : '+git/version-control' ,
-			\ 'b'     : ['Gblame'     , 'fugitive-blame']             ,
-			\ 'c'     : ['BCommits'   , 'commits-for-current-buffer'] ,
-			\ 'C'     : ['Gcommit'    , 'fugitive-commit']            ,
-			\ 'd'     : ['Gdiff'      , 'fugitive-diff']              ,
-			\ 'e'     : ['Gedit'      , 'fugitive-edit']              ,
-			\ 'l'     : ['Glog'       , 'fugitive-log']               ,
-			\ 'r'     : ['Gread'      , 'fugitive-read']              ,
-			\ 's'     : ['Gstatus'    , 'fugitive-status']            ,
-			\ 'w'     : ['Gwrite'     , 'fugitive-write']             ,
-			\ 'p'     : ['Git push'   , 'fugitive-push']              ,
-			\ 'y'     : ['Goyo'       , 'goyo-mode']                  ,
-			\}
+            \ 'name'  : '+git/version-control' ,
+            \ 'b'     : ['Gblame'     , 'fugitive-blame']             ,
+            \ 'c'     : ['BCommits'   , 'commits-for-current-buffer'] ,
+            \ 'C'     : ['Gcommit'    , 'fugitive-commit']            ,
+            \ 'd'     : ['Gdiff'      , 'fugitive-diff']              ,
+            \ 'e'     : ['Gedit'      , 'fugitive-edit']              ,
+            \ 'l'     : ['Glog'       , 'fugitive-log']               ,
+            \ 'r'     : ['Gread'      , 'fugitive-read']              ,
+            \ 's'     : ['Gstatus'    , 'fugitive-status']            ,
+            \ 'w'     : ['Gwrite'     , 'fugitive-write']             ,
+            \ 'p'     : ['Git push'   , 'fugitive-push']              ,
+            \ 'y'     : ['Goyo'       , 'goyo-mode']                  ,
+            \}
 let g:which_key_map['t']={
-			\'name' : '+tool-window'    ,
-			\'n'    : 'NERDTree-window' ,
-			\'t'    : 'Tagbar-window'   ,
-			\'u'    : 'UndoTree-window' ,
-			\}
+            \'name' : '+tool-window'    ,
+            \'n'    : 'NERDTree-window' ,
+            \'t'    : 'Tagbar-window'   ,
+            \'u'    : 'UndoTree-window' ,
+            \}
 let g:which_key_map['a']={
-			\'name' : '+align',
-			\','    : 'tabularize-align',
-			\'='    : 'tabularize-align',
-			\':'    : 'tabularize-align',
-			\}
+            \'name' : '+align',
+            \','    : 'tabularize-align',
+            \'='    : 'tabularize-align',
+            \':'    : 'tabularize-align',
+            \}
 let g:which_key_map['q']={
-			\'name':'+quickfix',
-			\'o':'quickfix-open'  ,
-			\'n':'next-error'     ,
-			\'p':'previous-error' ,
-			\}
+            \'name':'+quickfix',
+            \'o':'quickfix-open'  ,
+            \'n':'next-error'     ,
+            \'p':'previous-error' ,
+            \}
 let g:which_key_map['c']={
-			\'name':'+comment',
-			\'c'       : 'nerdcommenter-comment'   ,
-			\'u'       : 'nerdcommenter-uncomment' ,
-			\'<Space>' : 'nerdcommenter-toggle'    ,
-			\'m'       : 'nerdcommenter-minimal'   ,
-			\'l'       : 'nerdcommenter-alignleft' ,
-			\'b'       : 'nerdcommenter-alignboth' ,
-			\'i'       : 'nerdcommenter-invert'    ,
-			\'y'       : 'nerdcommenter-yank'      ,
-			\'s'       : 'nerdcommenter-sexy'      ,
-			\'A'       : 'nerdcommenter-append'    ,
-			\'$'       : 'nerdcommenter-toeol'     ,
-			\'n'       : 'nerdcommenter-nested'    ,
-			\'a'       : 'nerdcommenter-altdelims' ,
-			\}
+            \'name':'+comment',
+            \'c'       : 'nerdcommenter-comment'   ,
+            \'u'       : 'nerdcommenter-uncomment' ,
+            \'<Space>' : 'nerdcommenter-toggle'    ,
+            \'m'       : 'nerdcommenter-minimal'   ,
+            \'l'       : 'nerdcommenter-alignleft' ,
+            \'b'       : 'nerdcommenter-alignboth' ,
+            \'i'       : 'nerdcommenter-invert'    ,
+            \'y'       : 'nerdcommenter-yank'      ,
+            \'s'       : 'nerdcommenter-sexy'      ,
+            \'A'       : 'nerdcommenter-append'    ,
+            \'$'       : 'nerdcommenter-toeol'     ,
+            \'n'       : 'nerdcommenter-nested'    ,
+            \'a'       : 'nerdcommenter-altdelims' ,
+            \}
 let g:which_key_map['z']={
-			\'name':'+zeal-search',
-			\'s':'zeal-search',
-			\'k':'zeal-cursor',
-			\}
+            \'name':'+zeal-search',
+            \'s':'zeal-search',
+            \'k':'zeal-cursor',
+            \}
 let g:which_key_map.d = 'which_key_ignore'
 call which_key#register('<Space>', "g:which_key_map")
 
@@ -608,20 +620,20 @@ vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<CR>
 "#####################################################################
 "{{{
 augroup strartUpSetting
-	autocmd vimenter *
-				\ if !argc()
-				\ | Startify
-				\ | NERDTree
-				\ | endif
-	"autocmd vimenter * Tagbar
-	autocmd FileType python set sw=4
-	autocmd FileType python set ts=4
-	autocmd FileType python set sts=4
-	autocmd FileType html   set tabstop=2
-	autocmd FileType js 		set tabstop=2
-	autocmd FileType html 	set shiftwidth=2
-	autocmd FileType js 		set shiftwidth=2
-	
+    autocmd vimenter *
+                \ if !argc()
+                \ | Startify
+                \ | NERDTree
+                \ | endif
+    "autocmd vimenter * Tagbar
+    autocmd FileType python set sw=4
+    autocmd FileType python set ts=4
+    autocmd FileType python set sts=4
+    autocmd FileType html   set tabstop=2
+    autocmd FileType js 		set tabstop=2
+    autocmd FileType html 	set shiftwidth=2
+    autocmd FileType js 		set shiftwidth=2
+
 augroup END
 
 "autocmd VimLeave * NERDTreeClose
