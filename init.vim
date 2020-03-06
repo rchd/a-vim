@@ -27,7 +27,7 @@ set autoindent
 set ruler
 set relativenumber
 set number
-set hlsearch
+"set hlsearch
 set showcmd
 set foldmethod=marker
 set hidden                                 " Allw buffer switching saving
@@ -164,6 +164,7 @@ Plug 'fidian/hexmode'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'Chiel92/vim-autoformat'
 Plug 'mhinz/vim-startify'
+Plug 'haya14busa/incsearch.vim'
 Plug 'https://github.com/skywind3000/asyncrun.vim.git'
 
 "git
@@ -260,6 +261,18 @@ let g:ycm_warning_symbol='>*'
 let g:ycm_global_ycm_extra_conf="~/.vim/bundle/YouCompleteMe/
             \third_party/ycmd/.ycm_extra_conf.py"
 "}}}
+
+"#####################################################################
+"#
+"# fzf 
+"#
+"#####################################################################
+
+    let g:fzf_action = {
+      \ 'ctrl-t': 'tab split',
+      \ 'ctrl-s': 'split',
+      \ 'ctrl-v': 'vsplit' }
+
 
 "#####################################################################
 "#
@@ -424,8 +437,8 @@ noremap <Leader>tn :NERDTreeToggle<cr>
 noremap <Leader>tt :TagbarToggle<cr>
 "ColorV
 noremap <Leader>tc :ColorV<cr>
-" map / <Plug>(incsearch-forward)
-" map ? <Plug>(incsearch-backward)
+ map / <Plug>(incsearch-forward)
+ map ? <Plug>(incsearch-backward)
 
 
 "YouCompleteMe
