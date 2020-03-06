@@ -35,7 +35,7 @@ set showmode                               " Display current mode
 set splitright                             " Puts new vsplit windows to the right of the current
 set splitbelow                             " Puts new split windows to the bottom of the current
 set fileformat=unix
-set encoding=UTF-8
+set encoding=utf-8
 set nobackup
 set fileencodings=utf-8,gb18030,gbk,gk2312
 set mouse=a
@@ -45,11 +45,13 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
+set mouseshape=s:udsizing,m:no
 "set paste
 filetype off                               " required
 filetype plugin indent on                  " required
 "set spell
-
+set cscopequickfix=s-,c-,d-,i-,t-,e-
+set dictionary=/usr/share/dict/words
 "}}}
 
 "#####################################################################
@@ -77,6 +79,38 @@ function! ToggleFullScreen()
 endfunction
 
 
+function! MyTabLine()
+    let s = ''
+    for i in range(tabpagenr('$'))
+        " select the highlighting
+        if i + 1 == tabpagenr()
+            let s .= '%#TabLineSel#'
+        else
+            let s .= '%#TabLine#'
+        endif
+        " set the tab page number (for mouse clicks)
+        let s .= '%' . (i + 1) . 'T'
+        " the label is made by MyTabLabel()
+        let s .= ' %{MyTabLabel(' . (i + 1) . ')} '
+    endfor
+    " after the last tab fill with TabLineFill and reset tab page nr
+    let s .= '%#TabLineFill#%T'
+    " right-align the label to close the current tab page
+    if tabpagenr('$') > 1
+        let s .= '%=%#TabLine#%999Xclose'
+    endif
+    return s
+endfunction
+
+function MyTabLabel(n)
+    let buflist = tabpagebuflist(a:n)
+    let winnr = tabpagewinnr(a:n)
+    return bufname(buflist[winnr - 1])
+endfunction
+
+"set tabline=%!MyTabLine()
+
+
 "}}}
 "#####################################################################
 "#
@@ -87,7 +121,7 @@ endfunction
 call plug#begin('~/.vim/bundle')
 
 "Auto Complete
-Plug 'Valloric/YouCompleteMe',
+Plug 'Valloric/YouCompleteMe'
 Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -109,9 +143,13 @@ Plug 'joshdick/onedark.vim'
 Plug 'https://github.com/altercation/solarized.git'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree' 
+Plug 'jistr/vim-nerdtree-tabs'
 Plug 'https://github.com/jiangmiao/auto-pairs.git'
 Plug 'w0rp/ale'
 Plug 'tpope/vim-surround'
+
+
+"Plug 'https://github.com/ivanov/vim-ipython.git'
 
 "Userful tool
 Plug 'dyng/ctrlsf.vim'
@@ -136,14 +174,26 @@ Plug 'junegunn/gv.vim'
 "The guide of key
 Plug 'liuchengxu/vim-which-key'
 
+"if has('nvim')
+    "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"else
+    "Plug 'Shougo/deoplete.nvim',{'for':'java'}
+    "Plug 'roxma/nvim-yarp',{'for':'java'}
+    "Plug 'roxma/vim-hug-neovim-rpc',{'for':'java'}
+    ""Plug 'zchee/deoplete-jedi',{'for':'java'}
+"endif
+"let g:deoplete#enable_at_startup = 1
+
 
 "Plug 'jalvesaq/Nvim-R'         , {'for':'R'}
 "Plug 'sirtaj/vim-openscad'     , {'for':'scad'}
 "Web develop
 Plug 'pangloss/vim-javascript' , {'for':'js'}
-Plug 'ap/vim-css-color',{'for':'css'}
-Plug 'mxw/vim-jsx',{'for':'js'}
-Plug 'lvht/phpcd.vim'          , { 'for': 'php'       , 'do': 'composer install' }
+Plug 'ap/vim-css-color'        , {'for':'css'}
+Plug 'mxw/vim-jsx'             , {'for':'js'}
+Plug 'lvht/phpcd.vim'          , { 'for': 'php'   , 'do': 'composer install' }
+Plug 'jupyter-vim/jupyter-vim' , {'for':'python'}
+"Plug 'artur-shaik/vim-javacomplete2',{'for':'java'}
 "Plug 'mattn/emmet-vim'         , {'for':['html,js']}
 
 "Plug 'klen/python-mode'        , {'for':'python'}
@@ -151,12 +201,22 @@ Plug 'lvht/phpcd.vim'          , { 'for': 'php'       , 'do': 'composer install'
 Plug 'majutsushi/tagbar' , {'on':'TagbarToggle'}
 Plug 'mbbill/undotree'   , {'on':'UndotreeToggle'}
 Plug 'gu-fan/colorv.vim' , {'on':'ColorV'}
+Plug 'https://github.com/vim-scripts/fcitx.vim.git'
 
 Plug 'junegunn/goyo.vim'
 Plug 'whatyouhide/vim-gotham'
 Plug 'vim-utils/vim-man'
+
+Plug 'tmhedberg/matchit',{'for':'sql'}
+Plug 'vim-scripts/dbext.vim',{'for':'sql'}
+
+
 "plug 'cosminadrianpopescu/vim-sql-workbench'
 call plug#end()
+
+
+let g:JavaComplete_EnableDefaultMappings=0
+
 
 "}}}
 "#####################################################################
@@ -166,6 +226,8 @@ call plug#end()
 "#####################################################################
 "{{{
 "let g:startify_padding_left=30
+
+
 let s:header=[
             \'        ___           ___                       ___           ___           ___     ',
             \'       /\  \         /\__\          ___        /\__\         /\  \         /\  \    ',
@@ -254,7 +316,7 @@ let g:indent_guides_enable_on_vim_startup=1
 let g:indent_guides_start_level=2
 let g:indent_guides_guide_size=1
 "let g:indent_guides_auto_colors = 0
-let g:indent_guides_exclude_filetypes=['help','tagbar','nerdtree']
+let g:indent_guides_exclude_filetypes=['help','tagbar','nerdtree','startify']
 let g:indent_guides_default_mapping=0
 let g:indent_guides_space_guides=1
 "autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=37
@@ -336,14 +398,19 @@ noremap <Leader>bn :bnext<cr>
 noremap <Leader>bp :bprevious<cr>
 noremap <Leader>bd :bdelete<cr>
 "edit .vimrc qucick
-noremap <Leader>ev :e ~/a-vim/init.vim<cr>
+noremap <Leader>ev :tabe ~/a-vim/init.vim<cr>
 noremap <Leader>sv :source ~/a-vim/init.vim<cr>
+
 
 "noremap <space>sg :silent execute "grep! -r" . 
 "\shellescape(expand("<cword>")) . " ."<cr>:copen<cr>
 noremap <space>sm :silent execute "Man " . 
             \shellescape(expand("<cword>")) . " ."<cr>
+
+"noremap <space>of :silent execute "cs find s" . 
+            "\shellescape(expand("<cword>")) . " ."<cr>
 " operatoring about quickfix
+
 noremap <leader>qn :cn<cr>
 noremap <Leader>qp :cp<cr>
 noremap <Leader>qo :copen<cr>
@@ -399,6 +466,13 @@ nnoremap <Leader>st :CtrlSFToggle<CR>
 inoremap <Leader>st <Esc>:CtrlSFToggle<CR>
 
 
+nnoremap <Leader>os :cs find s <cword><cr>
+nnoremap <Leader>og :cs find g <cword><cr>
+nnoremap <Leader>oc :cs find c <cword><cr>
+nnoremap <Leader>od :cs find d <cword><cr>
+
+
+
 "Asyncrun
 noremap <Leader>sb  :AsyncRun firefox -search  <cword><CR>
 
@@ -421,11 +495,10 @@ if has("gui_running")
     ":set guioptions -= m "remove the menu bar
     ":set guioptions -= T "remove the tab bar
     :set guioptions="";
-    :set guifont     =Monospace\ Bold\ 12
+    :set guifont     =Ubuntu\ Mono\ Bold\ Italic\ 14
     let g:tagbar_iconchars = ['▸', '▾']
     "let g:tagar_previewwin_pos="rightbelow"
     let g:fullscreen = 0
-
     map <silent> <F11> :call ToggleFullScreen()<CR>
 else
     highlight CursorLine   cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
@@ -437,7 +510,19 @@ else
     "AirlineTheme aurora
 
 
+
 endif
+
+	"if has("gui_running")
+		"if has("gui_gtk2")
+		":set guifont=Luxi\ Mono\ 12
+		"elseif has("x11")
+		"" Also for GTK 1
+		":set guifont=*-lucidatypewriter-medium-r-normal-*-*-180-*-*-m-*-*
+		"elseif has("gui_win32")
+		":set guifont=Luxi_Mono:h12:cANSI
+		"endif
+	"endif
 "}}}
 "#####################################################################
 "#
@@ -477,7 +562,8 @@ let g:goyo_width=160
 "#  vim-bookmarks
 "#
 "#####################################################################
-nmap <Leader>mt <Plug>BookmarkToggle"{{{
+"{{{
+nmap <Leader>mt <Plug>BookmarkToggle
 nmap <Leader>mi <Plug>BookmarkAnnotate
 nmap <Leader>ms <Plug>BookmarkShowAll
 nmap <Leader>mn <Plug>BookmarkNext
@@ -607,6 +693,11 @@ let g:which_key_map['z']={
             \'s':'zeal-search',
             \'k':'zeal-cursor',
             \}
+let g:which_key_map['o']={
+            \'name':'+cscope',
+            \'s':'cscope-symbol',
+            \'g':'cscope-definition',
+            \}
 let g:which_key_map.d = 'which_key_ignore'
 call which_key#register('<Space>', "g:which_key_map")
 
@@ -636,7 +727,9 @@ augroup strartUpSetting
 
 augroup END
 
-"autocmd VimLeave * NERDTreeClose
+autocmd VimLeave * NERDTreeClose
+
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
 
 autocmd! FileType which_key
 "autocmd  FileType which_key set laststatus=0 noshowmode noruler
