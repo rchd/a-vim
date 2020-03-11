@@ -54,6 +54,9 @@ set cscopequickfix=s-,c-,d-,i-,t-,e-
 set dictionary=/usr/share/dict/words
 "}}}
 
+tnoremap <Esc> <C-W>N
+tnoremap <C-[> <C-W>N
+
 "#####################################################################
 "#
 "# common function
@@ -78,7 +81,93 @@ function! ToggleFullScreen()
     call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
 endfunction
 
+"maxinze
+if exists("g:vimlayoutloaded")
+    finish
+else
+    let g:vimlayoutloaded=1
+endif
 
+function! HeightToSize(height)
+    let currwinno=winnr()
+    if winheight(currwinno)>a:height
+        while winheight(currwinno)<a:height
+            execute "normal \<c-w>+"
+        endwhile
+    elseif winheight(currwinno)<a:height
+        while winheight(currwinno)<a:height
+            execute "normal \<c-w>+"
+        endwhile
+    endif
+endfunction
+
+function! WidthToSize(width)
+    let currwinno=winnr()
+    if winwidth(currwinno)>a:width
+        while winwidth(currwinno)>a:width
+            execute "normal \<c-w><"
+        endwhile
+    elseif winwidth(currwinno)<a:width
+        while winwidth(currwinno)<a:width
+            execute "normal \<c-w>>"
+        endwhile
+    endif
+endfunction
+
+function! TweakWinSize(orgisize)
+    call HeightToSize(a:orgisize[0])
+    call WidthToSize(a:orgisize[1])
+endfunction
+
+function! RestoreWinLayout()
+    if exists("g:layout")
+        let winno=1
+        let orgiwinno=winnr()
+        for win in g:layout
+            execute "normal \<c-w>w"
+            let currwinno=winnr()
+            if currwinno!=1 && currwinno!=orgiwinno
+                call TweakWinSize(g:layout[currwinno-1])
+            endif
+        endfor
+        unlet g:layout
+    endif
+endfunction
+
+function! SaveWinLayout()
+    let wnumber=winnr("$")
+    let winlist=range(wnumber)
+    let winno=0
+    let layout=[]
+    for index in winlist
+        let winno+=1
+        let wininfo=[winheight(winno),winwidth(winno)]
+        call add(layout,wininfo)
+    endfor
+    let g:layout=layout
+endfunction
+
+function! ToggleMaxWin()
+    if exists("g:layout")
+        if winnr("$")==len(g:layout)
+            call RestoreWinLayout()
+        else
+            call SaveWinLayout()
+            execute "normal 200\<c-w>>"
+            execute "normal \<c-w>_"
+            call RestoreWinLayout()
+        endif
+    else
+        call SaveWinLayout()
+        execute "normal 200\<c-w>>"
+        execute "normal \<c-w>_"
+    endif
+endfunction
+            
+
+
+
+"Tabline
 function! MyTabLine()
     let s = ''
     for i in range(tabpagenr('$'))
@@ -102,7 +191,7 @@ function! MyTabLine()
     return s
 endfunction
 
-function MyTabLabel(n)
+function! MyTabLabel(n)
     let buflist = tabpagebuflist(a:n)
     let winnr = tabpagewinnr(a:n)
     return bufname(buflist[winnr - 1])
@@ -176,12 +265,12 @@ Plug 'junegunn/gv.vim'
 Plug 'liuchengxu/vim-which-key'
 
 "if has('nvim')
-    "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 "else
-    "Plug 'Shougo/deoplete.nvim',{'for':'java'}
-    "Plug 'roxma/nvim-yarp',{'for':'java'}
-    "Plug 'roxma/vim-hug-neovim-rpc',{'for':'java'}
-    ""Plug 'zchee/deoplete-jedi',{'for':'java'}
+"Plug 'Shougo/deoplete.nvim',{'for':'java'}
+"Plug 'roxma/nvim-yarp',{'for':'java'}
+"Plug 'roxma/vim-hug-neovim-rpc',{'for':'java'}
+""Plug 'zchee/deoplete-jedi',{'for':'java'}
 "endif
 "let g:deoplete#enable_at_startup = 1
 
@@ -206,17 +295,23 @@ Plug 'https://github.com/vim-scripts/fcitx.vim.git'
 
 Plug 'junegunn/goyo.vim'
 Plug 'whatyouhide/vim-gotham'
-Plug 'vim-utils/vim-man'
+"Plug 'vim-utils/vim-man'
 
+"sql
 Plug 'tmhedberg/matchit',{'for':'sql'}
 Plug 'vim-scripts/dbext.vim',{'for':'sql'}
+
+"ansible
+Plug 'pearofducks/ansible-vim'
+
 
 
 "plug 'cosminadrianpopescu/vim-sql-workbench'
 call plug#end()
 
+runtime! ftplugin/man.vim
 
-let g:JavaComplete_EnableDefaultMappings=0
+"let g:JavaComplete_EnableDefaultMappings=0
 
 
 "}}}
@@ -268,10 +363,15 @@ let g:ycm_global_ycm_extra_conf="~/.vim/bundle/YouCompleteMe/
 "#
 "#####################################################################
 
-    let g:fzf_action = {
-      \ 'ctrl-t': 'tab split',
-      \ 'ctrl-s': 'split',
-      \ 'ctrl-v': 'vsplit' }
+let g:fzf_action = {
+            \ 'ctrl-t': 'tab split',
+            \ 'ctrl-s': 'split',
+            \ 'ctrl-v': 'vsplit' }
+"function! s:build_quickfix_list(lines)
+"call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+"copen
+"cc
+"endfunction
 
 
 "#####################################################################
@@ -378,7 +478,7 @@ endif
 "tagabr{{{
 let g:tagbar_left=1
 let g:tagbar_width=25
-let g:tagbar_autopreview=1
+"let g:tagbar_autopreview=1
 "}}}
 "#####################################################################
 "#
@@ -417,11 +517,12 @@ noremap <Leader>sv :source ~/a-vim/init.vim<cr>
 
 "noremap <space>sg :silent execute "grep! -r" . 
 "\shellescape(expand("<cword>")) . " ."<cr>:copen<cr>
-noremap <space>sm :silent execute "Man " . 
-            \shellescape(expand("<cword>")) . " ."<cr>
+"
+"noremap <space>sm :silent execute "Man " . 
+            "\shellescape(expand("<cword>")) . " ."<cr>
 
 "noremap <space>of :silent execute "cs find s" . 
-            "\shellescape(expand("<cword>")) . " ."<cr>
+"\shellescape(expand("<cword>")) . " ."<cr>
 " operatoring about quickfix
 
 noremap <leader>qn :cn<cr>
@@ -437,8 +538,8 @@ noremap <Leader>tn :NERDTreeToggle<cr>
 noremap <Leader>tt :TagbarToggle<cr>
 "ColorV
 noremap <Leader>tc :ColorV<cr>
- map / <Plug>(incsearch-forward)
- map ? <Plug>(incsearch-backward)
+map / <Plug>(incsearch-forward)
+map ? <Plug>(incsearch-backward)
 
 
 "YouCompleteMe
@@ -526,16 +627,16 @@ else
 
 endif
 
-	"if has("gui_running")
-		"if has("gui_gtk2")
-		":set guifont=Luxi\ Mono\ 12
-		"elseif has("x11")
-		"" Also for GTK 1
-		":set guifont=*-lucidatypewriter-medium-r-normal-*-*-180-*-*-m-*-*
-		"elseif has("gui_win32")
-		":set guifont=Luxi_Mono:h12:cANSI
-		"endif
-	"endif
+"if has("gui_running")
+"if has("gui_gtk2")
+":set guifont=Luxi\ Mono\ 12
+"elseif has("x11")
+"" Also for GTK 1
+":set guifont=*-lucidatypewriter-medium-r-normal-*-*-180-*-*-m-*-*
+"elseif has("gui_win32")
+":set guifont=Luxi_Mono:h12:cANSI
+"endif
+"endif
 "}}}
 "#####################################################################
 "#
@@ -643,13 +744,13 @@ let g:which_key_map['m']={
 let g:which_key_map['e']={
             \'name':'+jump/vimrc',
             \}
+            "\'m' : 'man-search'    ,
 let g:which_key_map['s']={
             \'name':'+search/session',
             \'l' : ['SLoad'        , 'load-session'] ,
             \'s' : ['SSave'        , 'save-session'] ,
             \'f' : ['FZF'          , 'file-search']  ,
             \'b' : 'broswer-search',
-            \'m' : 'man-search'    ,
             \'t' : 'ctrlsf-toogle' ,
             \'n' : 'ctrlsf-search' ,
             \}
@@ -727,7 +828,7 @@ augroup strartUpSetting
     autocmd vimenter *
                 \ if !argc()
                 \ | Startify
-                \ | NERDTree
+    "\ | NERDTree
                 \ | endif
     "autocmd vimenter * Tagbar
     autocmd FileType python set sw=4
@@ -742,7 +843,7 @@ augroup END
 
 autocmd VimLeave * NERDTreeClose
 
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
+"autocmd FileType java setlocal omnifunc=javacomplete#Complete
 
 autocmd! FileType which_key
 "autocmd  FileType which_key set laststatus=0 noshowmode noruler
