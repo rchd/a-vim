@@ -53,7 +53,9 @@ filetype plugin indent on                  " required
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 set dictionary=/usr/share/dict/words
 "}}}
-
+if has('nvim')
+    set viminfo='100,n$HOME/.vim/files/info/viminfo
+endif
 tnoremap <Esc> <C-W>N
 tnoremap <C-[> <C-W>N
 
@@ -81,18 +83,18 @@ function! ToggleFullScreen()
     call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
 endfunction
 
-"maxinze
-if exists("g:vimlayoutloaded")
-    finish
-else
-    let g:vimlayoutloaded=1
-endif
+"maximize current windows and restore layout
+"if exists("g:vimlayoutloaded")
+"finish
+"else
+"let g:vimlayoutloaded=1
+"endif
 
 function! HeightToSize(height)
     let currwinno=winnr()
     if winheight(currwinno)>a:height
-        while winheight(currwinno)<a:height
-            execute "normal \<c-w>+"
+        while winheight(currwinno)>a:height
+            execute "normal \<c-w>-"
         endwhile
     elseif winheight(currwinno)<a:height
         while winheight(currwinno)<a:height
@@ -126,7 +128,8 @@ function! RestoreWinLayout()
         for win in g:layout
             execute "normal \<c-w>w"
             let currwinno=winnr()
-            if currwinno!=1 && currwinno!=orgiwinno
+            "if currwinno!=1 && currwinno!=orgiwinno
+            if currwinno!=orgiwinno
                 call TweakWinSize(g:layout[currwinno-1])
             endif
         endfor
@@ -163,10 +166,12 @@ function! ToggleMaxWin()
         execute "normal \<c-w>_"
     endif
 endfunction
-            
+
+command! -nargs=0 MaxWin call ToggleMaxWin()
 
 
 
+if has('g:GuiLoaded')
 "Tabline
 function! MyTabLine()
     let s = ''
@@ -197,7 +202,9 @@ function! MyTabLabel(n)
     return bufname(buflist[winnr - 1])
 endfunction
 
-"set tabline=%!MyTabLine()
+set tabline=%!MyTabLine()
+    
+endif
 
 
 "}}}
@@ -215,15 +222,14 @@ Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
-if !has('gui_running')
+if !has('gui_running') 
     "Loading plugin when gvim running  
     Plug 'ryanoasis/vim-devicons'
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
     Plug 'https://github.com/morhetz/gruvbox.git'
     Plug 'edkolev/tmuxline.vim'
-else
-    Plug 'https://github.com/dracula/vim.git'
 endif
+Plug 'https://github.com/dracula/vim.git'
 "The appearness about vim
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -283,6 +289,7 @@ Plug 'ap/vim-css-color'        , {'for':'css'}
 Plug 'mxw/vim-jsx'             , {'for':'js'}
 Plug 'lvht/phpcd.vim'          , { 'for': 'php'   , 'do': 'composer install' }
 Plug 'jupyter-vim/jupyter-vim' , {'for':'python'}
+"Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 "Plug 'artur-shaik/vim-javacomplete2',{'for':'java'}
 "Plug 'mattn/emmet-vim'         , {'for':['html,js']}
 
@@ -323,6 +330,8 @@ runtime! ftplugin/man.vim
 "{{{
 "let g:startify_padding_left=30
 
+    let g:startify_custom_header =
+          \ 'startify#center(startify#fortune#cowsay())'
 
 let s:header=[
             \'        ___           ___                       ___           ___           ___     ',
@@ -353,8 +362,7 @@ let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType = '<C-n>'
 let g:ycm_error_symbol='>>'
 let g:ycm_warning_symbol='>*'
-let g:ycm_global_ycm_extra_conf="~/.vim/bundle/YouCompleteMe/
-            \third_party/ycmd/.ycm_extra_conf.py"
+let g:ycm_global_ycm_extra_conf="~/.ycm_extra_conf.py"
 "}}}
 
 "#####################################################################
@@ -499,6 +507,7 @@ let g:tagbar_width=25
 "#####################################################################
 let g:ale_set_loclist=0
 let g:ale_set_quickfix=1
+set omnifunc=ale#completion#OmniFunc
 
 "#####################################################################
 "#
@@ -519,7 +528,7 @@ noremap <Leader>sv :source ~/a-vim/init.vim<cr>
 "\shellescape(expand("<cword>")) . " ."<cr>:copen<cr>
 "
 "noremap <space>sm :silent execute "Man " . 
-            "\shellescape(expand("<cword>")) . " ."<cr>
+"\shellescape(expand("<cword>")) . " ."<cr>
 
 "noremap <space>of :silent execute "cs find s" . 
 "\shellescape(expand("<cword>")) . " ."<cr>
@@ -528,6 +537,8 @@ noremap <Leader>sv :source ~/a-vim/init.vim<cr>
 noremap <leader>qn :cn<cr>
 noremap <Leader>qp :cp<cr>
 noremap <Leader>qo :copen<cr>
+noremap <Leader>qc :cclose<cr>
+
 
 noremap <Leader>th :Hexmode<cr>
 
@@ -600,31 +611,38 @@ noremap <Leader>sb  :AsyncRun firefox -search  <cword><CR>
 "{{{
 "colorscheme onedark
 let g:ctrlp_show_hidden = 1
-if has("gui_running")
-    ":set background  = light
-    :colorscheme dracula
+if has("nvim")
+    if exists('g:GuiLoaded')
+        :GuiFont! Ubuntu\ Mono:h14
+        let g:fullscreen = 0 
+        "map <silent> <F11> :call ToggleFullScreen()<CR>
+    endif
+    :colorscheme onedark
     :set background=dark
-    ":set guioptions -= r
-    ":set guioptions -= L "remove the scroll bar
-    ":set guioptions -= m "remove the menu bar
-    ":set guioptions -= T "remove the tab bar
-    :set guioptions="";
-    :set guifont     =Ubuntu\ Mono\ Bold\ Italic\ 14
-    let g:tagbar_iconchars = ['▸', '▾']
-    "let g:tagar_previewwin_pos="rightbelow"
-    let g:fullscreen = 0
-    map <silent> <F11> :call ToggleFullScreen()<CR>
 else
-    highlight CursorLine   cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
-    "highlight CursorColumn cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
-    colorscheme gruvbox
-    set background=dark
-    let g:NERDTreeDirArrowExpandable='|+'
-    let g:NERDTreeDirArrowCollapsible='|-'
-    "AirlineTheme aurora
-
-
-
+    if has("gui_running") 
+        ":set background  = light
+        :colorscheme dracula
+        :set background=dark
+        ":set guioptions -= r
+        ":set guioptions -= L "remove the scroll bar
+        ":set guioptions -= m "remove the menu bar
+        :set guioptions -=T "remove the tab bar
+        ":set guioptions="";
+        :set guifont     =Ubuntu\ Mono\ Bold\ Italic\ 14
+        let g:tagbar_iconchars = ['▸', '▾']
+        "let g:tagar_previewwin_pos="rightbelow"
+        let g:fullscreen = 0
+        map <silent> <F11> :call ToggleFullScreen()<CR>
+    else
+        highlight CursorLine   cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
+        "highlight CursorColumn cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
+        colorscheme gruvbox
+        set background=dark
+        let g:NERDTreeDirArrowExpandable='|+'
+        let g:NERDTreeDirArrowCollapsible='|-'
+        "AirlineTheme aurora
+    endif
 endif
 
 "if has("gui_running")
@@ -744,7 +762,7 @@ let g:which_key_map['m']={
 let g:which_key_map['e']={
             \'name':'+jump/vimrc',
             \}
-            "\'m' : 'man-search'    ,
+"\'m' : 'man-search'    ,
 let g:which_key_map['s']={
             \'name':'+search/session',
             \'l' : ['SLoad'        , 'load-session'] ,
@@ -811,6 +829,8 @@ let g:which_key_map['o']={
             \'name':'+cscope',
             \'s':'cscope-symbol',
             \'g':'cscope-definition',
+            \'c':'cscope-calling',
+            \'d':'cscope-called',
             \}
 let g:which_key_map.d = 'which_key_ignore'
 call which_key#register('<Space>', "g:which_key_map")
@@ -828,7 +848,8 @@ augroup strartUpSetting
     autocmd vimenter *
                 \ if !argc()
                 \ | Startify
-    "\ | NERDTree
+                \ | NERDTree
+                \ | wincmd w
                 \ | endif
     "autocmd vimenter * Tagbar
     autocmd FileType python set sw=4
@@ -850,5 +871,4 @@ autocmd! FileType which_key
 autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 "autocmd BufEnter * :call BookmarkUnmapKeys()
 "}}}
-
 
