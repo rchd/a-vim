@@ -73,14 +73,22 @@ function! StartifyCenter(lines) abort
 endfunction
 
 function! ToggleFullScreen()
-    if g:fullscreen == 1
-        let g:fullscreen = 0
-        let mod = "remove"
-    else
-        let g:fullscreen = 1
-        let mod = "add"
-    endif
-    call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
+        if g:fullscreen == 1
+            let g:fullscreen = 0
+            if has('nvim')
+                :call GuiWindowFullScreen(0)
+            endif
+            let mod = "remove"
+        else
+            let g:fullscreen = 1
+            if has('nvim')
+                :call GuiWindowFullScreen(1)
+            endif
+            let mod = "add"
+        endif
+        if !has('g:GuiLoaded')
+             call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
+        endif
 endfunction
 
 "maximize current windows and restore layout
@@ -613,12 +621,14 @@ noremap <Leader>sb  :AsyncRun firefox -search  <cword><CR>
 let g:ctrlp_show_hidden = 1
 if has("nvim")
     if exists('g:GuiLoaded')
-        :GuiFont! Ubuntu\ Mono:h14
+        ":GuiFont! Ubuntu\ Mono:h14
+        :GuiFont! Monaco:h14
         let g:fullscreen = 0 
-        "map <silent> <F11> :call ToggleFullScreen()<CR>
+        map <silent> <F11> :call ToggleFullScreen()<CR>
     endif
-    :colorscheme onedark
-    :set background=dark
+    colorscheme gruvbox
+    set background=dark
+
 else
     if has("gui_running") 
         ":set background  = light
@@ -872,3 +882,15 @@ autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 "autocmd BufEnter * :call BookmarkUnmapKeys()
 "}}}
 
+"let plugins=g:plugs_order
+"for item in plugins
+    ""echo escape(item,'\')
+    ""execute "amenu Plugin.".shellescape(item,'\')."  <cr>"
+    "execute "amenu Plugin.".shellescape(item,'\')."  <cr>"
+"endfor
+
+amenu Plugin.vim-plug.Status :PlugStatus<cr>
+amenu Plugin.vim-plug.Update :PlugUpdate<cr>
+amenu Plugin.vim-plug.Install :PlugInstall<cr>
+amenu Plugin.vim-plug.Clean :PlugClean<cr>
+amenu Plugin.vim-plug.Diff :PlugDiff<cr>
