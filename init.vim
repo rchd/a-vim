@@ -55,9 +55,16 @@ set dictionary=/usr/share/dict/words
 "}}}
 if has('nvim')
     set viminfo='100,n$HOME/.vim/files/info/viminfo
+    tnoremap <Esc> <C-\><C-n>
+    tnoremap <C-[> <C-\><C-n>
+    :tnoremap <C-w>h <C-\><C-N><C-w>h
+    :tnoremap <C-w>j <C-\><C-N><C-w>j
+    :tnoremap <C-w>k <C-\><C-N><C-w>k
+    :tnoremap <C-w>l <C-\><C-N><C-w>l
+else
+    tnoremap <Esc> <C-W>N
+    tnoremap <C-[> <C-W>N
 endif
-tnoremap <Esc> <C-W>N
-tnoremap <C-[> <C-W>N
 
 "#####################################################################
 "#
@@ -632,7 +639,7 @@ if has("nvim")
 else
     if has("gui_running") 
         ":set background  = light
-        :colorscheme dracula
+        :colorscheme solarized
         :set background=dark
         ":set guioptions -= r
         ":set guioptions -= L "remove the scroll bar
