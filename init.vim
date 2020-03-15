@@ -80,22 +80,22 @@ function! StartifyCenter(lines) abort
 endfunction
 
 function! ToggleFullScreen()
-        if g:fullscreen == 1
-            let g:fullscreen = 0
-            if has('nvim')
-                :call GuiWindowFullScreen(0)
-            endif
-            let mod = "remove"
-        else
-            let g:fullscreen = 1
-            if has('nvim')
-                :call GuiWindowFullScreen(1)
-            endif
-            let mod = "add"
+    if g:fullscreen == 1
+        let g:fullscreen = 0
+        if has('nvim')
+            :call GuiWindowFullScreen(0)
         endif
-        if !has('g:GuiLoaded')
-             call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
+        let mod = "remove"
+    else
+        let g:fullscreen = 1
+        if has('nvim')
+            :call GuiWindowFullScreen(1)
         endif
+        let mod = "add"
+    endif
+    if !has('g:GuiLoaded')
+        call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
+    endif
 endfunction
 
 "maximize current windows and restore layout
@@ -246,6 +246,7 @@ endfunction
 
 command! -nargs=* -complete=customlist,SiblingFiles -bang Rename :call Rename("<args>","<bang>")
 cabbrev rename <c-r>=getcmdpos()==1 && getcmdtype()==":"?"Rename":"rename"<CR>
+noremap <Leader>wr :Rename 
 
 
 "}}}
@@ -761,23 +762,25 @@ set timeoutlen=500
 let g:which_key_map={}
 let g:which_key_map['w'] = {
             \ 'name' : '+windows' ,
-            \ 'w'    : ['<C-W>w'     , 'other-window']          ,
-            \ 'd'    : ['<C-W>c'     , 'delete-window']         ,
-            \ '-'    : ['<C-W>s'     , 'split-window-below']    ,
-            \ '|'    : ['<C-W>v'     , 'split-window-right']    ,
-            \ '2'    : ['<C-W>v'     , 'layout-double-columns'] ,
-            \ 'h'    : ['<C-W>h'     , 'window-left']           ,
-            \ 'j'    : ['<C-W>j'     , 'window-below']          ,
-            \ 'l'    : ['<C-W>l'     , 'window-right']          ,
-            \ 'k'    : ['<C-W>k'     , 'window-up']             ,
-            \ 'H'    : ['<C-W>5<'    , 'expand-window-left']    ,
-            \ 'J'    : ['resize +5'  , 'expand-window-below']   ,
-            \ 'L'    : ['<C-W>5>'    , 'expand-window-right']   ,
-            \ 'K'    : ['resize -5'  , 'expand-window-up']      ,
-            \ '='    : ['<C-W>='     , 'balance-window']        ,
-            \ 's'    : ['<C-W>s'     , 'split-window-below']    ,
-            \ 'v'    : ['<C-W>v'     , 'split-window-below']    ,
-            \ '?'    : ['Windows'    , 'fzf-window']            ,
+            \ 'w' : ['<C-W>w'     , 'other-window']          ,
+            \ 'd' : ['<C-W>c'     , 'delete-window']         ,
+            \ '-' : ['<C-W>s'     , 'split-window-below']    ,
+            \ '|' : ['<C-W>v'     , 'split-window-right']    ,
+            \ '2' : ['<C-W>v'     , 'layout-double-columns'] ,
+            \ 'h' : ['<C-W>h'     , 'window-left']           ,
+            \ 'j' : ['<C-W>j'     , 'window-below']          ,
+            \ 'l' : ['<C-W>l'     , 'window-right']          ,
+            \ 'k' : ['<C-W>k'     , 'window-up']             ,
+            \ 'H' : ['<C-W>5<'    , 'expand-window-left']    ,
+            \ 'J' : ['resize +5'  , 'expand-window-below']   ,
+            \ 'L' : ['<C-W>5>'    , 'expand-window-right']   ,
+            \ 'K' : ['resize -5'  , 'expand-window-up']      ,
+            \ '=' : ['<C-W>='     , 'balance-window']        ,
+            \ 's' : ['<C-W>s'     , 'split-window-below']    ,
+            \ 'v' : ['<C-W>v'     , 'split-window-below']    ,
+            \ '?' : ['Windows'    , 'fzf-window']            ,
+            \ 'm' : ['MaxWin'    , 'max-window']            ,
+            \ 'r' : 'rename-window',
             \ }
 let g:which_key_map['b']={
             \'name' : '+buffer',
