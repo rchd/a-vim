@@ -187,39 +187,65 @@ command! -nargs=0 MaxWin call ToggleMaxWin()
 
 
 if has('g:GuiLoaded')
-"Tabline
-function! MyTabLine()
-    let s = ''
-    for i in range(tabpagenr('$'))
-        " select the highlighting
-        if i + 1 == tabpagenr()
-            let s .= '%#TabLineSel#'
-        else
-            let s .= '%#TabLine#'
+    "Tabline
+    function! MyTabLine()
+        let s = ''
+        for i in range(tabpagenr('$'))
+            " select the highlighting
+            if i + 1 == tabpagenr()
+                let s .= '%#TabLineSel#'
+            else
+                let s .= '%#TabLine#'
+            endif
+            " set the tab page number (for mouse clicks)
+            let s .= '%' . (i + 1) . 'T'
+            " the label is made by MyTabLabel()
+            let s .= ' %{MyTabLabel(' . (i + 1) . ')} '
+        endfor
+        " after the last tab fill with TabLineFill and reset tab page nr
+        let s .= '%#TabLineFill#%T'
+        " right-align the label to close the current tab page
+        if tabpagenr('$') > 1
+            let s .= '%=%#TabLine#%999Xclose'
         endif
-        " set the tab page number (for mouse clicks)
-        let s .= '%' . (i + 1) . 'T'
-        " the label is made by MyTabLabel()
-        let s .= ' %{MyTabLabel(' . (i + 1) . ')} '
-    endfor
-    " after the last tab fill with TabLineFill and reset tab page nr
-    let s .= '%#TabLineFill#%T'
-    " right-align the label to close the current tab page
-    if tabpagenr('$') > 1
-        let s .= '%=%#TabLine#%999Xclose'
-    endif
-    return s
-endfunction
+        return s
+    endfunction
 
-function! MyTabLabel(n)
-    let buflist = tabpagebuflist(a:n)
-    let winnr = tabpagewinnr(a:n)
-    return bufname(buflist[winnr - 1])
-endfunction
+    function! MyTabLabel(n)
+        let buflist = tabpagebuflist(a:n)
+        let winnr = tabpagewinnr(a:n)
+        return bufname(buflist[winnr - 1])
+    endfunction
 
-set tabline=%!MyTabLine()
-    
+    set tabline=%!MyTabLine()
+
 endif
+
+function! SiblingFiles(A,L,P)
+    reurn map(split(globpath(expand("%:h")."/",a:A."*"),"\n"),'fnamemodify(v:val,":t")')
+endfunction
+
+function! Rename(name,bang)
+    let l:curfile=expand("%:p")
+    let l:curpath=expand("%:h")."/"
+    let v:errmsg=""
+    silent! exe "saveas" . a:bang . " " . fnameescape(l:curpath . a:name)
+    if v:errmsg=~# '^$\|^E329'
+        let l:oldfile=l:curfile
+        let l:curfile=expand("%:p")
+        if l:curfile !=# l:oldfile && filewritable(l:curfile)
+            silent exe "bwipe! " . fnameescape(l:oldfile)
+            if delete(l:oldfile)
+                echoerr "Could not delete ".l:oldfile
+            endif
+        endif
+    else
+        echoerr v:errmsg
+    endif
+endfunction
+
+command! -nargs=* -complete=customlist,SiblingFiles -bang Rename :call Rename("<args>","<bang>")
+cabbrev rename <c-r>=getcmdpos()==1 && getcmdtype()==":"?"Rename":"rename"<CR>
 
 
 "}}}
@@ -896,8 +922,8 @@ autocmd BufLeave <buffer> set laststatus=2 showmode ruler
     "execute "amenu Plugin.".shellescape(item,'\')."  <cr>"
 "endfor
 
-amenu Plugin.vim-plug.Status :PlugStatus<cr>
-amenu Plugin.vim-plug.Update :PlugUpdate<cr>
-amenu Plugin.vim-plug.Install :PlugInstall<cr>
-amenu Plugin.vim-plug.Clean :PlugClean<cr>
-amenu Plugin.vim-plug.Diff :PlugDiff<cr>
+amenu Plugin.vim-plug.Status  : PlugStatus<cr>
+amenu Plugin.vim-plug.Update  : PlugUpdate<cr>
+amenu Plugin.vim-plug.Install : PlugInstall<cr>
+amenu Plugin.vim-plug.Clean   : PlugClean<cr>
+amenu Plugin.vim-plug.Diff    : PlugDiff<cr>
