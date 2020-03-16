@@ -6,7 +6,6 @@
 " ##.... ##:::::::::::. ## ##:::: ##:: ##:.:: ##: ##::. ##:: ##::: ##:
 " ##:::: ##::::::::::::. ###::::'####: ##:::: ##: ##:::. ##:. ######::
 "..:::::..::::::::::::::...:::::....::..:::::..::..:::::..:::......:::
-
 "#####################################################################
 "#
 "#
@@ -65,6 +64,7 @@ else
     tnoremap <Esc> <C-W>N
     tnoremap <C-[> <C-W>N
 endif
+
 
 "#####################################################################
 "#
@@ -248,6 +248,12 @@ command! -nargs=* -complete=customlist,SiblingFiles -bang Rename :call Rename("<
 cabbrev rename <c-r>=getcmdpos()==1 && getcmdtype()==":"?"Rename":"rename"<CR>
 noremap <Leader>wr :Rename 
 
+function! LoadCscope()
+    if file_readable("cscope.out")
+        cs add cscope.out
+    endif
+endfunction
+
 
 "}}}
 "#####################################################################
@@ -346,6 +352,13 @@ Plug 'junegunn/goyo.vim'
 Plug 'whatyouhide/vim-gotham'
 "Plug 'vim-utils/vim-man'
 
+"text object
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-indent'
+Plug 'kana/vim-textobj-syntax'
+Plug 'kana/vim-textobj-function',{'for':['c','cpp','vim','java']}
+Plug 'sgur/vim-textobj-parameter'
+
 "sql
 Plug 'tmhedberg/matchit',{'for':'sql'}
 Plug 'vim-scripts/dbext.vim',{'for':'sql'}
@@ -372,8 +385,8 @@ runtime! ftplugin/man.vim
 "{{{
 "let g:startify_padding_left=30
 
-    let g:startify_custom_header =
-          \ 'startify#center(startify#fortune#cowsay())'
+    "let g:startify_custom_header =
+          "\ 'startify#center(startify#fortune#cowsay())'
 
 let s:header=[
             \'        ___           ___                       ___           ___           ___     ',
@@ -457,6 +470,7 @@ endif
 let g:NERDTreeWinSize=25
 let g:NERDTreeWinPos='left'
 let g:NERDTreeHijackNetrw = 0
+ let NERDTreeShowBookmarks=1 
 "}}}
 
 
@@ -594,6 +608,7 @@ noremap <Leader>tc :ColorV<cr>
 map / <Plug>(incsearch-forward)
 map ? <Plug>(incsearch-backward)
 
+nnoremap <silent> <F7> :AsyncRun -cwd=<root> make<cr>
 
 "YouCompleteMe
 "nnoremap <leader>gl :YcmCompleter GoToDeclaration<cr>
@@ -656,7 +671,7 @@ let g:ctrlp_show_hidden = 1
 if has("nvim")
     if exists('g:GuiLoaded')
         ":GuiFont! Ubuntu\ Mono:h14
-        :GuiFont! Monaco:h14
+        Guifont! Monaco:h13
         let g:fullscreen = 0 
         map <silent> <F11> :call ToggleFullScreen()<CR>
     endif
@@ -745,6 +760,7 @@ nmap <Leader>ms <Plug>BookmarkShowAll
 nmap <Leader>mn <Plug>BookmarkNext
 nmap <Leader>mp <Plug>BookmarkPrev
 nmap <Leader>mc <Plug>BookmarkClear
+let g:bookmark_no_default_key_mappings = 1
 "nmap <Leader>m <Plug>BookmarkClearAll
 "}}}
 "#####################################################################
@@ -757,7 +773,6 @@ nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 set timeoutlen=500
-
 
 let g:which_key_map={}
 let g:which_key_map['w'] = {
@@ -811,12 +826,14 @@ let g:which_key_map['e']={
 "\'m' : 'man-search'    ,
 let g:which_key_map['s']={
             \'name':'+search/session',
-            \'l' : ['SLoad'        , 'load-session'] ,
-            \'s' : ['SSave'        , 'save-session'] ,
-            \'f' : ['FZF'          , 'file-search']  ,
-            \'b' : 'broswer-search',
-            \'t' : 'ctrlsf-toogle' ,
-            \'n' : 'ctrlsf-search' ,
+            \'a' : ['SLoad'         , 'load-session']               ,
+            \'s' : ['SSave'         , 'save-session']               ,
+            \'f' : ['FZF'           , 'file-search']                ,
+            \'l' : ['BTags'         , 'localization-symbol-search'] ,
+            \'g' : ['Tags'          , 'global-symbol-search']       ,
+            \'b' : 'broswer-search' ,
+            \'t' : 'ctrlsf-toogle'  ,
+            \'n' : 'ctrlsf-search'  ,
             \}
 let g:which_key_map['g']={
             \ 'name'  : '+git/version-control' ,
@@ -884,6 +901,15 @@ call which_key#register('<Space>', "g:which_key_map")
 nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<CR>
 vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<CR>
 "}}}
+
+"#####################################################################
+"#
+"#  asyncrun 
+"#
+"#####################################################################
+let g:asyncrun_open=10
+
+
 "#####################################################################
 "#
 "#  autocmd
@@ -930,3 +956,4 @@ amenu Plugin.vim-plug.Update  : PlugUpdate<cr>
 amenu Plugin.vim-plug.Install : PlugInstall<cr>
 amenu Plugin.vim-plug.Clean   : PlugClean<cr>
 amenu Plugin.vim-plug.Diff    : PlugDiff<cr>
+

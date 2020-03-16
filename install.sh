@@ -19,6 +19,7 @@ function compile_youcompleteme(){ #{{{
 	fi
 }#}}}
 
+
 function install_neccessy_software() { #{{{
 	sudo apt-get update
 	sudo	apt install git python R gcc g++
@@ -48,4 +49,3 @@ function main() { #{{{
 	compile_youcompleteme
 }#}}}
 
-main
