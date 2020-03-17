@@ -45,6 +45,7 @@ set shiftwidth=4
 set softtabstop=4
 set expandtab
 set mouseshape=s:udsizing,m:no
+set completeopt=menu,menuone
 "set paste
 filetype off                               " required
 filetype plugin indent on                  " required
@@ -269,6 +270,7 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+"Plug 'Shougo/echodoc.vim'
 
 if !has('gui_running') 
     "Loading plugin when gvim running  
@@ -358,6 +360,7 @@ Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-syntax'
 Plug 'kana/vim-textobj-function',{'for':['c','cpp','vim','java']}
 Plug 'sgur/vim-textobj-parameter'
+Plug 'bps/vim-textobj-python',{'for':['python']}
 
 "sql
 Plug 'tmhedberg/matchit',{'for':'sql'}
@@ -371,7 +374,7 @@ Plug 'pearofducks/ansible-vim'
 "plug 'cosminadrianpopescu/vim-sql-workbench'
 call plug#end()
 
-runtime! ftplugin/man.vim
+"runtime! ftplugin/man.vim
 
 "let g:JavaComplete_EnableDefaultMappings=0
 
@@ -412,6 +415,7 @@ let g:startify_custom_fotter=StartifyCenter(s:header)
 "#####################################################################
 "{{{
 " make YCM compatible with UltiSnips (using supertab)
+let g:ycm_add_preview_to_completeopt=0
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType = '<C-n>'
@@ -525,7 +529,13 @@ if executable("ag")
 endif
 
 
-
+"#####################################################################
+"#
+"#  echodoc
+"#
+"#####################################################################
+"set noshowmode
+"let g:echodoc_enable_at_startup=1
 "#####################################################################
 "#
 "#  autoformat
@@ -760,6 +770,7 @@ nmap <Leader>ms <Plug>BookmarkShowAll
 nmap <Leader>mn <Plug>BookmarkNext
 nmap <Leader>mp <Plug>BookmarkPrev
 nmap <Leader>mc <Plug>BookmarkClear
+nmap <Leader>mC :BookmarkClearAll<cr>
 let g:bookmark_no_default_key_mappings = 1
 "nmap <Leader>m <Plug>BookmarkClearAll
 "}}}
@@ -813,12 +824,13 @@ let g:which_key_map['p']={
             \}
 let g:which_key_map['m']={
             \'name':'+mark',
-            \'s':'bookmark-show'   ,
-            \'n':'bookmark-next'   ,
-            \'p':'bookmark-prev'   ,
-            \'i':'bookmark-insert' ,
-            \'t':'bookmark-toggle' ,
-            \'c':'bookmark-clear'  ,
+            \'s':'bookmark-show'      ,
+            \'n':'bookmark-next'      ,
+            \'p':'bookmark-prev'      ,
+            \'i':'bookmark-insert'    ,
+            \'t':'bookmark-toggle'    ,
+            \'c':'bookmark-clear'     ,
+            \'C':'bookmark-clear-all' ,
             \}
 let g:which_key_map['e']={
             \'name':'+jump/vimrc',
