@@ -311,6 +311,7 @@ Plug 'Chiel92/vim-autoformat'
 Plug 'mhinz/vim-startify'
 Plug 'haya14busa/incsearch.vim'
 Plug 'https://github.com/skywind3000/asyncrun.vim.git'
+Plug 'ludovicchabant/vim-gutentags'
 
 "git
 Plug 'tpope/vim-fugitive'
@@ -863,6 +864,7 @@ let g:which_key_map['g']={
             \ 'w'     : ['Gwrite'     , 'fugitive-write']             ,
             \ 'p'     : ['Gpush'   , 'fugitive-push']              ,
             \ 'y'     : ['Goyo'       , 'goyo-mode']                  ,
+            \ 'v'     : ['GV'       , 'GV']                  ,
             \}
 let g:which_key_map['t']={
             \'name' : '+tool-window'    ,
