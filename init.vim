@@ -362,6 +362,8 @@ Plug 'kana/vim-textobj-function'              , {'for':['c' , 'cpp' , 'vim' , 'j
 Plug 'sgur/vim-textobj-parameter'
 Plug 'bps/vim-textobj-python'                 , {'for':['python']}
 Plug 'thinca/vim-textobj-function-javascript' , {'for':['javascript']}
+Plug 'kamichidu/vim-textobj-function-go'      , {'for':['go']}
+Plug 'kentaro/vim-textobj-function-php'       , {'for':['php']}
 
 "sql
 Plug 'tmhedberg/matchit'     , {'for':'sql'}
@@ -903,10 +905,10 @@ let g:which_key_map['z']={
             \}
 let g:which_key_map['o']={
             \'name':'+cscope',
-            \'s':'cscope-symbol',
-            \'g':'cscope-definition',
-            \'c':'cscope-calling',
-            \'d':'cscope-called',
+            \'s':'cscope-symbol'     ,
+            \'g':'cscope-definition' ,
+            \'c':'cscope-calling'    ,
+            \'d':'cscope-called'     ,
             \}
 let g:which_key_map.d = 'which_key_ignore'
 call which_key#register('<Space>', "g:which_key_map")
