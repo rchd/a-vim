@@ -358,13 +358,14 @@ Plug 'whatyouhide/vim-gotham'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-syntax'
-Plug 'kana/vim-textobj-function',{'for':['c','cpp','vim','java']}
+Plug 'kana/vim-textobj-function'              , {'for':['c' , 'cpp' , 'vim' , 'java']}
 Plug 'sgur/vim-textobj-parameter'
-Plug 'bps/vim-textobj-python',{'for':['python']}
+Plug 'bps/vim-textobj-python'                 , {'for':['python']}
+Plug 'thinca/vim-textobj-function-javascript' , {'for':['javascript']}
 
 "sql
-Plug 'tmhedberg/matchit',{'for':'sql'}
-Plug 'vim-scripts/dbext.vim',{'for':'sql'}
+Plug 'tmhedberg/matchit'     , {'for':'sql'}
+Plug 'vim-scripts/dbext.vim' , {'for':'sql'}
 
 "ansible
 Plug 'pearofducks/ansible-vim'
