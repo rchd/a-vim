@@ -415,13 +415,13 @@ let g:startify_custom_fotter=StartifyCenter(s:header)
 "#####################################################################
 "{{{
 " make YCM compatible with UltiSnips (using supertab)
-let g:ycm_add_preview_to_completeopt=0
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_add_preview_to_completeopt   = 0
+let g:ycm_key_list_select_completion   = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:SuperTabDefaultCompletionType = '<C-n>'
-let g:ycm_error_symbol='>>'
-let g:ycm_warning_symbol='>*'
-let g:ycm_global_ycm_extra_conf="~/.ycm_extra_conf.py"
+let g:SuperTabDefaultCompletionType    = '<C-n>'
+let g:ycm_error_symbol                 = '>>'
+let g:ycm_warning_symbol               = '>*'
+let g:ycm_global_ycm_extra_conf        = "~/.ycm_extra_conf.py"
 "}}}
 
 "#####################################################################
@@ -858,7 +858,7 @@ let g:which_key_map['g']={
             \ 'r'     : ['Gread'      , 'fugitive-read']              ,
             \ 's'     : ['Gstatus'    , 'fugitive-status']            ,
             \ 'w'     : ['Gwrite'     , 'fugitive-write']             ,
-            \ 'p'     : ['Git push'   , 'fugitive-push']              ,
+            \ 'p'     : ['Gpush'   , 'fugitive-push']              ,
             \ 'y'     : ['Goyo'       , 'goyo-mode']                  ,
             \}
 let g:which_key_map['t']={
@@ -921,7 +921,6 @@ vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<CR>
 "#####################################################################
 let g:asyncrun_open=10
 
-
 "#####################################################################
 "#
 "#  autocmd
@@ -947,6 +946,9 @@ augroup strartUpSetting
 augroup END
 
 autocmd VimLeave * NERDTreeClose
+autocmd TabEnter * 
+            \ NERDTreeCWD
+            \ | wincmd w
 
 "autocmd FileType java setlocal omnifunc=javacomplete#Complete
 
@@ -968,4 +970,3 @@ amenu Plugin.vim-plug.Update  : PlugUpdate<cr>
 amenu Plugin.vim-plug.Install : PlugInstall<cr>
 amenu Plugin.vim-plug.Clean   : PlugClean<cr>
 amenu Plugin.vim-plug.Diff    : PlugDiff<cr>
-
