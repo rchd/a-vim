@@ -255,6 +255,11 @@ function! LoadCscope()
     endif
 endfunction
 
+function! TabeVimrc()
+    :lcd ~/a-vim/
+    :tabe ~/a-vim/init.vim
+endfunction
+
 
 "}}}
 "#####################################################################
@@ -590,8 +595,10 @@ noremap <Leader>bn :bnext<cr>
 noremap <Leader>bp :bprevious<cr>
 noremap <Leader>bd :bdelete<cr>
 "edit .vimrc qucick
-noremap <Leader>ev :tabe ~/a-vim/init.vim<cr>
+"noremap <Leader>ev :tabe ~/a-vim/init.vim<cr>
+noremap <Leader>ev :call TabeVimrc()<cr>
 noremap <Leader>sv :source ~/a-vim/init.vim<cr>
+vmap <Leader>ee "xy:@x<CR>
 
 
 "noremap <space>sg :silent execute "grep! -r" . 
@@ -952,7 +959,7 @@ augroup END
 
 autocmd VimLeave * NERDTreeClose
 autocmd TabEnter * 
-            \ NERDTreeCWD
+            \ NERDTreeCWD 
             \ | wincmd w
 
 "autocmd FileType java setlocal omnifunc=javacomplete#Complete
@@ -970,8 +977,8 @@ autocmd BufLeave <buffer> set laststatus=2 showmode ruler
     "execute "amenu Plugin.".shellescape(item,'\')."  <cr>"
 "endfor
 
-amenu Plugin.vim-plug.Status  : PlugStatus<cr>
-amenu Plugin.vim-plug.Update  : PlugUpdate<cr>
-amenu Plugin.vim-plug.Install : PlugInstall<cr>
-amenu Plugin.vim-plug.Clean   : PlugClean<cr>
-amenu Plugin.vim-plug.Diff    : PlugDiff<cr>
+amenu Plugin.vim-plug.Status  :PlugStatus<cr>
+amenu Plugin.vim-plug.Update  :PlugUpdate<cr>
+amenu Plugin.vim-plug.Install :PlugInstall<cr>
+amenu Plugin.vim-plug.Clean   :PlugClean<cr>
+amenu Plugin.vim-plug.Diff    :PlugDiff<cr>
