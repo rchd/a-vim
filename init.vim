@@ -185,8 +185,6 @@ endfunction
 
 command! -nargs=0 MaxWin call ToggleMaxWin()
 
-
-
 if has('g:GuiLoaded')
     "Tabline
     function! MyTabLine()
@@ -217,13 +215,11 @@ if has('g:GuiLoaded')
         let winnr = tabpagewinnr(a:n)
         return bufname(buflist[winnr - 1])
     endfunction
-
     set tabline=%!MyTabLine()
-
 endif
 
 function! SiblingFiles(A,L,P)
-    reurn map(split(globpath(expand("%:h")."/",a:A."*"),"\n"),'fnamemodify(v:val,":t")')
+    return map(split(globpath(expand("%:h")."/",a:A."*"),"\n"),'fnamemodify(v:val,":t")')
 endfunction
 
 function! Rename(name,bang)
@@ -259,6 +255,17 @@ function! TabeVimrc()
     :lcd ~/a-vim/
     :tabe ~/a-vim/init.vim
 endfunction
+
+function! Compile()
+    if filereadable('Makefile') &&  (&filetype=="c" || &filetype=="cpp" )
+        execute ":AsyncRun make"
+    elseif filereadable('pom.xml') && &filetype=="java"
+        execute ":AsyncRun mvn compile"
+    endif
+endfunction
+command!  -nargs=* -bang Compile :call Compile()
+noremap <f5> :Compile<cr>
+
 
 
 "}}}
@@ -629,7 +636,6 @@ noremap <Leader>tc :ColorV<cr>
 map / <Plug>(incsearch-forward)
 map ? <Plug>(incsearch-backward)
 
-nnoremap <silent> <F7> :AsyncRun -cwd=<root> make<cr>
 
 "YouCompleteMe
 "nnoremap <leader>gl :YcmCompleter GoToDeclaration<cr>
