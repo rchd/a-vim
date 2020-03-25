@@ -261,6 +261,10 @@ function! Compile()
         execute ":AsyncRun make"
     elseif filereadable('pom.xml') && &filetype=="java"
         execute ":AsyncRun mvn compile"
+    elseif filereadable('go.mod') && &filetype=="go"
+        execute ":AsyncRun go build"
+    else
+        echom "There is no project file"
     endif
 endfunction
 command!  -nargs=* -bang Compile :call Compile()
@@ -684,6 +688,13 @@ nnoremap <Leader>od :cs find d <cword><cr>
 
 "Asyncrun
 noremap <Leader>sb  :AsyncRun firefox -search  <cword><CR>
+
+nnoremap <C-j> :m .+1<cr>==
+nnoremap <C-k> :m .-2<cr>==
+inoremap <C-j> <Esc>:m .+1<cr>==gi
+inoremap <C-k> <Esc>:m .-2<cr>==gi
+vnoremap <C-k> :m '<-2<cr>gv=gv
+vnoremap <C-j> :m '>+1<cr>gv=gv
 
 
 "}}}
