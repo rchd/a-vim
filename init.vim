@@ -328,6 +328,7 @@ Plug 'mhinz/vim-startify'
 Plug 'haya14busa/incsearch.vim'
 Plug 'https://github.com/skywind3000/asyncrun.vim.git'
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'wakatime/vim-wakatime'
 
 "git
 Plug 'tpope/vim-fugitive'
@@ -365,7 +366,7 @@ Plug 'jupyter-vim/jupyter-vim' , {'for':'python'}
 Plug 'majutsushi/tagbar' , {'on':'TagbarToggle'}
 Plug 'mbbill/undotree'   , {'on':'UndotreeToggle'}
 Plug 'gu-fan/colorv.vim' , {'on':'ColorV'}
-Plug 'https://github.com/vim-scripts/fcitx.vim.git'
+"Plug 'https://github.com/vim-scripts/fcitx.vim.git'
 
 Plug 'junegunn/goyo.vim'
 Plug 'whatyouhide/vim-gotham'
@@ -971,8 +972,10 @@ augroup strartUpSetting
     autocmd FileType js 		set tabstop=2
     autocmd FileType html 	set shiftwidth=2
     autocmd FileType js 		set shiftwidth=2
+    autocmd FileType go     ab : :=
 
 augroup END
+
 
 autocmd VimLeave * NERDTreeClose
 autocmd TabEnter * 
@@ -988,6 +991,7 @@ autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 "}}}
 
 "let plugins=g:plugs_order
+
 "for item in plugins
     ""echo escape(item,'\')
     ""execute "amenu Plugin.".shellescape(item,'\')."  <cr>"
