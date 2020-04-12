@@ -271,6 +271,45 @@ command!  -nargs=* -bang Compile :call Compile()
 noremap <f5> :Compile<cr>
 
 
+function! EqualSign(char)
+    if a:char  =~ '='  && getline('.') =~ ".*("  
+        return a:char
+    endif 
+    if a:char  =~ '[\/\<\>]' && getline('.') =~ '"'
+        return a:char
+    endif
+    let ex1 = getline('.')[col('.') - 3]
+    let ex2 = getline('.')[col('.') - 2]
+    
+    "if &filetype == 'go' && getline('.')=~":"
+        "return "\<SPACE>".a:char."=\<SPACE>"
+    "endif
+
+    if ex1 =~ "[-=+><>\/\*]"
+        if ex2 !~ "\s"
+            return "\<ESC>i".a:char."\<SPACE>"
+        else
+            return "\<ESC>xa".a:char."\<SPACE>"
+        endif 
+    else
+        if ex2 !~ "\s"
+            return "\<SPACE>".a:char."\<SPACE>\<ESC>a"
+        else
+            return a:char."\<SPACE>\<ESC>a"
+        endif 
+    endif
+endfunction
+
+
+:inoremap = <c-r>=EqualSign('=')<CR>
+:inoremap + <c-r>=EqualSign('+')<CR>
+:inoremap - <c-r>=EqualSign('-')<CR>
+:inoremap * <c-r>=EqualSign('*')<CR>
+:inoremap / <c-r>=EqualSign('/')<CR>
+:inoremap > <c-r>=EqualSign('>')<CR>
+:inoremap < <c-r>=EqualSign('<')<CR>
+:inoremap , ,<space>
+
 
 "}}}
 "#####################################################################
@@ -972,8 +1011,6 @@ augroup strartUpSetting
     autocmd FileType js 		set tabstop=2
     autocmd FileType html 	set shiftwidth=2
     autocmd FileType js 		set shiftwidth=2
-    autocmd FileType go     ab : :=
-
 augroup END
 
 
@@ -1003,3 +1040,4 @@ amenu Plugin.vim-plug.Update  :PlugUpdate<cr>
 amenu Plugin.vim-plug.Install :PlugInstall<cr>
 amenu Plugin.vim-plug.Clean   :PlugClean<cr>
 amenu Plugin.vim-plug.Diff    :PlugDiff<cr>
+
