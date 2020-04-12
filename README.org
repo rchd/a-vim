@@ -91,6 +91,7 @@
 | tmuxline             | 把tmux的状态栏与vim统一    |
 | fzf                  | 文件搜索插件，速度非常快   |
 | phpcd                | php补全插件，与YCM协同工作 |
+| wakatime             | 统计代码                   |
 |                      |                            |
 
 
@@ -106,9 +107,11 @@
 | \bn  | 切换下一个缓冲区       | :bnext         |
 | \bp  | 切换上下个缓冲区       | :bprev         |
 | \bd  | 删除当前缓冲区         | :bdelete       |
+| \bs  | 切换缓冲区             | :Buffers       |
 | \qo  | 打开quickfix           | :copen         |
-| \cn  | 定位到下一个错误       | :cnext         |
-| \cp  | 定位到上一个错误       | :cprev         |
+| \qc  | 关闭quickfix           | :cclose        |
+| \qn  | 定位到下一个错误       | :cnext         |
+| \qp  | 定位到上一个错误       | :cprev         |
 | \a=  | 根据=对齐文本          | ;Taularize /=  |
 | \a,  | 根据,对齐文本          | :Tabularize /, |
 | \a:  | 根据:对齐文本          | :Tabularize /: |
