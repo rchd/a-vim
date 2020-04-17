@@ -310,7 +310,6 @@ endfunction
 :inoremap < <c-r>=EqualSign('<')<CR>
 :inoremap , ,<space>
 
-
 "}}}
 "#####################################################################
 "#
@@ -1016,7 +1015,7 @@ augroup END
 
 autocmd VimLeave * NERDTreeClose
 autocmd TabEnter * 
-            \ NERDTreeCWD 
+            \ NERDTreeCWD
             \ | wincmd w
 
 "autocmd FileType java setlocal omnifunc=javacomplete#Complete
@@ -1040,4 +1039,3 @@ amenu Plugin.vim-plug.Update  :PlugUpdate<cr>
 amenu Plugin.vim-plug.Install :PlugInstall<cr>
 amenu Plugin.vim-plug.Clean   :PlugClean<cr>
 amenu Plugin.vim-plug.Diff    :PlugDiff<cr>
-
