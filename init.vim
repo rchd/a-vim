@@ -67,6 +67,8 @@ else
 endif
 
 
+
+
 "#####################################################################
 "#
 "# common function
@@ -301,14 +303,14 @@ function! EqualSign(char)
 endfunction
 
 
-:inoremap = <c-r>=EqualSign('=')<CR>
-:inoremap + <c-r>=EqualSign('+')<CR>
-:inoremap - <c-r>=EqualSign('-')<CR>
-:inoremap * <c-r>=EqualSign('*')<CR>
-:inoremap / <c-r>=EqualSign('/')<CR>
-:inoremap > <c-r>=EqualSign('>')<CR>
-:inoremap < <c-r>=EqualSign('<')<CR>
-:inoremap , ,<space>
+":inoremap = <c-r>=EqualSign('=')<CR>
+":inoremap + <c-r>=EqualSign('+')<CR>
+":inoremap - <c-r>=EqualSign('-')<CR>
+":inoremap * <c-r>=EqualSign('*')<CR>
+":inoremap / <c-r>=EqualSign('/')<CR>
+":inoremap > <c-r>=EqualSign('>')<CR>
+":inoremap < <c-r>=EqualSign('<')<CR>
+":inoremap , ,<space>
 
 "}}}
 "#####################################################################
@@ -366,7 +368,12 @@ Plug 'mhinz/vim-startify'
 Plug 'haya14busa/incsearch.vim'
 Plug 'https://github.com/skywind3000/asyncrun.vim.git'
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'wakatime/vim-wakatime'
+Plug 'skanehira/docker.vim'
+"Plug 'vim-scripts/Drawit'
+"Plug 'wakatime/vim-wakatime'
+
+
+"
 
 "git
 Plug 'tpope/vim-fugitive'
@@ -404,7 +411,7 @@ Plug 'jupyter-vim/jupyter-vim' , {'for':'python'}
 Plug 'majutsushi/tagbar' , {'on':'TagbarToggle'}
 Plug 'mbbill/undotree'   , {'on':'UndotreeToggle'}
 Plug 'gu-fan/colorv.vim' , {'on':'ColorV'}
-"Plug 'https://github.com/vim-scripts/fcitx.vim.git'
+Plug 'https://github.com/vim-scripts/fcitx.vim.git'
 
 Plug 'junegunn/goyo.vim'
 Plug 'whatyouhide/vim-gotham'
@@ -852,7 +859,9 @@ nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 set timeoutlen=500
 
+let g:which_key_use_floating_win=0
 let g:which_key_map={}
+let g:which_key_run_map_on_popup=1
 let g:which_key_map['w'] = {
             \ 'name' : '+windows' ,
             \ 'w' : ['<C-W>w'     , 'other-window']          ,
@@ -1014,9 +1023,9 @@ augroup END
 
 
 autocmd VimLeave * NERDTreeClose
-autocmd TabEnter * 
-            \ NERDTreeCWD
-            \ | wincmd w
+"autocmd TabEnter * 
+                   
+            "\ | wincmd w
 
 "autocmd FileType java setlocal omnifunc=javacomplete#Complete
 
