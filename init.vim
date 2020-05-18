@@ -354,6 +354,7 @@ Plug 'tpope/vim-surround'
 
 "Userful tool
 Plug 'dyng/ctrlsf.vim'
+Plug 'jmcantrell/vim-virtualenv'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'mattesgroeger/vim-bookmarks'
 Plug 'KabbAmine/zeavim.vim'
@@ -369,11 +370,9 @@ Plug 'haya14busa/incsearch.vim'
 Plug 'https://github.com/skywind3000/asyncrun.vim.git'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'skanehira/docker.vim'
+Plug 'skanehira/docker-compose.vim'
 "Plug 'vim-scripts/Drawit'
 "Plug 'wakatime/vim-wakatime'
-
-
-"
 
 "git
 Plug 'tpope/vim-fugitive'
@@ -858,6 +857,7 @@ nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 set timeoutlen=500
+call which_key#register('<Space>', "g:which_key_map")
 
 let g:which_key_use_floating_win=0
 let g:which_key_map={}
@@ -925,24 +925,30 @@ let g:which_key_map['s']={
             \}
 let g:which_key_map['g']={
             \ 'name'  : '+git/version-control' ,
-            \ 'b'     : ['Gblame'     , 'fugitive-blame']             ,
-            \ 'c'     : ['BCommits'   , 'commits-for-current-buffer'] ,
-            \ 'C'     : ['Gcommit'    , 'fugitive-commit']            ,
-            \ 'd'     : ['Gdiff'      , 'fugitive-diff']              ,
-            \ 'e'     : ['Gedit'      , 'fugitive-edit']              ,
-            \ 'l'     : ['Glog'       , 'fugitive-log']               ,
-            \ 'r'     : ['Gread'      , 'fugitive-read']              ,
-            \ 's'     : ['Gstatus'    , 'fugitive-status']            ,
-            \ 'w'     : ['Gwrite'     , 'fugitive-write']             ,
-            \ 'p'     : ['Gpush'   , 'fugitive-push']              ,
-            \ 'y'     : ['Goyo'       , 'goyo-mode']                  ,
-            \ 'v'     : ['GV'       , 'GV']                  ,
+            \ 'b'     : ['Gblame'   , 'fugitive-blame']             ,
+            \ 'c'     : ['BCommits' , 'commits-for-current-buffer'] ,
+            \ 'C'     : ['Gcommit'  , 'fugitive-commit']            ,
+            \ 'd'     : ['Gdiff'    , 'fugitive-diff']              ,
+            \ 'e'     : ['Gedit'    , 'fugitive-edit']              ,
+            \ 'l'     : ['Glog'     , 'fugitive-log']               ,
+            \ 'r'     : ['Gread'    , 'fugitive-read']              ,
+            \ 's'     : ['Gstatus'  , 'fugitive-status']            ,
+            \ 'w'     : ['Gwrite'   , 'fugitive-write']             ,
+            \ 'p'     : ['Gpush'    , 'fugitive-push']              ,
+            \ 'y'     : ['Goyo'     , 'goyo-mode']                  ,
+            \ 'v'     : ['GV'       , 'GV']                         ,
             \}
 let g:which_key_map['t']={
             \'name' : '+tool-window'    ,
             \'n'    : 'NERDTree-window' ,
             \'t'    : 'Tagbar-window'   ,
             \'u'    : 'UndoTree-window' ,
+            \}
+let g:which_key_map['k']={
+            \'name':'+docker',
+            \'c'    : ['DockerContainers','docker-container-list' ],
+            \'i'    : ['DockerImages','docker-image-list' ],
+            \'s'    : ['DockerImageSearch','docker-image-search' ],
             \}
 let g:which_key_map['a']={
             \'name' : '+align',
@@ -984,8 +990,7 @@ let g:which_key_map['o']={
             \'c':'cscope-calling'    ,
             \'d':'cscope-called'     ,
             \}
-let g:which_key_map.d = 'which_key_ignore'
-call which_key#register('<Space>', "g:which_key_map")
+"let g:which_key_map.d = 'which_key_ignore'
 
 nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<CR>
 vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<CR>
