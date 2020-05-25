@@ -282,9 +282,9 @@ function! EqualSign(char)
     endif
     let ex1 = getline('.')[col('.') - 3]
     let ex2 = getline('.')[col('.') - 2]
-    
+
     "if &filetype == 'go' && getline('.')=~":"
-        "return "\<SPACE>".a:char."=\<SPACE>"
+    "return "\<SPACE>".a:char."=\<SPACE>"
     "endif
 
     if ex1 =~ "[-=+><>\/\*]"
@@ -303,14 +303,14 @@ function! EqualSign(char)
 endfunction
 
 
-":inoremap = <c-r>=EqualSign('=')<CR>
-":inoremap + <c-r>=EqualSign('+')<CR>
-":inoremap - <c-r>=EqualSign('-')<CR>
-":inoremap * <c-r>=EqualSign('*')<CR>
-":inoremap / <c-r>=EqualSign('/')<CR>
-":inoremap > <c-r>=EqualSign('>')<CR>
-":inoremap < <c-r>=EqualSign('<')<CR>
-":inoremap , ,<space>
+:inoremap = <c-r>=EqualSign('=')<CR>
+:inoremap + <c-r>=EqualSign('+')<CR>
+:inoremap - <c-r>=EqualSign('-')<CR>
+:inoremap * <c-r>=EqualSign('*')<CR>
+:inoremap / <c-r>=EqualSign('/')<CR>
+:inoremap > <c-r>=EqualSign('>')<CR>
+:inoremap < <c-r>=EqualSign('<')<CR>
+:inoremap , ,<space>
 
 "}}}
 "#####################################################################
@@ -333,15 +333,14 @@ if !has('gui_running')
     Plug 'ryanoasis/vim-devicons'
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
     Plug 'https://github.com/morhetz/gruvbox.git'
-    Plug 'edkolev/tmuxline.vim'
 endif
+Plug 'edkolev/tmuxline.vim'
 Plug 'https://github.com/dracula/vim.git'
 "The appearness about vim
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'joshdick/onedark.vim'
 
-Plug 'https://github.com/altercation/solarized.git'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree' 
 Plug 'jistr/vim-nerdtree-tabs'
@@ -434,6 +433,12 @@ Plug 'vim-scripts/dbext.vim' , {'for':'sql'}
 "ansible
 Plug 'pearofducks/ansible-vim'
 
+if has('nvim')
+    Plug 'icymind/NeoSolarized'
+else
+    Plug 'https://github.com/altercation/solarized.git'
+endif
+
 
 
 "plug 'cosminadrianpopescu/vim-sql-workbench'
@@ -453,8 +458,8 @@ call plug#end()
 "{{{
 "let g:startify_padding_left=30
 
-    "let g:startify_custom_header =
-          "\ 'startify#center(startify#fortune#cowsay())'
+"let g:startify_custom_header =
+            "\ 'startify#center(startify#fortune#cowsay())'
 
 let s:header=[
             \'        ___           ___                       ___           ___           ___     ',
@@ -539,7 +544,7 @@ endif
 let g:NERDTreeWinSize=25
 let g:NERDTreeWinPos='left'
 let g:NERDTreeHijackNetrw = 0
- let NERDTreeShowBookmarks=1 
+let NERDTreeShowBookmarks=1 
 "}}}
 
 
@@ -758,13 +763,13 @@ if has("nvim")
         let g:fullscreen = 0 
         map <silent> <F11> :call ToggleFullScreen()<CR>
     endif
-    colorscheme gruvbox
     set background=dark
-
+    colorscheme NeoSolarized
 else
+    :colorscheme solarized
     if has("gui_running") 
         ":set background  = light
-        :colorscheme solarized
+        ":colorscheme my-scheme
         :set background=dark
         ":set guioptions -= r
         ":set guioptions -= L "remove the scroll bar
@@ -779,7 +784,7 @@ else
     else
         highlight CursorLine   cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
         "highlight CursorColumn cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
-        colorscheme gruvbox
+        "colorscheme gruvbox
         set background=dark
         let g:NERDTreeDirArrowExpandable='|+'
         let g:NERDTreeDirArrowCollapsible='|-'
@@ -946,9 +951,9 @@ let g:which_key_map['t']={
             \}
 let g:which_key_map['k']={
             \'name':'+docker',
-            \'c'    : ['DockerContainers','docker-container-list' ],
-            \'i'    : ['DockerImages','docker-image-list' ],
-            \'s'    : ['DockerImageSearch','docker-image-search' ],
+            \'c'    : ['DockerContainers'  , 'docker-container-list' ] ,
+            \'i'    : ['DockerImages'      , 'docker-image-list' ]     ,
+            \'s'    : ['DockerImageSearch' , 'docker-image-search' ]   ,
             \}
 let g:which_key_map['a']={
             \'name' : '+align',
@@ -1029,7 +1034,7 @@ augroup END
 
 autocmd VimLeave * NERDTreeClose
 "autocmd TabEnter * 
-                   
+
             "\ | wincmd w
 
 "autocmd FileType java setlocal omnifunc=javacomplete#Complete
@@ -1043,9 +1048,9 @@ autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 "let plugins=g:plugs_order
 
 "for item in plugins
-    ""echo escape(item,'\')
-    ""execute "amenu Plugin.".shellescape(item,'\')."  <cr>"
-    "execute "amenu Plugin.".shellescape(item,'\')."  <cr>"
+""echo escape(item,'\')
+""execute "amenu Plugin.".shellescape(item,'\')."  <cr>"
+"execute "amenu Plugin.".shellescape(item,'\')."  <cr>"
 "endfor
 
 amenu Plugin.vim-plug.Status  :PlugStatus<cr>
