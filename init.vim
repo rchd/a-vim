@@ -46,6 +46,7 @@ set softtabstop=4
 set expandtab
 set mouseshape=s:udsizing,m:no
 set completeopt=menu,menuone
+"set pastetoggle = <F12>  
 "set paste
 filetype off                               " required
 filetype plugin indent on                  " required
@@ -271,6 +272,27 @@ function! Compile()
 endfunction
 command!  -nargs=* -bang Compile :call Compile()
 noremap <f5> :Compile<cr>
+
+function! StartTime()
+    let g:current = localtime()
+    let popupid   = popup_notification('start time', {}) 
+    let bufnr     = winbufnr(popupid) call setbufline(bufnr, 2,g:current) 
+endfunction
+
+function! EndTime()
+    if g:current 
+        let s:total_time = localtime() - g:current
+        let popupid      = popup_notification('end time', {})
+        let bufnr        = winbufnr(popupid)
+        call setbufline(bufnr, 2,s:total_time / 3600."H"
+                                \.s:total_time /600."M"
+                                \.s:total_time / 60."S")
+    else
+        let popupid = popup_notification('end time', {})
+        let bufnr   = winbufnr(popupid)
+        call setbufline(bufnr, 2,"Start a timer")
+    endif
+endfunction
 
 
 function! EqualSign(char)
@@ -774,8 +796,8 @@ else
         ":set guioptions -= r
         ":set guioptions -= L "remove the scroll bar
         ":set guioptions -= m "remove the menu bar
-        :set guioptions -=T "remove the tab bar
-        ":set guioptions="";
+        ":set guioptions -=T "remove the tab bar
+        :set guioptions="";
         :set guifont     =Ubuntu\ Mono\ Bold\ Italic\ 14
         let g:tagbar_iconchars = ['▸', '▾']
         "let g:tagar_previewwin_pos="rightbelow"
