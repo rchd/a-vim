@@ -270,17 +270,19 @@ function! Compile()
         echom "There is no project file"
     endif
 endfunction
+
 command!  -nargs=* -bang Compile :call Compile()
 noremap <f5> :Compile<cr>
 
 function! StartTime()
     let g:current = localtime()
     let popupid   = popup_notification('start time', {}) 
-    let bufnr     = winbufnr(popupid) call setbufline(bufnr, 2,g:current) 
+    let bufnr     = winbufnr(popupid) 
+    call setbufline(bufnr, 2,g:current) 
 endfunction
 
 function! EndTime()
-    if g:current 
+    if exists("g:current")
         let s:total_time = localtime() - g:current
         let popupid      = popup_notification('end time', {})
         let bufnr        = winbufnr(popupid)
@@ -392,6 +394,7 @@ Plug 'https://github.com/skywind3000/asyncrun.vim.git'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'skanehira/docker.vim'
 Plug 'skanehira/docker-compose.vim'
+Plug 'https://github.com/tpope/vim-dadbod.git'
 "Plug 'vim-scripts/Drawit'
 "Plug 'wakatime/vim-wakatime'
 
