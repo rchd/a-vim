@@ -399,6 +399,7 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'skanehira/docker.vim'
 Plug 'skanehira/docker-compose.vim'
 Plug 'https://github.com/tpope/vim-dadbod.git'
+Plug 'https://github.com/kristijanhusak/vim-dadbod-ui.git'
 "Plug 'vim-scripts/Drawit'
 "Plug 'wakatime/vim-wakatime'
 
@@ -710,7 +711,7 @@ noremap <Leader>qc :cclose<cr>
 noremap <Leader>th :Hexmode<cr>
 
 "NERDTree
-noremap <Leader>tn :NERDTreeToggle<cr>
+noremap <Leader>tn :NERDTreeTabsToggle<cr>
 
 "TagbarToggle
 noremap <Leader>tt :TagbarToggle<cr>
@@ -776,6 +777,9 @@ inoremap <C-j> <Esc>:m .+1<cr>==gi
 inoremap <C-k> <Esc>:m .-2<cr>==gi
 vnoremap <C-k> :m '<-2<cr>gv=gv
 vnoremap <C-j> :m '>+1<cr>gv=gv
+
+
+noremap  <Space>td :tab DBUI<cr> 
 
 
 "}}}
@@ -1041,6 +1045,23 @@ let g:asyncrun_open=10
 
 "#####################################################################
 "#
+"#  database
+"#
+"#####################################################################
+"let g:dbs = {
+            "\ 'wp': 'mysql://root@106.54.90.244/19970809rchd@',
+            "\ }
+"postgresql://stage_user:dummypassword@test.example.com/stage
+let g:db_ui_env_variable_url = 'DATABASE_URL'
+let g:db_ui_env_variable_name = 'DATABASE_NAME'
+let g:dbs = [
+            \ { 'name': 'wp', 'url':'mysql://root:123456@www.rchd.xyz/wordpress' },
+            \ { 'name': 'sqlite', 'url': 'sqlite:/home/ren/test.db' },
+            \ { 'name': 'wiki', 'url': 'sqlite:/home/ren/Desktop/pdf/wiser/trunk/wikipedia_1000.db' },
+            \ ]
+
+"#####################################################################
+"#
 "#  autocmd
 "#
 "#####################################################################
@@ -1049,7 +1070,7 @@ augroup strartUpSetting
     autocmd vimenter *
                 \ if !argc()
                 \ | Startify
-                \ | NERDTree
+                \ | NERDTreeTabsOpen
                 \ | wincmd w
                 \ | endif
     "autocmd vimenter * Tagbar
@@ -1063,7 +1084,7 @@ augroup strartUpSetting
 augroup END
 
 
-autocmd VimLeave * NERDTreeClose
+autocmd VimLeave * NERDTreeTabsClose
 "autocmd TabEnter * 
 
             "\ | wincmd w
