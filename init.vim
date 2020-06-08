@@ -455,10 +455,11 @@ Plug 'bps/vim-textobj-python'                 , {'for':['python']}
 Plug 'thinca/vim-textobj-function-javascript' , {'for':['javascript']}
 Plug 'kamichidu/vim-textobj-function-go'      , {'for':['go']}
 Plug 'kentaro/vim-textobj-function-php'       , {'for':['php']}
+Plug 'diepm/vim-rest-console'
 
 "sql
-Plug 'tmhedberg/matchit'     , {'for':'sql'}
-Plug 'vim-scripts/dbext.vim' , {'for':'sql'}
+"Plug 'tmhedberg/matchit'     , {'for':'sql'}
+"Plug 'vim-scripts/dbext.vim' , {'for':'sql'}
 
 "ansible
 Plug 'pearofducks/ansible-vim'
@@ -522,6 +523,7 @@ let g:SuperTabDefaultCompletionType    = '<C-n>'
 let g:ycm_error_symbol                 = '>>'
 let g:ycm_warning_symbol               = '>*'
 let g:ycm_global_ycm_extra_conf        = "~/.ycm_extra_conf.py"
+let g:ycm_key_detailed_diagnostics= ''
 "}}}
 
 "#####################################################################
@@ -779,7 +781,7 @@ vnoremap <C-k> :m '<-2<cr>gv=gv
 vnoremap <C-j> :m '>+1<cr>gv=gv
 
 
-noremap  <Space>td :tab DBUI<cr> 
+noremap  <space>db :tab DBUI<cr> 
 
 
 "}}}
@@ -899,6 +901,7 @@ nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 set timeoutlen=500
 call which_key#register('<Space>', "g:which_key_map")
 
+let NERDCreateDefaultMappings= 0
 let g:which_key_use_floating_win=0
 let g:which_key_map={}
 let g:which_key_run_map_on_popup=1
@@ -1004,24 +1007,19 @@ let g:which_key_map['q']={
             \}
 let g:which_key_map['c']={
             \'name':'+comment',
-            \'c'       : 'nerdcommenter-comment'   ,
-            \'u'       : 'nerdcommenter-uncomment' ,
-            \'<Space>' : 'nerdcommenter-toggle'    ,
-            \'m'       : 'nerdcommenter-minimal'   ,
-            \'l'       : 'nerdcommenter-alignleft' ,
-            \'b'       : 'nerdcommenter-alignboth' ,
-            \'i'       : 'nerdcommenter-invert'    ,
-            \'y'       : 'nerdcommenter-yank'      ,
-            \'s'       : 'nerdcommenter-sexy'      ,
-            \'A'       : 'nerdcommenter-append'    ,
-            \'$'       : 'nerdcommenter-toeol'     ,
-            \'n'       : 'nerdcommenter-nested'    ,
-            \'a'       : 'nerdcommenter-altdelims' ,
+            \'c' : [ '<Plug>NERDCommenterComment'   , 'nerdcommenter-comment'   ] ,
+            \'u' : [ '<Plug>NERDCommenterUncomment' , 'nerdcommenter-uncommnt' ]  ,
+            \'t' : [ '<Plug>NERDCommenterToggle' , 'nerdcommenter-uncommnt' ]  ,
             \}
 let g:which_key_map['z']={
             \'name':'+zeal-search',
             \'s':'zeal-search',
             \'k':'zeal-cursor',
+            \}
+let g:which_key_map['d'] = {
+            \'name':'+database', 
+            \'b':'dadbod-ui', 
+            \'w'    : ['<Plug>(DBUI_SaveQuery)' , 'dbui-savequery ' ]   ,
             \}
 let g:which_key_map['o']={
             \'name':'+cscope',
@@ -1052,6 +1050,7 @@ let g:asyncrun_open=10
             "\ 'wp': 'mysql://root@106.54.90.244/19970809rchd@',
             "\ }
 "postgresql://stage_user:dummypassword@test.example.com/stage
+"let g:db_ui_disable_mappings= 1
 let g:db_ui_env_variable_url = 'DATABASE_URL'
 let g:db_ui_env_variable_name = 'DATABASE_NAME'
 let g:dbs = [
@@ -1070,7 +1069,7 @@ augroup strartUpSetting
     autocmd vimenter *
                 \ if !argc()
                 \ | Startify
-                \ | NERDTreeTabsOpen
+                \ | NERDTree
                 \ | wincmd w
                 \ | endif
     "autocmd vimenter * Tagbar
