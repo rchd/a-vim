@@ -225,6 +225,20 @@ function! SiblingFiles(A,L,P)
     return map(split(globpath(expand("%:h")."/",a:A."*"),"\n"),'fnamemodify(v:val,":t")')
 endfunction
 
+function! TouchGitignore()
+    let g:test = system("ls  -al | grep .gitignore")
+    for bufnr in range(1, bufnr('$'))
+        if ".gitignore"==bufname(bufnr)
+            :b .gitignore
+            return 
+        endif
+    endfor
+    if  g:test == ""
+       system("touch .gitignore") 
+    endif
+    :e .gitignore
+endfunction
+
 function! Rename(name,bang)
     let l:curfile=expand("%:p")
     let l:curpath=expand("%:h")."/"
@@ -355,10 +369,9 @@ Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 "Plug 'Shougo/echodoc.vim'
-
+"Plug 'ryanoasis/vim-devicons'
 if !has('gui_running') 
     "Loading plugin when gvim running  
-    Plug 'ryanoasis/vim-devicons'
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
     Plug 'https://github.com/morhetz/gruvbox.git'
 endif
@@ -457,6 +470,9 @@ Plug 'kamichidu/vim-textobj-function-go'      , {'for':['go']}
 Plug 'kentaro/vim-textobj-function-php'       , {'for':['php']}
 Plug 'diepm/vim-rest-console'
 
+"test
+Plug 'https://github.com/vim-test/vim-test.git'
+
 "sql
 "Plug 'tmhedberg/matchit'     , {'for':'sql'}
 "Plug 'vim-scripts/dbext.vim' , {'for':'sql'}
@@ -516,7 +532,9 @@ let g:startify_custom_fotter=StartifyCenter(s:header)
 "#####################################################################
 "{{{
 " make YCM compatible with UltiSnips (using supertab)
-let g:ycm_add_preview_to_completeopt   = 0
+set completeopt+=popup
+set completepopup=height:10,width:60,highlight:Pmenu,border:off
+let g:ycm_add_preview_to_completeopt   = 1
 let g:ycm_key_list_select_completion   = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType    = '<C-n>'
@@ -781,7 +799,7 @@ vnoremap <C-k> :m '<-2<cr>gv=gv
 vnoremap <C-j> :m '>+1<cr>gv=gv
 
 
-noremap  <space>db :tab DBUI<cr> 
+noremap  <space>db :DBUIToggle<cr> 
 
 
 "}}}
@@ -814,6 +832,8 @@ else
         ":set guioptions -=T "remove the tab bar
         :set guioptions="";
         :set guifont     =Ubuntu\ Mono\ Bold\ Italic\ 14
+        ":set guifont     =DejaVu\ Sans\ Mono\ Nerd\ Font
+        ":set guifont =Ubuntu\ Mono\ Nerd\ Font\ Bold\ Italic\ 14
         let g:tagbar_iconchars = ['▸', '▾']
         "let g:tagar_previewwin_pos="rightbelow"
         let g:fullscreen = 0
@@ -968,18 +988,19 @@ let g:which_key_map['s']={
             \}
 let g:which_key_map['g']={
             \ 'name'  : '+git/version-control' ,
-            \ 'b'     : ['Gblame'   , 'fugitive-blame']             ,
-            \ 'c'     : ['BCommits' , 'commits-for-current-buffer'] ,
-            \ 'C'     : ['Gcommit'  , 'fugitive-commit']            ,
-            \ 'd'     : ['Gdiff'    , 'fugitive-diff']              ,
-            \ 'e'     : ['Gedit'    , 'fugitive-edit']              ,
-            \ 'l'     : ['Glog'     , 'fugitive-log']               ,
-            \ 'r'     : ['Gread'    , 'fugitive-read']              ,
-            \ 's'     : ['Gstatus'  , 'fugitive-status']            ,
-            \ 'w'     : ['Gwrite'   , 'fugitive-write']             ,
-            \ 'p'     : ['AsyncGitPush()'    , 'fugitive-push']              ,
-            \ 'y'     : ['Goyo'     , 'goyo-mode']                  ,
-            \ 'v'     : ['GV'       , 'GV']                         ,
+            \ 'b'     : ['Gblame'              , 'fugitive-blame']             ,
+            \ 'c'     : ['BCommits'            , 'commits-for-current-buffer'] ,
+            \ 'C'     : ['Gcommit'             , 'fugitive-commit']            ,
+            \ 'd'     : ['Gdiff'               , 'fugitive-diff']              ,
+            \ 'e'     : ['Gedit'               , 'fugitive-edit']              ,
+            \ 'l'     : ['Glog'                , 'fugitive-log']               ,
+            \ 'r'     : ['Gread'               , 'fugitive-read']              ,
+            \ 's'     : ['Gstatus'             , 'fugitive-status']            ,
+            \ 'w'     : ['Gwrite'              , 'fugitive-write']             ,
+            \ 'p'     : ['AsyncGitPush()'      , 'fugitive-push']              ,
+            \ 'i'     : ['TouchGitignore()'    , 'touch-gitignore']            ,
+            \ 'y'     : ['Goyo'                , 'goyo-mode']                  ,
+            \ 'v'     : ['GV'                  , 'GV']                         ,
             \}
 let g:which_key_map['t']={
             \'name' : '+tool-window'    ,
@@ -1009,7 +1030,7 @@ let g:which_key_map['c']={
             \'name':'+comment',
             \'c' : [ '<Plug>NERDCommenterComment'   , 'nerdcommenter-comment'   ] ,
             \'u' : [ '<Plug>NERDCommenterUncomment' , 'nerdcommenter-uncommnt' ]  ,
-            \'t' : [ '<Plug>NERDCommenterToggle' , 'nerdcommenter-uncommnt' ]  ,
+            \'t' : [ '<Plug>NERDCommenterToggle'    , 'nerdcommenter-toggle' ]    ,
             \}
 let g:which_key_map['z']={
             \'name':'+zeal-search',
@@ -1051,12 +1072,14 @@ let g:asyncrun_open=10
             "\ }
 "postgresql://stage_user:dummypassword@test.example.com/stage
 "let g:db_ui_disable_mappings= 1
+let g:db_ui_winwidth = 20
 let g:db_ui_env_variable_url = 'DATABASE_URL'
 let g:db_ui_env_variable_name = 'DATABASE_NAME'
 let g:dbs = [
-            \ { 'name': 'wp', 'url':'mysql://root:123456@www.rchd.xyz/wordpress' },
-            \ { 'name': 'sqlite', 'url': 'sqlite:/home/ren/test.db' },
-            \ { 'name': 'wiki', 'url': 'sqlite:/home/ren/Desktop/pdf/wiser/trunk/wikipedia_1000.db' },
+            \ { 'name': 'wp'     , 'url':'mysql://root:123456@www.rchd.xyz/wordpress' }                  ,
+            \ { 'name': 'sqlite' , 'url': 'sqlite:/home/ren/test.db' }                                   ,
+            \ { 'name': 'orgmode' , 'url': 'sqlite:/home/ren/Documents/react-ant-desing/django/django/OrgmodeBlog/db.sqlite3' }                                   ,
+            \ { 'name': 'wiki'   , 'url': 'sqlite:/home/ren/Desktop/pdf/wiser/trunk/wikipedia_1000.db' } ,
             \ ]
 
 "#####################################################################
@@ -1077,9 +1100,9 @@ augroup strartUpSetting
     autocmd FileType python set ts=4
     autocmd FileType python set sts=4
     autocmd FileType html   set tabstop=2
-    autocmd FileType js 		set tabstop=2
+    autocmd FileType js     set tabstop=2
     autocmd FileType html 	set shiftwidth=2
-    autocmd FileType js 		set shiftwidth=2
+    autocmd FileType js     set shiftwidth=2
 augroup END
 
 
@@ -1109,3 +1132,4 @@ amenu Plugin.vim-plug.Update  :PlugUpdate<cr>
 amenu Plugin.vim-plug.Install :PlugInstall<cr>
 amenu Plugin.vim-plug.Clean   :PlugClean<cr>
 amenu Plugin.vim-plug.Diff    :PlugDiff<cr>
+let test#python#runner = 'pytest-3'
