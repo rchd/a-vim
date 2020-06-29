@@ -46,7 +46,7 @@ set softtabstop=4
 set expandtab
 set mouseshape=s:udsizing,m:no
 set completeopt=menu,menuone
-"set pastetoggle = <F12>  
+set pastetoggle =<F12>  
 "set paste
 filetype off                               " required
 filetype plugin indent on                  " required
@@ -344,6 +344,13 @@ function! EqualSign(char)
     endif
 endfunction
 
+"function! RecollSearch()
+    "a:file_name = input("Input the file that you want search") 
+    "a:result=system("recoll"." -t  -q ".a:file_name)
+    "call setqflist(a:result)
+"endfunction
+
+
 
 :inoremap = <c-r>=EqualSign('=')<CR>
 :inoremap + <c-r>=EqualSign('+')<CR>
@@ -353,6 +360,17 @@ endfunction
 :inoremap > <c-r>=EqualSign('>')<CR>
 :inoremap < <c-r>=EqualSign('<')<CR>
 :inoremap , ,<space>
+
+function! RecollSearch()
+    let file_name = input("Input the file name that you want to search:")
+    let result = system('recoll  -t   -q '.file_name)->split('\n', 1) 
+    let i = 0
+    for item in result
+        :call setqflist([{'bufnr':'recoll', 'text': item}], 'a')
+    endfor
+    copen
+endfunction
+command! -nargs=0 Recoll call RecollSearch()
 
 "}}}
 "#####################################################################
@@ -443,6 +461,7 @@ Plug 'ap/vim-css-color'        , {'for':'css'}
 Plug 'mxw/vim-jsx'             , {'for':'js'}
 Plug 'lvht/phpcd.vim'          , { 'for': 'php'   , 'do': 'composer install' }
 Plug 'jupyter-vim/jupyter-vim' , {'for':'python'}
+Plug  'https://github.com/jmcantrell/vim-virtualenv.git' , {'for':'python'}
 "Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 "Plug 'artur-shaik/vim-javacomplete2',{'for':'java'}
 "Plug 'mattn/emmet-vim'         , {'for':['html,js']}
@@ -1072,11 +1091,11 @@ let g:asyncrun_open=10
             "\ }
 "postgresql://stage_user:dummypassword@test.example.com/stage
 "let g:db_ui_disable_mappings= 1
-let g:db_ui_winwidth = 20
+let g:db_ui_winwidth = 30
 let g:db_ui_env_variable_url = 'DATABASE_URL'
 let g:db_ui_env_variable_name = 'DATABASE_NAME'
 let g:dbs = [
-            \ { 'name': 'wp'     , 'url':'mysql://root:123456@www.rchd.xyz/wordpress' }                  ,
+            \ { 'name': 'wp'     , 'url':'mysql://rchd:19970809rchd@www.rchd.xyz/wordpress' }                  ,
             \ { 'name': 'sqlite' , 'url': 'sqlite:/home/ren/test.db' }                                   ,
             \ { 'name': 'orgmode' , 'url': 'sqlite:/home/ren/Documents/react-ant-desing/django/django/OrgmodeBlog/db.sqlite3' }                                   ,
             \ { 'name': 'wiki'   , 'url': 'sqlite:/home/ren/Desktop/pdf/wiser/trunk/wikipedia_1000.db' } ,
@@ -1132,4 +1151,3 @@ amenu Plugin.vim-plug.Update  :PlugUpdate<cr>
 amenu Plugin.vim-plug.Install :PlugInstall<cr>
 amenu Plugin.vim-plug.Clean   :PlugClean<cr>
 amenu Plugin.vim-plug.Diff    :PlugDiff<cr>
-let test#python#runner = 'pytest-3'
