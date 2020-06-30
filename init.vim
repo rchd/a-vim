@@ -344,12 +344,6 @@ function! EqualSign(char)
     endif
 endfunction
 
-"function! RecollSearch()
-    "a:file_name = input("Input the file that you want search") 
-    "a:result=system("recoll"." -t  -q ".a:file_name)
-    "call setqflist(a:result)
-"endfunction
-
 
 
 :inoremap = <c-r>=EqualSign('=')<CR>
@@ -364,9 +358,19 @@ endfunction
 function! RecollSearch()
     let file_name = input("Input the file name that you want to search:")
     let result = system('recoll  -t   -q '.file_name)->split('\n', 1) 
-    let i = 0
     for item in result
-        :call setqflist([{'bufnr':'recoll', 'text': item}], 'a')
+        let path=matchstr(item, '\[\file\:.*\]\{1}')
+        let pathlist = split(path)
+        if empty(pathlist) == 0
+            let file = pathlist[0]
+            let start=stridx(file, '[')
+            let end=stridx(file, ']')
+            let newpath = strpart(file, start+1, end-1)
+            let finalpath = strpart(newpath, 7 )
+            :call setqflist([{'bufnr':'recoll','filename':finalpath,'text':item}],'a')
+        else
+            :call setqflist([{'bufnr':'recoll',    'text': item}], 'a')
+        endif
     endfor
     copen
 endfunction
