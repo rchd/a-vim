@@ -234,7 +234,7 @@ function! TouchGitignore()
         endif
     endfor
     if  g:test == ""
-       system("touch .gitignore") 
+        system("touch .gitignore") 
     endif
     :e .gitignore
 endfunction
@@ -301,8 +301,8 @@ function! EndTime()
         let popupid      = popup_notification('end time', {})
         let bufnr        = winbufnr(popupid)
         call setbufline(bufnr, 2,s:total_time / 3600."H"
-                                \.s:total_time /600."M"
-                                \.s:total_time / 60."S")
+                    \.s:total_time /600."M"
+                    \.s:total_time / 60."S")
     else
         let popupid = popup_notification('end time', {})
         let bufnr   = winbufnr(popupid)
@@ -349,14 +349,14 @@ endfunction
 :inoremap = <c-r>=EqualSign('=')<CR>
 :inoremap + <c-r>=EqualSign('+')<CR>
 :inoremap - <c-r>=EqualSign('-')<CR>
-:inoremap * <c-r>=EqualSign('*')<CR>
-:inoremap / <c-r>=EqualSign('/')<CR>
+:inoremap * <c-r>=EqualSign('*')<CR> :inoremap / <c-r>=EqualSign('/')<CR>
 :inoremap > <c-r>=EqualSign('>')<CR>
 :inoremap < <c-r>=EqualSign('<')<CR>
 :inoremap , ,<space>
 
 function! RecollSearch()
     let file_name = input("Input the file name that you want to search:")
+    let command = "recoll -t -q " . file_name 
     let result = system('recoll  -t   -q '.file_name)->split('\n', 1) 
     for item in result
         let path=matchstr(item, '\[\file\:.*\]\{1}')
@@ -367,14 +367,23 @@ function! RecollSearch()
             let end=stridx(file, ']')
             let newpath = strpart(file, start+1, end-1)
             let finalpath = strpart(newpath, 7 )
-            :call setqflist([{'bufnr':'recoll','filename':finalpath,'text':item}],'a')
+            :call setqflist([{'bufnr':'recoll',
+                        \'filename':finalpath,
+                        \'text':item}],'a')
         else
-            :call setqflist([{'bufnr':'recoll',    'text': item}], 'a')
+            :call setqflist([{'bufnr':'recoll','text': item}], 'a')
         endif
     endfor
     copen
 endfunction
 command! -nargs=0 Recoll call RecollSearch()
+
+function! LogPrint()
+    let logjob = job_start("tail -f /var/log/dpkg.log",
+                 \ {'out_io': 'buffer', 'out_name': 'dummy'})
+    sbuf dummy
+endfunction
+command! -nargs=0 Log call LogPrint()
 
 "}}}
 "#####################################################################
@@ -1155,3 +1164,4 @@ amenu Plugin.vim-plug.Update  :PlugUpdate<cr>
 amenu Plugin.vim-plug.Install :PlugInstall<cr>
 amenu Plugin.vim-plug.Clean   :PlugClean<cr>
 amenu Plugin.vim-plug.Diff    :PlugDiff<cr>
+
