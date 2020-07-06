@@ -274,11 +274,11 @@ function! TabeVimrc()
 endfunction
 
 function! Compile()
-    if filereadable('Makefile') &&  (&filetype=="c" || &filetype=="cpp" )
+    if filereadable('Makefile') 
         execute ":AsyncRun make"
-    elseif filereadable('pom.xml') && &filetype=="java"
+    elseif filereadable('pom.xml') 
         execute ":AsyncRun mvn compile"
-    elseif filereadable('go.mod') && &filetype=="go"
+    elseif filereadable('go.mod') 
         execute ":AsyncRun go build"
     else
         echom "There is no project file"
@@ -369,9 +369,9 @@ function! RecollSearch()
             let finalpath = strpart(newpath, 7 )
             :call setqflist([{'bufnr':'recoll',
                         \'filename':finalpath,
-                        \'text':item}],'a')
+                        \'text':item}], 'a')
         else
-            :call setqflist([{'bufnr':'recoll','text': item}], 'a')
+            :call setqflist([{'bufnr':'recoll','text': item}] , 'a')
         endif
     endfor
     copen
@@ -380,10 +380,21 @@ command! -nargs=0 Recoll call RecollSearch()
 
 function! LogPrint()
     let logjob = job_start("tail -f /var/log/dpkg.log",
-                 \ {'out_io': 'buffer', 'out_name': 'dummy'})
+                \ {'out_io': 'buffer', 'out_name': 'dummy',
+                \   'out_modifiable':0})
     sbuf dummy
 endfunction
 command! -nargs=0 Log call LogPrint()
+
+function QfMakeConv()
+    let qflist = getqflist()
+    for i in qflist
+        let i.text = iconv(i.text, "cp936", "utf-8")
+    endfor
+    call setqflist(qflist)
+endfunction
+
+au QuickfixCmdPost make call QfMakeConv()
 
 "}}}
 "#####################################################################
@@ -627,6 +638,10 @@ let g:NERDTreeWinSize=25
 let g:NERDTreeWinPos='left'
 let g:NERDTreeHijackNetrw = 0
 let NERDTreeShowBookmarks=1 
+let g:nerdtree_tabs_open_on_gui_startup = 1
+let g:nerdtree_tabs_no_startup_for_diff = 1
+let g:nerdtree_tabs_smart_startup_focus = 2
+let g:nerdtree_tabs_startup_cd = 1  
 "}}}
 
 
@@ -1124,8 +1139,6 @@ augroup strartUpSetting
     autocmd vimenter *
                 \ if !argc()
                 \ | Startify
-                \ | NERDTree
-                \ | wincmd w
                 \ | endif
     "autocmd vimenter * Tagbar
     autocmd FileType python set sw=4
