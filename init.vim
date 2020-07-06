@@ -280,6 +280,9 @@ function! Compile()
         execute ":AsyncRun mvn compile"
     elseif filereadable('go.mod') 
         execute ":AsyncRun go build"
+    elseif filereadable('CMakeLists.txt') 
+        execute ":AsyncRun cmake ."
+        execute ":AsyncRun make"
     else
         echom "There is no project file"
     endif
