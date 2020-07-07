@@ -269,8 +269,7 @@ function! LoadCscope()
 endfunction
 
 function! TabeVimrc()
-    :lcd ~/a-vim/
-    :tabe ~/a-vim/init.vim
+    :e ~/a-vim/init.vim
 endfunction
 
 function! Compile()
@@ -744,6 +743,9 @@ let g:tagbar_width=25
 let g:ale_set_loclist=0
 let g:ale_set_quickfix=1
 set omnifunc=ale#completion#OmniFunc
+" In ~/.vim/vimrc, or somewhere similar.
+let g:ale_linter_aliases = {'jsx': ['css', 'javascript']}
+let g:ale_linters = {'jsx': ['stylelint', 'eslint']}
 
 "#####################################################################
 "#
@@ -1155,6 +1157,8 @@ augroup END
 
 
 autocmd VimLeave * NERDTreeTabsClose
+autocmd TabEnter  * wincmd w 
+autocmd TabEnter  * NERDTreeCWD 
 "autocmd TabEnter * 
 
             "\ | wincmd w
