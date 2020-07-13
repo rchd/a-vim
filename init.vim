@@ -6,13 +6,7 @@
 " ##.... ##:::::::::::. ## ##:::: ##:: ##:.:: ##: ##::. ##:: ##::: ##:
 " ##:::: ##::::::::::::. ###::::'####: ##:::: ##: ##:::. ##:. ######::
 "..:::::..::::::::::::::...:::::....::..:::::..::..:::::..:::......:::
-"#####################################################################
-"#
-"#
-"#
-"#
-"#
-"#####################################################################
+
 "basic seting "{{{
 let $PATH="~/bin:/local/usr/bin:/".$PATH
 let g:mapleader = "\<Space>"
@@ -398,6 +392,22 @@ endfunction
 
 au QuickfixCmdPost make call QfMakeConv()
 
+" Your vimrc
+function! GitStatus()
+    let [a,m,r] = GitGutterGetHunkSummary()
+    return printf('+%d ~%d -%d', a, m, r)
+endfunction
+set statusline+=%{GitStatus()}
+
+function! ChangeBackground()
+   if &background == 'light'  
+       :set background=dark
+   else
+       :set background=light
+   endif
+endfunction
+noremap <Leader>bt :call ChangeBackground()<cr> 
+
 "}}}
 "#####################################################################
 "#
@@ -463,6 +473,7 @@ Plug 'https://github.com/kristijanhusak/vim-dadbod-ui.git'
 "git
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
+Plug 'airblade/vim-gitgutter'
 "Plug 'junegunn/vim-github-dashboard'
 
 "The guide of key
@@ -740,12 +751,29 @@ let g:tagbar_width=25
 "#  ale
 "#
 "#####################################################################
+let g:ale_set_highlights = 0
+"自定义error和warning图标
+let g:ale_sign_error = '✗'
+let g:ale_sign_warning = '⚡'
+"在vim自带的状态栏中整合ale
+let g:ale_statusline_format = ['✗ %d', '⚡ %d', '✔ OK']
+"显示Linter名称,出错或警告等相关信息
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+"打开文件时不进行检查
+let g:ale_lint_on_enter = 0
 let g:ale_set_loclist=0
 let g:ale_set_quickfix=1
 set omnifunc=ale#completion#OmniFunc
 " In ~/.vim/vimrc, or somewhere similar.
 let g:ale_linter_aliases = {'jsx': ['css', 'javascript']}
-let g:ale_linters = {'jsx': ['stylelint', 'eslint']}
+let g:ale_linters = {'jsx': ['stylelint', 'eslint'], 
+            \'c':['clang'], 
+            \'python':['pylint'], 
+            \'c++':['clang'], 
+            \'vimscript':['vint']}
+
 
 "#####################################################################
 "#
@@ -1005,6 +1033,7 @@ let g:which_key_map['b']={
             \'p' : ['bprevious' , 'previous-buffer'] ,
             \'d' : ['bdelete'   , 'delete-buffer']   ,
             \'s' : ['Buffers'   , 'switch-buffer']   ,
+            \'t' : 'background'   ,
             \}
 let g:which_key_map['p']={
             \'name':'+plugin',
@@ -1040,19 +1069,22 @@ let g:which_key_map['s']={
             \}
 let g:which_key_map['g']={
             \ 'name'  : '+git/version-control' ,
-            \ 'b'     : ['Gblame'              , 'fugitive-blame']             ,
-            \ 'c'     : ['BCommits'            , 'commits-for-current-buffer'] ,
-            \ 'C'     : ['Gcommit'             , 'fugitive-commit']            ,
-            \ 'd'     : ['Gdiff'               , 'fugitive-diff']              ,
-            \ 'e'     : ['Gedit'               , 'fugitive-edit']              ,
-            \ 'l'     : ['Glog'                , 'fugitive-log']               ,
-            \ 'r'     : ['Gread'               , 'fugitive-read']              ,
-            \ 's'     : ['Gstatus'             , 'fugitive-status']            ,
-            \ 'w'     : ['Gwrite'              , 'fugitive-write']             ,
-            \ 'p'     : ['AsyncGitPush()'      , 'fugitive-push']              ,
-            \ 'i'     : ['TouchGitignore()'    , 'touch-gitignore']            ,
-            \ 'y'     : ['Goyo'                , 'goyo-mode']                  ,
-            \ 'v'     : ['GV'                  , 'GV']                         ,
+            \ 'b'     : ['Gblame'            , 'fugitive-blame']             ,
+            \ 'c'     : ['BCommits'          , 'commits-for-current-buffer'] ,
+            \ 'C'     : ['Gcommit'           , 'fugitive-commit']            ,
+            \ 'd'     : ['Gdiff'             , 'fugitive-diff']              ,
+            \ 'e'     : ['Gedit'             , 'fugitive-edit']              ,
+            \ 'l'     : ['Glog'              , 'fugitive-log']               ,
+            \ 'r'     : ['Gread'             , 'fugitive-read']              ,
+            \ 's'     : ['Gstatus'           , 'fugitive-status']            ,
+            \ 'w'     : ['Gwrite'            , 'fugitive-write']             ,
+            \ 'p'     : ['AsyncGitPush()'    , 'fugitive-push']              ,
+            \ 'i'     : ['TouchGitignore()'  , 'touch-gitignore']            ,
+            \ 'y'     : ['Goyo'              , 'goyo-mode']                  ,
+            \ 'v'     : ['GV'                , 'GV']                         ,
+            \ 'j'     : ['GitGutterNextHunk' , 'gitgutter-next']             ,
+            \ 'k'     : ['GitGutterPrevHunk' , 'gitgutter-prev']             ,
+            \ 'f'     : ['GitGutterFold'     , 'gitgutter-fold']             ,
             \}
 let g:which_key_map['t']={
             \'name' : '+tool-window'    ,
