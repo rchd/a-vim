@@ -76,7 +76,6 @@ function! StartifyCenter(lines) abort
                 \'repeat(" ",(&columns / 2)-(longest_line/2)).v:val')
     return centered_lines
 endfunction
-
 function! ToggleFullScreen()
     if g:fullscreen == 1
         let g:fullscreen = 0
@@ -228,7 +227,7 @@ function! TouchGitignore()
         endif
     endfor
     if  g:test == ""
-        system("touch .gitignore") 
+        call system("touch .gitignore") 
     endif
     :e .gitignore
 endfunction
@@ -511,6 +510,7 @@ Plug 'gu-fan/colorv.vim' , {'on':'ColorV'}
 Plug 'https://github.com/vim-scripts/fcitx.vim.git'
 
 Plug 'junegunn/goyo.vim'
+Plug 'https://tpope.io/vim/eunuch.git'
 Plug 'whatyouhide/vim-gotham'
 "Plug 'vim-utils/vim-man'
 
