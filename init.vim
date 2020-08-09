@@ -381,15 +381,15 @@ function! LogPrint()
 endfunction
 command! -nargs=0 Log call LogPrint()
 
-function QfMakeConv()
-    let qflist = getqflist()
-    for i in qflist
-        let i.text = iconv(i.text, "cp936", "utf-8")
-    endfor
-    call setqflist(qflist)
-endfunction
+"function QfMakeConv()
+"let qflist = getqflist()
+"for i in qflist
+"let i.text = iconv(i.text, "cp936", "utf-8")
+"endfor
+"call setqflist(qflist)
+"endfunction
 
-au QuickfixCmdPost make call QfMakeConv()
+"au QuickfixCmdPost make call QfMakeConv()
 
 " Your vimrc
 function! GitStatus()
@@ -399,13 +399,19 @@ endfunction
 set statusline+=%{GitStatus()}
 
 function! ChangeBackground()
-   if &background == 'light'  
-       :set background=dark
-   else
-       :set background=light
-   endif
+    if &background == 'light'  
+        :set background=dark
+    else
+        :set background=light
+    endif
 endfunction
 noremap <Leader>bt :call ChangeBackground()<cr> 
+
+if !has('gui_running')
+    function! StartifyEntryFormat()
+        return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
+    endfunction
+endif
 
 "}}}
 "#####################################################################
@@ -422,10 +428,11 @@ Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 "Plug 'Shougo/echodoc.vim'
-"Plug 'ryanoasis/vim-devicons'
+
 if !has('gui_running') 
     "Loading plugin when gvim running  
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+    Plug 'ryanoasis/vim-devicons'
     Plug 'https://github.com/morhetz/gruvbox.git'
 endif
 Plug 'edkolev/tmuxline.vim'
@@ -464,7 +471,7 @@ Plug 'https://github.com/skywind3000/asyncrun.vim.git'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'skanehira/docker.vim'
 Plug 'skanehira/docker-compose.vim'
-Plug 'https://github.com/tpope/vim-dadbod.git'
+Plug 'https://github.com/tpope/vim-dadbod.git', {'on':'DBUIToggle'}
 Plug 'https://github.com/kristijanhusak/vim-dadbod-ui.git'
 "Plug 'vim-scripts/Drawit'
 "Plug 'wakatime/vim-wakatime'
@@ -495,6 +502,7 @@ Plug 'liuchengxu/vim-which-key'
 Plug 'pangloss/vim-javascript' , {'for':'js'}
 Plug 'ap/vim-css-color'        , {'for':'css'}
 Plug 'mxw/vim-jsx'             , {'for':'js'}
+Plug 'https://github.com/peitalin/vim-jsx-typescript.git', {'for':['ts', 'tsx']}
 Plug 'lvht/phpcd.vim'          , { 'for': 'php'   , 'do': 'composer install' }
 Plug 'jupyter-vim/jupyter-vim' , {'for':'python'}
 Plug  'https://github.com/jmcantrell/vim-virtualenv.git' , {'for':'python'}
@@ -505,9 +513,12 @@ Plug  'https://github.com/jmcantrell/vim-virtualenv.git' , {'for':'python'}
 "Plug 'klen/python-mode'        , {'for':'python'}
 
 Plug 'majutsushi/tagbar' , {'on':'TagbarToggle'}
+Plug 'francoiscabrol/ranger.vim', {'on':'Ranger'}
 Plug 'mbbill/undotree'   , {'on':'UndotreeToggle'}
 Plug 'gu-fan/colorv.vim' , {'on':'ColorV'}
 Plug 'https://github.com/vim-scripts/fcitx.vim.git'
+
+Plug 'https://github.com/MTDL9/vim-log-highlighting.git'
 
 Plug 'junegunn/goyo.vim'
 Plug 'https://tpope.io/vim/eunuch.git'
@@ -768,6 +779,7 @@ let g:ale_set_quickfix=1
 set omnifunc=ale#completion#OmniFunc
 " In ~/.vim/vimrc, or somewhere similar.
 let g:ale_linter_aliases = {'jsx': ['css', 'javascript']}
+let g:ale_fixers= {'javascript':['prettier', 'eslint']}
 let g:ale_linters = {'jsx': ['stylelint', 'eslint'], 
             \'c':['clang'], 
             \'python':['pylint'], 
