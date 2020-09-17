@@ -1181,10 +1181,9 @@ let g:db_ui_winwidth = 30
 let g:db_ui_env_variable_url = 'DATABASE_URL'
 let g:db_ui_env_variable_name = 'DATABASE_NAME'
 let g:dbs = [
-            \ { 'name': 'wp'     , 'url':'mysql://rchd:19970809rchd@www.rchd.xyz/wordpress' }                  ,
-            \ { 'name': 'sqlite' , 'url': 'sqlite:/home/ren/test.db' }                                   ,
-            \ { 'name': 'orgmode' , 'url': 'sqlite:/home/ren/Documents/react-ant-desing/django/django/OrgmodeBlog/db.sqlite3' }                                   ,
-            \ { 'name': 'wiki'   , 'url': 'sqlite:/home/ren/Desktop/pdf/wiser/trunk/wikipedia_1000.db' } ,
+            \ { 'name': 'sqlite'  , 'url': 'sqlite:/home/ren/test.db' }                                                         ,
+            \ { 'name': 'orgmode' , 'url': 'sqlite:/home/ren/Documents/react-ant-desing/django/django/OrgmodeBlog/db.sqlite3' } ,
+            \ { 'name': 'wiki'    , 'url': 'sqlite:/home/ren/Desktop/pdf/wiser/trunk/wikipedia_1000.db' }                       ,
             \ ]
 
 "#####################################################################
