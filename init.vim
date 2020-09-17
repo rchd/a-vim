@@ -382,17 +382,6 @@ function! LogPrint()
 endfunction
 command! -nargs=0 Log call LogPrint()
 
-"function QfMakeConv()
-"let qflist = getqflist()
-"for i in qflist
-"let i.text = iconv(i.text, "cp936", "utf-8")
-"endfor
-"call setqflist(qflist)
-"endfunction
-
-"au QuickfixCmdPost make call QfMakeConv()
-
-" Your vimrc
 function! GitStatus()
     let [a,m,r] = GitGutterGetHunkSummary()
     return printf('+%d ~%d -%d', a, m, r)
@@ -477,36 +466,16 @@ Plug 'https://github.com/kristijanhusak/vim-dadbod-ui.git'
 "Plug 'vim-scripts/Drawit'
 "Plug 'wakatime/vim-wakatime'
 
-
-
-"code format
-Plug 'prettier/vim-prettier', {
-            \ 'do': 'yarn install',
-            \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss',
-            \'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
-
 "git
 Plug 'tpope/vim-fugitive'
-"Plug 'junegunn/gv.vim'
 Plug 'airblade/vim-gitgutter'
 "Plug 'junegunn/vim-github-dashboard'
 
 "The guide of key
 Plug 'liuchengxu/vim-which-key'
 
-"if has('nvim')
-"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-"else
-"Plug 'Shougo/deoplete.nvim',{'for':'java'}
-"Plug 'roxma/nvim-yarp',{'for':'java'}
-"Plug 'roxma/vim-hug-neovim-rpc',{'for':'java'}
-""Plug 'zchee/deoplete-jedi',{'for':'java'}
-"endif
-"let g:deoplete#enable_at_startup = 1
-
-
-"Plug 'jalvesaq/Nvim-R'         , {'for':'R'}
 "Plug 'sirtaj/vim-openscad'     , {'for':'scad'}
+"
 "Web develop
 Plug 'pangloss/vim-javascript' , {'for':'js'}
 Plug 'ap/vim-css-color'        , {'for':'css'}
@@ -515,24 +484,26 @@ Plug 'https://github.com/peitalin/vim-jsx-typescript.git', {'for':['ts', 'tsx']}
 Plug 'lvht/phpcd.vim'          , { 'for': 'php'   , 'do': 'composer install' }
 Plug 'jupyter-vim/jupyter-vim' , {'for':'python'}
 Plug  'https://github.com/jmcantrell/vim-virtualenv.git' , {'for':'python'}
-"Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-"Plug 'artur-shaik/vim-javacomplete2',{'for':'java'}
-"Plug 'mattn/emmet-vim'         , {'for':['html,js']}
 
-"Plug 'klen/python-mode'        , {'for':'python'}
+"code format
+Plug 'prettier/vim-prettier', {
+            \ 'do': 'yarn install',
+            \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss',
+            \'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
+Plug 'mattn/emmet-vim'         , {'for':['html,js,vue']}
 
-Plug 'majutsushi/tagbar' , {'on':'TagbarToggle'}
-Plug 'francoiscabrol/ranger.vim', {'on':'Ranger'}
-Plug 'mbbill/undotree'   , {'on':'UndotreeToggle'}
-Plug 'gu-fan/colorv.vim' , {'on':'ColorV'}
+
+"tools
+Plug 'majutsushi/tagbar'         , {'on':'TagbarToggle'}
+Plug 'francoiscabrol/ranger.vim' , {'on':'Ranger'}
+Plug 'mbbill/undotree'           , {'on':'UndotreeToggle'}
+Plug 'gu-fan/colorv.vim'         , {'on':'ColorV'}
 Plug 'https://github.com/vim-scripts/fcitx.vim.git'
 
-Plug 'https://github.com/MTDL9/vim-log-highlighting.git'
+"Plug 'https://github.com/MTDL9/vim-log-highlighting.git'
 
 Plug 'junegunn/goyo.vim'
 Plug 'https://tpope.io/vim/eunuch.git'
-Plug 'whatyouhide/vim-gotham'
-"Plug 'vim-utils/vim-man'
 
 "text object
 Plug 'kana/vim-textobj-user'
@@ -549,12 +520,9 @@ Plug 'diepm/vim-rest-console'
 "test
 Plug 'https://github.com/vim-test/vim-test.git'
 
-"sql
-"Plug 'tmhedberg/matchit'     , {'for':'sql'}
-"Plug 'vim-scripts/dbext.vim' , {'for':'sql'}
 
 "ansible
-Plug 'pearofducks/ansible-vim'
+Plug 'pearofducks/ansible-vim' ,{'for':'yaml'}
 
 if has('nvim')
     Plug 'icymind/NeoSolarized'
@@ -562,14 +530,10 @@ else
     Plug 'https://github.com/altercation/solarized.git'
 endif
 
-
-
-"plug 'cosminadrianpopescu/vim-sql-workbench'
 call plug#end()
 
 "runtime! ftplugin/man.vim
 
-"let g:JavaComplete_EnableDefaultMappings=0
 
 
 "}}}
@@ -630,12 +594,6 @@ let g:fzf_action = {
             \ 'ctrl-t': 'tab split',
             \ 'ctrl-s': 'split',
             \ 'ctrl-v': 'vsplit' }
-"function! s:build_quickfix_list(lines)
-"call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
-"copen
-"cc
-"endfunction
-
 
 "#####################################################################
 "#
