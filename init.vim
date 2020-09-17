@@ -2,7 +2,7 @@
 "::'## ##:::::::::::: ##:::: ##:. ##:: ###::'###: ##.... ##:'##... ##:
 ":'##:. ##::::::::::: ##:::: ##:: ##:: ####'####: ##:::: ##: ##:::..::
 "'##:::. ##:'#######: ##:::: ##:: ##:: ## ### ##: ########:: ##:::::::
-" #########:........:. ##:: ##::: ##:: ##. #: ##: ##.. ##::: ##::::::: 
+" #########:........:. ##:: ##::: ##:: ##. #: ##: ##.. ##::: ##:::::::
 " ##.... ##:::::::::::. ## ##:::: ##:: ##:.:: ##: ##::. ##:: ##::: ##:
 " ##:::: ##::::::::::::. ###::::'####: ##:::: ##: ##:::. ##:. ######::
 "..:::::..::::::::::::::...:::::....::..:::::..::..:::::..:::......:::
@@ -16,8 +16,8 @@ set cscopequickfix=g-
 set shellslash
 set t_Co=256
 set nocompatible                           " be improved, required
-set autoindent
 set ruler
+set autoindent
 set relativenumber
 set number
 "set hlsearch
@@ -40,7 +40,7 @@ set softtabstop=4
 set expandtab
 set mouseshape=s:udsizing,m:no
 set completeopt=menu,menuone
-set pastetoggle =<F12>  
+set pastetoggle =<F12>
 "set paste
 filetype off                               " required
 filetype plugin indent on                  " required
@@ -223,11 +223,11 @@ function! TouchGitignore()
     for bufnr in range(1, bufnr('$'))
         if ".gitignore"==bufname(bufnr)
             :b .gitignore
-            return 
+            return
         endif
     endfor
     if  g:test == ""
-        call system("touch .gitignore") 
+        call system("touch .gitignore")
     endif
     :e .gitignore
 endfunction
@@ -253,7 +253,7 @@ endfunction
 
 command! -nargs=* -complete=customlist,SiblingFiles -bang Rename :call Rename("<args>","<bang>")
 cabbrev rename <c-r>=getcmdpos()==1 && getcmdtype()==":"?"Rename":"rename"<CR>
-noremap <Leader>wr :Rename 
+noremap <Leader>wr :Rename
 
 function! LoadCscope()
     if file_readable("cscope.out")
@@ -266,13 +266,13 @@ function! TabeVimrc()
 endfunction
 
 function! Compile()
-    if filereadable('Makefile') 
+    if filereadable('Makefile')
         execute ":AsyncRun make"
-    elseif filereadable('pom.xml') 
+    elseif filereadable('pom.xml')
         execute ":AsyncRun mvn compile"
-    elseif filereadable('go.mod') 
+    elseif filereadable('go.mod')
         execute ":AsyncRun go build"
-    elseif filereadable('CMakeLists.txt') 
+    elseif filereadable('CMakeLists.txt')
         execute ":AsyncRun cmake ."
         execute ":AsyncRun make"
     else
@@ -285,9 +285,9 @@ noremap <f5> :Compile<cr>
 
 function! StartTime()
     let g:current = localtime()
-    let popupid   = popup_notification('start time', {}) 
-    let bufnr     = winbufnr(popupid) 
-    call setbufline(bufnr, 2,g:current) 
+    let popupid   = popup_notification('start time', {})
+    let bufnr     = winbufnr(popupid)
+    call setbufline(bufnr, 2,g:current)
 endfunction
 
 function! EndTime()
@@ -311,9 +311,9 @@ endfunction
 
 
 function! EqualSign(char)
-    if a:char  =~ '='  && getline('.') =~ ".*("  
+    if a:char  =~ '='  && getline('.') =~ ".*("
         return a:char
-    endif 
+    endif
     if a:char  =~ '[\/\<\>]' && getline('.') =~ '"'
         return a:char
     endif
@@ -329,13 +329,13 @@ function! EqualSign(char)
             return "\<ESC>i".a:char."\<SPACE>"
         else
             return "\<ESC>xa".a:char."\<SPACE>"
-        endif 
+        endif
     else
         if ex2 !~ "\s"
             return "\<SPACE>".a:char."\<SPACE>\<ESC>a"
         else
             return a:char."\<SPACE>\<ESC>a"
-        endif 
+        endif
     endif
 endfunction
 
@@ -344,15 +344,16 @@ endfunction
 :inoremap = <c-r>=EqualSign('=')<CR>
 :inoremap + <c-r>=EqualSign('+')<CR>
 :inoremap - <c-r>=EqualSign('-')<CR>
-:inoremap * <c-r>=EqualSign('*')<CR> :inoremap / <c-r>=EqualSign('/')<CR>
+:inoremap / <c-r>=EqualSign('/')<CR>
+:inoremap * <c-r>=EqualSign('*')<CR>
 :inoremap > <c-r>=EqualSign('>')<CR>
 :inoremap < <c-r>=EqualSign('<')<CR>
-:inoremap , ,<space>
+":inoremap , ,<space>
 
 function! RecollSearch()
     let file_name = input("Input the file name that you want to search:")
-    let command = "recoll -t -q " . file_name 
-    let result = system('recoll  -t   -q '.file_name)->split('\n', 1) 
+    let command = "recoll -t -q " . file_name
+    let result = system('recoll  -t   -q '.file_name)->split('\n', 1)
     for item in result
         let path=matchstr(item, '\[\file\:.*\]\{1}')
         let pathlist = split(path)
@@ -399,13 +400,13 @@ endfunction
 set statusline+=%{GitStatus()}
 
 function! ChangeBackground()
-    if &background == 'light'  
+    if &background == 'light'
         :set background=dark
     else
         :set background=light
     endif
 endfunction
-noremap <Leader>bt :call ChangeBackground()<cr> 
+noremap <Leader>bt :call ChangeBackground()<cr>
 
 if !has('gui_running')
     function! StartifyEntryFormat()
@@ -429,8 +430,8 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 "Plug 'Shougo/echodoc.vim'
 
-if !has('gui_running') 
-    "Loading plugin when gvim running  
+if !has('gui_running')
+    "Loading plugin when gvim running
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
     Plug 'ryanoasis/vim-devicons'
     Plug 'https://github.com/morhetz/gruvbox.git'
@@ -443,7 +444,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'joshdick/onedark.vim'
 
 Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/nerdtree' 
+Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'https://github.com/jiangmiao/auto-pairs.git'
 Plug 'w0rp/ale'
@@ -476,9 +477,17 @@ Plug 'https://github.com/kristijanhusak/vim-dadbod-ui.git'
 "Plug 'vim-scripts/Drawit'
 "Plug 'wakatime/vim-wakatime'
 
+
+
+"code format
+Plug 'prettier/vim-prettier', {
+            \ 'do': 'yarn install',
+            \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss',
+            \'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
+
 "git
 Plug 'tpope/vim-fugitive'
-Plug 'junegunn/gv.vim'
+"Plug 'junegunn/gv.vim'
 Plug 'airblade/vim-gitgutter'
 "Plug 'junegunn/vim-github-dashboard'
 
@@ -613,7 +622,7 @@ let g:ycm_key_detailed_diagnostics= ''
 
 "#####################################################################
 "#
-"# fzf 
+"# fzf
 "#
 "#####################################################################
 
@@ -661,11 +670,11 @@ endif
 let g:NERDTreeWinSize=25
 let g:NERDTreeWinPos='left'
 let g:NERDTreeHijackNetrw = 0
-let NERDTreeShowBookmarks=1 
+let NERDTreeShowBookmarks=1
 let g:nerdtree_tabs_open_on_gui_startup = 1
 let g:nerdtree_tabs_no_startup_for_diff = 1
 let g:nerdtree_tabs_smart_startup_focus = 2
-let g:nerdtree_tabs_startup_cd = 1  
+let g:nerdtree_tabs_startup_cd = 1
 "}}}
 
 
@@ -733,7 +742,7 @@ endif
 "#
 "#####################################################################
 "noremap <F3> :Autoformat<CR>
-"au BufWrite * :Autoformat
+au BufWrite * :Autoformat
 
 "#####################################################################
 "#
@@ -780,10 +789,10 @@ set omnifunc=ale#completion#OmniFunc
 " In ~/.vim/vimrc, or somewhere similar.
 let g:ale_linter_aliases = {'jsx': ['css', 'javascript']}
 let g:ale_fixers= {'javascript':['prettier', 'eslint']}
-let g:ale_linters = {'jsx': ['stylelint', 'eslint'], 
-            \'c':['clang'], 
-            \'python':['pylint'], 
-            \'c++':['clang'], 
+let g:ale_linters = {'jsx': ['stylelint', 'eslint'],
+            \'c':['clang'],
+            \'python':['pylint'],
+            \'c++':['clang'],
             \'vimscript':['vint']}
 
 
@@ -804,13 +813,13 @@ noremap <Leader>sv :source ~/a-vim/init.vim<cr>
 vmap <Leader>ee "xy:@x<CR>
 
 
-"noremap <space>sg :silent execute "grep! -r" . 
+"noremap <space>sg :silent execute "grep! -r" .
 "\shellescape(expand("<cword>")) . " ."<cr>:copen<cr>
 "
-"noremap <space>sm :silent execute "Man " . 
+"noremap <space>sm :silent execute "Man " .
 "\shellescape(expand("<cword>")) . " ."<cr>
 
-"noremap <space>of :silent execute "cs find s" . 
+"noremap <space>of :silent execute "cs find s" .
 "\shellescape(expand("<cword>")) . " ."<cr>
 " operatoring about quickfix
 
@@ -891,7 +900,7 @@ vnoremap <C-k> :m '<-2<cr>gv=gv
 vnoremap <C-j> :m '>+1<cr>gv=gv
 
 
-noremap  <space>db :DBUIToggle<cr> 
+noremap  <space>db :DBUIToggle<cr>
 
 
 "}}}
@@ -907,14 +916,14 @@ if has("nvim")
     if exists('g:GuiLoaded')
         ":GuiFont! Ubuntu\ Mono:h14
         Guifont! Monaco:h13
-        let g:fullscreen = 0 
+        let g:fullscreen = 0
         map <silent> <F11> :call ToggleFullScreen()<CR>
     endif
     set background=dark
     colorscheme NeoSolarized
 else
     :colorscheme solarized
-    if has("gui_running") 
+    if has("gui_running")
         ":set background  = light
         ":colorscheme my-scheme
         :set background=dark
@@ -1079,6 +1088,7 @@ let g:which_key_map['s']={
             \'t' : 'ctrlsf-toogle'  ,
             \'n' : 'ctrlsf-search'  ,
             \}
+            "\ 'v'     : ['GV'                , 'GV']                         ,
 let g:which_key_map['g']={
             \ 'name'  : '+git/version-control' ,
             \ 'b'     : ['Gblame'            , 'fugitive-blame']             ,
@@ -1093,7 +1103,6 @@ let g:which_key_map['g']={
             \ 'p'     : ['AsyncGitPush()'    , 'fugitive-push']              ,
             \ 'i'     : ['TouchGitignore()'  , 'touch-gitignore']            ,
             \ 'y'     : ['Goyo'              , 'goyo-mode']                  ,
-            \ 'v'     : ['GV'                , 'GV']                         ,
             \ 'j'     : ['GitGutterNextHunk' , 'gitgutter-next']             ,
             \ 'k'     : ['GitGutterPrevHunk' , 'gitgutter-prev']             ,
             \ 'f'     : ['GitGutterFold'     , 'gitgutter-fold']             ,
@@ -1134,8 +1143,8 @@ let g:which_key_map['z']={
             \'k':'zeal-cursor',
             \}
 let g:which_key_map['d'] = {
-            \'name':'+database', 
-            \'b':'dadbod-ui', 
+            \'name':'+database',
+            \'b':'dadbod-ui',
             \'w'    : ['<Plug>(DBUI_SaveQuery)' , 'dbui-savequery ' ]   ,
             \}
 let g:which_key_map['o']={
@@ -1153,7 +1162,7 @@ vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<CR>
 
 "#####################################################################
 "#
-"#  asyncrun 
+"#  asyncrun
 "#
 "#####################################################################
 let g:asyncrun_open=10
@@ -1195,15 +1204,15 @@ augroup strartUpSetting
     autocmd FileType python set sts=4
     autocmd FileType html   set tabstop=2
     autocmd FileType js     set tabstop=2
-    autocmd FileType html 	set shiftwidth=2
+    autocmd FileType html   set shiftwidth=2
     autocmd FileType js     set shiftwidth=2
 augroup END
 
 
 autocmd VimLeave * NERDTreeTabsClose
-autocmd TabEnter  * wincmd w 
-autocmd TabEnter  * NERDTreeCWD 
-"autocmd TabEnter * 
+autocmd TabEnter  * wincmd w
+autocmd TabEnter  * NERDTreeCWD
+"autocmd TabEnter *
 
             "\ | wincmd w
 

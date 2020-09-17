@@ -9,8 +9,9 @@
                           
 * a-vimrc
 
-1[[file:screenshot/vim_screenshot.jpg]]2
+[[file:screenshot/vim_screenshot.jpg]]
 
+[[file:screenshot/Screenshot_20200610_154425.jpeg]]
 
 * 安装方法
   1. 首先安装git从github上克隆上
@@ -92,6 +93,10 @@
 | fzf                  | 文件搜索插件，速度非常快   |
 | phpcd                | php补全插件，与YCM协同工作 |
 | wakatime             | 统计代码                   |
+| vim-dadbod           | 执行SQL                    |
+| vim-dadbod-ui        | 打开一个窗口显示数据库连接 |
+| vim-test             | 测试                       |
+| vim-eunuch           | 集成bash的权限管理         |
 |                      |                            |
 
 

@@ -1,0 +1,10 @@
+version: '3'
+services:
+  ubuntu-vim:
+    image: a-vim:0.1
+    volumes:
+      - "~/:/root/"
+    ports:
+      - "3000:22"
+
+
