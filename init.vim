@@ -255,6 +255,8 @@ command! -nargs=* -complete=customlist,SiblingFiles -bang Rename :call Rename("<
 cabbrev rename <c-r>=getcmdpos()==1 && getcmdtype()==":"?"Rename":"rename"<CR>
 noremap <Leader>wr :Rename
 
+
+
 function! LoadCscope()
     if file_readable("cscope.out")
         cs add cscope.out
@@ -277,6 +279,16 @@ function! Compile()
         execute ":AsyncRun make"
     else
         echom "There is no project file"
+    endif
+endfunction
+
+function! CompileCurrentFile()
+    if &filetype  == 'java'
+        call system("javac ".expand("%"))
+    elseif &filetype  == 'c'
+        call system("gcc".expand("%"))
+    elseif &filetype  == 'cpp'
+        call system("g++".expand("%"))
     endif
 endfunction
 
@@ -382,12 +394,6 @@ function! LogPrint()
 endfunction
 command! -nargs=0 Log call LogPrint()
 
-function! GitStatus()
-    let [a,m,r] = GitGutterGetHunkSummary()
-    return printf('+%d ~%d -%d', a, m, r)
-endfunction
-set statusline+=%{GitStatus()}
-
 function! ChangeBackground()
     if &background == 'light'
         :set background=dark
@@ -413,7 +419,7 @@ endif
 call plug#begin('~/.vim/bundle')
 
 "Auto Complete
-Plug 'Valloric/YouCompleteMe'
+Plug 'ycm-core/YouCompleteMe'
 Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -518,7 +524,7 @@ Plug 'kentaro/vim-textobj-function-php'       , {'for':['php']}
 Plug 'diepm/vim-rest-console'
 
 "test
-Plug 'https://github.com/vim-test/vim-test.git'
+"Plug 'https://github.com/vim-test/vim-test.git'
 
 
 "ansible
@@ -527,10 +533,11 @@ Plug 'pearofducks/ansible-vim' ,{'for':'yaml'}
 if has('nvim')
     Plug 'icymind/NeoSolarized'
 else
-    Plug 'https://github.com/altercation/solarized.git'
+    "Plug 'https://github.com/altercation/solarized.git'
+    Plug 'https://github.com/ericbn/vim-solarized.git'
 endif
-
 call plug#end()
+let g:plug_window = "new"
 
 "runtime! ftplugin/man.vim
 
