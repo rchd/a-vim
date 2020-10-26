@@ -13,8 +13,8 @@ let g:mapleader = "\<Space>"
 let loaded_matchparen = 1
 let g:maplocalleader = ','
 set cscopequickfix=g-
-set shellslash
 set t_Co=256
+set shellslash
 set nocompatible                           " be improved, required
 set ruler
 set autoindent
@@ -33,20 +33,24 @@ set nobackup
 set fileencodings=utf-8,gb18030,gbk,gk2312
 set mouse=a
 set cursorline
-set nowrap
+set wrapmargin=4
+set wrap
+
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
 set mouseshape=s:udsizing,m:no
-set completeopt=menu,menuone
-set pastetoggle =<F12>
+"set completeopt=menu,menuone
+set pastetoggle=<F12>
 "set paste
 filetype off                               " required
 filetype plugin indent on                  " required
 "set spell
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 set dictionary=/usr/share/dict/words
+"set statusline=%<%f\ %h%m%r%{kite#statusline()}%=%-14.(%l,%c%V%)\ %P
+"set laststatus=2  " always display the status line
 "}}}
 if has('nvim')
     set viminfo='100,n$HOME/.vim/files/info/viminfo
@@ -132,6 +136,7 @@ function! TweakWinSize(orgisize)
     call HeightToSize(a:orgisize[0])
     call WidthToSize(a:orgisize[1])
 endfunction
+
 
 function! RestoreWinLayout()
     if exists("g:layout")
@@ -394,6 +399,12 @@ function! LogPrint()
 endfunction
 command! -nargs=0 Log call LogPrint()
 
+function SearchInDict()
+    let word = expand("<cword>")
+    call system("goldendict " . word)
+endfunction
+
+
 function! ChangeBackground()
     if &background == 'light'
         :set background=dark
@@ -418,6 +429,12 @@ endif
 "{{{
 call plug#begin('~/.vim/bundle')
 
+
+"kite
+"let g:kite_supported_languages = ['python', 'javascript', 'go','c','c++','typescript']
+set completeopt+=menuone   " show the popup menu even when there is only 1 match
+set completeopt+=noinsert  " don't insert any text until user chooses a match
+set completeopt-=longest   " don't insert the longest common text
 "Auto Complete
 Plug 'ycm-core/YouCompleteMe'
 Plug 'ervandew/supertab'
@@ -773,8 +790,7 @@ noremap <Leader>sv :source ~/a-vim/init.vim<cr>
 vmap <Leader>ee "xy:@x<CR>
 
 
-"noremap <space>sg :silent execute "grep! -r" .
-"\shellescape(expand("<cword>")) . " ."<cr>:copen<cr>
+"noremap <space>sr :silent execute "grep! -r" . shellescape(expand("<cword>")) . " ."<cr>:copen<cr>
 "
 "noremap <space>sm :silent execute "Man " .
 "\shellescape(expand("<cword>")) . " ."<cr>
@@ -882,7 +898,9 @@ if has("nvim")
     set background=dark
     colorscheme NeoSolarized
 else
-    :colorscheme solarized
+    if stridx(&rtp,"solarized") != -1
+        :colorscheme solarized
+    endif
     if has("gui_running")
         ":set background  = light
         ":colorscheme my-scheme
@@ -980,7 +998,9 @@ nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 set timeoutlen=500
-call which_key#register('<Space>', "g:which_key_map")
+if stridx(&rtp,"vim-which-key") != -1
+    call which_key#register('<Space>', "g:which_key_map")
+endif
 
 let NERDCreateDefaultMappings= 0
 let g:which_key_use_floating_win=0
@@ -1072,6 +1092,7 @@ let g:which_key_map['t']={
             \'n'    : 'NERDTree-window' ,
             \'t'    : 'Tagbar-window'   ,
             \'u'    : 'UndoTree-window' ,
+            \'g'    : ['SearchInDict()','goldendict-search'] ,
             \}
 let g:which_key_map['k']={
             \'name':'+docker',
@@ -1153,10 +1174,12 @@ let g:dbs = [
 "#####################################################################
 "{{{
 augroup strartUpSetting
-    autocmd vimenter *
-                \ if !argc()
-                \ | Startify
-                \ | endif
+    if stridx(&rtp,"startify") != -1
+        autocmd vimenter *
+                    \ if !argc()
+                    \ | Startify
+                    \ | endif
+    endif
     "autocmd vimenter * Tagbar
     autocmd FileType python set sw=4
     autocmd FileType python set ts=4
