@@ -35,6 +35,7 @@ set mouse=a
 set cursorline
 set wrapmargin=4
 set wrap
+"set cst
 
 set tabstop=4
 set shiftwidth=4
@@ -42,12 +43,13 @@ set softtabstop=4
 set expandtab
 set mouseshape=s:udsizing,m:no
 "set completeopt=menu,menuone
-set pastetoggle=<F12>
+set pastetoggle=<F1>
 "set paste
 filetype off                               " required
 filetype plugin indent on                  " required
 "set spell
 set cscopequickfix=s-,c-,d-,i-,t-,e-
+"set cscopequickfix=s+,c+,d+,i+,t+
 set dictionary=/usr/share/dict/words
 "set statusline=%<%f\ %h%m%r%{kite#statusline()}%=%-14.(%l,%c%V%)\ %P
 "set laststatus=2  " always display the status line
@@ -140,8 +142,8 @@ endfunction
 
 function! RestoreWinLayout()
     if exists("g:layout")
-        let winno=1
         let orgiwinno=winnr()
+        let winno=1
         for win in g:layout
             execute "normal \<c-w>w"
             let currwinno=winnr()
@@ -267,6 +269,7 @@ function! LoadCscope()
         cs add cscope.out
     endif
 endfunction
+call LoadCscope()
 
 function! TabeVimrc()
     :e ~/a-vim/init.vim
@@ -327,45 +330,45 @@ function! AsyncGitPush()
 endfunction
 
 
-function! EqualSign(char)
-    if a:char  =~ '='  && getline('.') =~ ".*("
-        return a:char
-    endif
-    if a:char  =~ '[\/\<\>]' && getline('.') =~ '"'
-        return a:char
-    endif
-    let ex1 = getline('.')[col('.') - 3]
-    let ex2 = getline('.')[col('.') - 2]
+"function! EqualSign(char)
+"if a:char  =~ '='  && getline('.') =~ ".*("
+"return a:char
+"endif
+"if a:char  =~ '[\/\<\>]' && getline('.') =~ '"'
+"return a:char
+"endif
+"let ex1 = getline('.')[col('.') - 3]
+"let ex2 = getline('.')[col('.') - 2]
 
-    "if &filetype == 'go' && getline('.')=~":"
-    "return "\<SPACE>".a:char."=\<SPACE>"
-    "endif
+""if &filetype == 'go' && getline('.')=~":"
+""return "\<SPACE>".a:char."=\<SPACE>"
+""endif
 
-    if ex1 =~ "[-=+><>\/\*]"
-        if ex2 !~ "\s"
-            return "\<ESC>i".a:char."\<SPACE>"
-        else
-            return "\<ESC>xa".a:char."\<SPACE>"
-        endif
-    else
-        if ex2 !~ "\s"
-            return "\<SPACE>".a:char."\<SPACE>\<ESC>a"
-        else
-            return a:char."\<SPACE>\<ESC>a"
-        endif
-    endif
-endfunction
+"if ex1 =~ "[-=+><>\/\*]"
+"if ex2 !~ "\s"
+"return "\<ESC>i".a:char."\<SPACE>"
+"else
+"return "\<ESC>xa".a:char."\<SPACE>"
+"endif
+"else
+"if ex2 !~ "\s"
+"return "\<SPACE>".a:char."\<SPACE>\<ESC>a"
+"else
+"return a:char."\<SPACE>\<ESC>a"
+"endif
+"endif
+"endfunction
 
 
 
-:inoremap = <c-r>=EqualSign('=')<CR>
-:inoremap + <c-r>=EqualSign('+')<CR>
-:inoremap - <c-r>=EqualSign('-')<CR>
-:inoremap / <c-r>=EqualSign('/')<CR>
-:inoremap * <c-r>=EqualSign('*')<CR>
-:inoremap > <c-r>=EqualSign('>')<CR>
-:inoremap < <c-r>=EqualSign('<')<CR>
-":inoremap , ,<space>
+":inoremap = <c-r>=EqualSign('=')<CR>
+":inoremap + <c-r>=EqualSign('+')<CR>
+":inoremap - <c-r>=EqualSign('-')<CR>
+":inoremap / <c-r>=EqualSign('/')<CR>
+":inoremap * <c-r>=EqualSign('*')<CR>
+":inoremap > <c-r>=EqualSign('>')<CR>
+":inoremap < <c-r>=EqualSign('<')<CR>
+"":inoremap , ,<space>
 
 function! RecollSearch()
     let file_name = input("Input the file name that you want to search:")
@@ -444,10 +447,11 @@ Plug 'honza/vim-snippets'
 
 if !has('gui_running')
     "Loading plugin when gvim running
-    Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
     Plug 'ryanoasis/vim-devicons'
+    Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
     Plug 'https://github.com/morhetz/gruvbox.git'
 endif
+
 Plug 'edkolev/tmuxline.vim'
 Plug 'https://github.com/dracula/vim.git'
 "The appearness about vim
@@ -509,11 +513,11 @@ Plug 'jupyter-vim/jupyter-vim' , {'for':'python'}
 Plug  'https://github.com/jmcantrell/vim-virtualenv.git' , {'for':'python'}
 
 "code format
-Plug 'prettier/vim-prettier', {
-            \ 'do': 'yarn install',
-            \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss',
-            \'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
-Plug 'mattn/emmet-vim'         , {'for':['html,js,vue']}
+"Plug 'prettier/vim-prettier', {
+            "\ 'do': 'yarn install',
+            "\ 'for': ['javascript', 'typescript', 'css', 'less', 'scss',
+"\'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
+"Plug 'mattn/emmet-vim'         , {'for':['html,js,vue']}
 
 
 "tools
@@ -723,8 +727,8 @@ endif
 "#  autoformat
 "#
 "#####################################################################
-"noremap <F3> :Autoformat<CR>
-au BufWrite * :Autoformat
+noremap <F3> :Autoformat<CR>
+"au BufWrite * :Autoformat
 
 "#####################################################################
 "#
@@ -927,7 +931,7 @@ else
         "AirlineTheme aurora
     endif
 endif
-
+:set background=light
 "if has("gui_running")
 "if has("gui_gtk2")
 ":set guifont=Luxi\ Mono\ 12
