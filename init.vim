@@ -457,11 +457,11 @@ Plug 'https://github.com/dracula/vim.git'
 "The appearness about vim
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'joshdick/onedark.vim'
+"Plug 'joshdick/onedark.vim'
 
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
-Plug 'jistr/vim-nerdtree-tabs'
+"Plug 'jistr/vim-nerdtree-tabs'
 Plug 'https://github.com/jiangmiao/auto-pairs.git'
 Plug 'w0rp/ale'
 Plug 'tpope/vim-surround'
@@ -471,15 +471,15 @@ Plug 'tpope/vim-surround'
 
 "Userful tool
 Plug 'dyng/ctrlsf.vim'
-Plug 'jmcantrell/vim-virtualenv'
+"Plug 'jmcantrell/vim-virtualenv'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'mattesgroeger/vim-bookmarks'
-Plug 'KabbAmine/zeavim.vim'
-Plug 'easymotion/vim-easymotion'
+"Plug 'KabbAmine/zeavim.vim'
+"Plug 'easymotion/vim-easymotion'
 Plug 'godlygeek/tabular'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'fidian/hexmode'
+"Plug 'fidian/hexmode'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'Chiel92/vim-autoformat'
 Plug 'mhinz/vim-startify'
@@ -504,11 +504,11 @@ Plug 'liuchengxu/vim-which-key'
 "Plug 'sirtaj/vim-openscad'     , {'for':'scad'}
 "
 "Web develop
-Plug 'pangloss/vim-javascript' , {'for':'js'}
-Plug 'ap/vim-css-color'        , {'for':'css'}
-Plug 'mxw/vim-jsx'             , {'for':'js'}
-Plug 'https://github.com/peitalin/vim-jsx-typescript.git', {'for':['ts', 'tsx']}
-Plug 'lvht/phpcd.vim'          , { 'for': 'php'   , 'do': 'composer install' }
+"Plug 'pangloss/vim-javascript' , {'for':'js'}
+"Plug 'ap/vim-css-color'        , {'for':'css'}
+"Plug 'mxw/vim-jsx'             , {'for':'js'}
+"Plug 'https://github.com/peitalin/vim-jsx-typescript.git', {'for':['ts', 'tsx']}
+"Plug 'lvht/phpcd.vim'          , { 'for': 'php'   , 'do': 'composer install' }
 Plug 'jupyter-vim/jupyter-vim' , {'for':'python'}
 Plug  'https://github.com/jmcantrell/vim-virtualenv.git' , {'for':'python'}
 
@@ -522,9 +522,9 @@ Plug  'https://github.com/jmcantrell/vim-virtualenv.git' , {'for':'python'}
 
 "tools
 Plug 'majutsushi/tagbar'         , {'on':'TagbarToggle'}
-Plug 'francoiscabrol/ranger.vim' , {'on':'Ranger'}
-Plug 'mbbill/undotree'           , {'on':'UndotreeToggle'}
-Plug 'gu-fan/colorv.vim'         , {'on':'ColorV'}
+"Plug 'francoiscabrol/ranger.vim' , {'on':'Ranger'}
+"Plug 'mbbill/undotree'           , {'on':'UndotreeToggle'}
+"Plug 'gu-fan/colorv.vim'         , {'on':'ColorV'}
 Plug 'https://github.com/vim-scripts/fcitx.vim.git'
 
 "Plug 'https://github.com/MTDL9/vim-log-highlighting.git'
@@ -541,15 +541,16 @@ Plug 'sgur/vim-textobj-parameter'
 Plug 'bps/vim-textobj-python'                 , {'for':['python']}
 Plug 'thinca/vim-textobj-function-javascript' , {'for':['javascript']}
 Plug 'kamichidu/vim-textobj-function-go'      , {'for':['go']}
-Plug 'kentaro/vim-textobj-function-php'       , {'for':['php']}
+"Plug 'kentaro/vim-textobj-function-php'       , {'for':['php']}
 Plug 'diepm/vim-rest-console'
 
 "test
 "Plug 'https://github.com/vim-test/vim-test.git'
 
+"Plug 'https://github.com/vim/killersheep.git'
 
 "ansible
-Plug 'pearofducks/ansible-vim' ,{'for':'yaml'}
+"Plug 'pearofducks/ansible-vim' ,{'for':'yaml'}
 
 if has('nvim')
     Plug 'icymind/NeoSolarized'
