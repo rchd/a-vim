@@ -48,4 +48,3 @@ function main() { #{{{
     install_vim_plugin
     compile_youcompleteme
 }#}}}
-

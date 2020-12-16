@@ -461,7 +461,7 @@ Plug 'vim-airline/vim-airline-themes'
 
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
-"Plug 'jistr/vim-nerdtree-tabs'
+Plug 'jistr/vim-nerdtree-tabs'
 Plug 'https://github.com/jiangmiao/auto-pairs.git'
 Plug 'w0rp/ale'
 Plug 'tpope/vim-surround'
@@ -490,6 +490,8 @@ Plug 'skanehira/docker.vim'
 Plug 'skanehira/docker-compose.vim'
 Plug 'https://github.com/tpope/vim-dadbod.git', {'on':'DBUIToggle'}
 Plug 'https://github.com/kristijanhusak/vim-dadbod-ui.git'
+Plug 'skywind3000/vim-preview'
+
 "Plug 'vim-scripts/Drawit'
 "Plug 'wakatime/vim-wakatime'
 
@@ -729,7 +731,8 @@ endif
 "#
 "#####################################################################
 noremap <F3> :Autoformat<CR>
-"au BufWrite * :Autoformat
+au BufWrite * :Autoformat
+
 
 "#####################################################################
 "#
@@ -871,7 +874,7 @@ nnoremap <Leader>od :cs find d <cword><cr>
 
 
 "Asyncrun
-noremap <Leader>sb  :AsyncRun firefox -search  <cword><CR>
+noremap <Leader>sb  :AsyncRun qutebrowser <cword> <CR>
 
 nnoremap <C-j> :m .+1<cr>==
 nnoremap <C-k> :m .-2<cr>==
@@ -1210,7 +1213,6 @@ autocmd! FileType which_key
 autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 "autocmd BufEnter * :call BookmarkUnmapKeys()
 "}}}
-
 "let plugins=g:plugs_order
 
 "for item in plugins
