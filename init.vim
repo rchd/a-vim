@@ -12,7 +12,9 @@ let $PATH="~/bin:/local/usr/bin:/".$PATH
 let g:mapleader = "\<Space>"
 let loaded_matchparen = 1
 let g:maplocalleader = ','
-set cscopequickfix=g-
+"set cscopequickfix=g-
+set cscopequickfix=s-,c-,d-,i-,t-,e-,a-
+set cst
 set t_Co=256
 set shellslash
 set nocompatible                           " be improved, required
@@ -863,11 +865,16 @@ nmap     <Leader>sn <Plug>CtrlSFCwordPath
 nnoremap <Leader>st :CtrlSFToggle<CR>
 inoremap <Leader>st <Esc>:CtrlSFToggle<CR>
 
+function SearchInSymbol(arg)
+    execute "cs find ". a:arg ." <cword>"
+    :copen
+endfunction
 
-nnoremap <Leader>os :cs find s <cword><cr>
-nnoremap <Leader>og :cs find g <cword><cr>
-nnoremap <Leader>oc :cs find c <cword><cr>
-nnoremap <Leader>od :cs find d <cword><cr>
+
+nnoremap <Leader>os :call SearchInSymbol("s") <cr>
+nnoremap <Leader>og :call SearchInSymbol("g")<cr>
+nnoremap <Leader>oc :call SearchInSymbol("c")<cr>
+nnoremap <Leader>od :call SearchInSymbol("d")<cr>
 
 
 
@@ -1202,6 +1209,9 @@ augroup END
 autocmd VimLeave * NERDTreeTabsClose
 autocmd TabEnter  * wincmd w
 autocmd TabEnter  * NERDTreeCWD
+autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
+autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
+
 "autocmd TabEnter *
 
             "\ | wincmd w
