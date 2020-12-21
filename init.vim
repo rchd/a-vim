@@ -56,6 +56,7 @@ set dictionary=/usr/share/dict/words
 "set statusline=%<%f\ %h%m%r%{kite#statusline()}%=%-14.(%l,%c%V%)\ %P
 "set laststatus=2  " always display the status line
 "}}}
+"set termwinsize=10*0
 if has('nvim')
     set viminfo='100,n$HOME/.vim/files/info/viminfo
     tnoremap <Esc> <C-\><C-n>
@@ -1212,6 +1213,8 @@ autocmd TabEnter  * wincmd w
 autocmd TabEnter  * NERDTreeCWD
 autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
 autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
+
+autocmd TerminalOpen * setlocal nonumber | setlocal norelativenumber
 
 "autocmd TabEnter *
 
