@@ -14,7 +14,7 @@ let loaded_matchparen = 1
 let g:maplocalleader = ','
 "set cscopequickfix=g-
 set cscopequickfix=s-,c-,d-,i-,t-,e-,a-
-set cst
+"set cst
 set t_Co=256
 set shellslash
 set nocompatible                           " be improved, required
@@ -1193,6 +1193,7 @@ augroup strartUpSetting
         autocmd vimenter *
                     \ if !argc()
                     \ | Startify
+                    \ | setlocal nowrap
                     \ | endif
     endif
     "autocmd vimenter * Tagbar
