@@ -7,14 +7,12 @@
 " ##:::: ##::::::::::::. ###::::'####: ##:::: ##: ##:::. ##:. ######::
 "..:::::..::::::::::::::...:::::....::..:::::..::..:::::..:::......:::
 
-"basic seting "{{{
+"basic seting 
 let $PATH="~/bin:/local/usr/bin:/".$PATH
 let g:mapleader = "\<Space>"
 let loaded_matchparen = 1
 let g:maplocalleader = ','
-"set cscopequickfix=g-
 set cscopequickfix=s-,c-,d-,i-,t-,e-,a-
-"set cst
 set t_Co=256
 set shellslash
 set nocompatible                           " be improved, required
@@ -22,7 +20,6 @@ set ruler
 set autoindent
 set relativenumber
 set number
-"set hlsearch
 set showcmd
 set foldmethod=marker
 set hidden                                 " Allw buffer switching saving
@@ -37,25 +34,22 @@ set mouse=a
 set cursorline
 set wrapmargin=4
 set wrap
-"set cst
 
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
 set mouseshape=s:udsizing,m:no
-"set completeopt=menu,menuone
 set pastetoggle=<F1>
-"set paste
+
 filetype off                               " required
 filetype plugin indent on                  " required
+
 "set spell
-set cscopequickfix=s-,c-,d-,i-,t-,e-
-"set cscopequickfix=s+,c+,d+,i+,t+
 set dictionary=/usr/share/dict/words
 "set statusline=%<%f\ %h%m%r%{kite#statusline()}%=%-14.(%l,%c%V%)\ %P
 "set laststatus=2  " always display the status line
-"}}}
+
 "set termwinsize=10*0
 if has('nvim')
     set viminfo='100,n$HOME/.vim/files/info/viminfo
@@ -78,369 +72,29 @@ endif
 "# common function
 "#
 "#####################################################################
-"{{{
-function! StartifyCenter(lines) abort
-    let longest_line=max(map(copy(a:lines),'strwidth(v:val)'))
-    let centered_lines=map(copy(a:lines),
-                \'repeat(" ",(&columns / 2)-(longest_line/2)).v:val')
-    return centered_lines
-endfunction
-function! ToggleFullScreen()
-    if g:fullscreen == 1
-        let g:fullscreen = 0
-        if has('nvim')
-            :call GuiWindowFullScreen(0)
-        endif
-        let mod = "remove"
-    else
-        let g:fullscreen = 1
-        if has('nvim')
-            :call GuiWindowFullScreen(1)
-        endif
-        let mod = "add"
-    endif
-    if !has('g:GuiLoaded')
-        call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")
-    endif
-endfunction
 
-"maximize current windows and restore layout
-"if exists("g:vimlayoutloaded")
-"finish
-"else
-"let g:vimlayoutloaded=1
-"endif
+:source common.vim
 
-function! HeightToSize(height)
-    let currwinno=winnr()
-    if winheight(currwinno)>a:height
-        while winheight(currwinno)>a:height
-            execute "normal \<c-w>-"
-        endwhile
-    elseif winheight(currwinno)<a:height
-        while winheight(currwinno)<a:height
-            execute "normal \<c-w>+"
-        endwhile
-    endif
-endfunction
-
-function! WidthToSize(width)
-    let currwinno=winnr()
-    if winwidth(currwinno)>a:width
-        while winwidth(currwinno)>a:width
-            execute "normal \<c-w><"
-        endwhile
-    elseif winwidth(currwinno)<a:width
-        while winwidth(currwinno)<a:width
-            execute "normal \<c-w>>"
-        endwhile
-    endif
-endfunction
-
-function! TweakWinSize(orgisize)
-    call HeightToSize(a:orgisize[0])
-    call WidthToSize(a:orgisize[1])
-endfunction
-
-
-function! RestoreWinLayout()
-    if exists("g:layout")
-        let orgiwinno=winnr()
-        let winno=1
-        for win in g:layout
-            execute "normal \<c-w>w"
-            let currwinno=winnr()
-            "if currwinno!=1 && currwinno!=orgiwinno
-            if currwinno!=orgiwinno
-                call TweakWinSize(g:layout[currwinno-1])
-            endif
-        endfor
-        unlet g:layout
-    endif
-endfunction
-
-function! SaveWinLayout()
-    let wnumber=winnr("$")
-    let winlist=range(wnumber)
-    let winno=0
-    let layout=[]
-    for index in winlist
-        let winno+=1
-        let wininfo=[winheight(winno),winwidth(winno)]
-        call add(layout,wininfo)
-    endfor
-    let g:layout=layout
-endfunction
-
-function! ToggleMaxWin()
-    if exists("g:layout")
-        if winnr("$")==len(g:layout)
-            call RestoreWinLayout()
-        else
-            call SaveWinLayout()
-            execute "normal 200\<c-w>>"
-            execute "normal \<c-w>_"
-            call RestoreWinLayout()
-        endif
-    else
-        call SaveWinLayout()
-        execute "normal 200\<c-w>>"
-        execute "normal \<c-w>_"
-    endif
-endfunction
-
-command! -nargs=0 MaxWin call ToggleMaxWin()
-
-if has('g:GuiLoaded')
-    "Tabline
-    function! MyTabLine()
-        let s = ''
-        for i in range(tabpagenr('$'))
-            " select the highlighting
-            if i + 1 == tabpagenr()
-                let s .= '%#TabLineSel#'
-            else
-                let s .= '%#TabLine#'
-            endif
-            " set the tab page number (for mouse clicks)
-            let s .= '%' . (i + 1) . 'T'
-            " the label is made by MyTabLabel()
-            let s .= ' %{MyTabLabel(' . (i + 1) . ')} '
-        endfor
-        " after the last tab fill with TabLineFill and reset tab page nr
-        let s .= '%#TabLineFill#%T'
-        " right-align the label to close the current tab page
-        if tabpagenr('$') > 1
-            let s .= '%=%#TabLine#%999Xclose'
-        endif
-        return s
-    endfunction
-
-    function! MyTabLabel(n)
-        let buflist = tabpagebuflist(a:n)
-        let winnr = tabpagewinnr(a:n)
-        return bufname(buflist[winnr - 1])
-    endfunction
-    set tabline=%!MyTabLine()
-endif
-
-function! SiblingFiles(A,L,P)
-    return map(split(globpath(expand("%:h")."/",a:A."*"),"\n"),'fnamemodify(v:val,":t")')
-endfunction
-
-function! TouchGitignore()
-    let g:test = system("ls  -al | grep .gitignore")
-    for bufnr in range(1, bufnr('$'))
-        if ".gitignore"==bufname(bufnr)
-            :b .gitignore
-            return
-        endif
-    endfor
-    if  g:test == ""
-        call system("touch .gitignore")
-    endif
-    :e .gitignore
-endfunction
-
-function! Rename(name,bang)
-    let l:curfile=expand("%:p")
-    let l:curpath=expand("%:h")."/"
-    let v:errmsg=""
-    silent! exe "saveas" . a:bang . " " . fnameescape(l:curpath . a:name)
-    if v:errmsg=~# '^$\|^E329'
-        let l:oldfile=l:curfile
-        let l:curfile=expand("%:p")
-        if l:curfile !=# l:oldfile && filewritable(l:curfile)
-            silent exe "bwipe! " . fnameescape(l:oldfile)
-            if delete(l:oldfile)
-                echoerr "Could not delete ".l:oldfile
-            endif
-        endif
-    else
-        echoerr v:errmsg
-    endif
-endfunction
-
-command! -nargs=* -complete=customlist,SiblingFiles -bang Rename :call Rename("<args>","<bang>")
-cabbrev rename <c-r>=getcmdpos()==1 && getcmdtype()==":"?"Rename":"rename"<CR>
-noremap <Leader>wr :Rename
-
-
-
-function! LoadCscope()
-    if file_readable("cscope.out")
-        cs add cscope.out
-    endif
-endfunction
-call LoadCscope()
-
-function! TabeVimrc()
-    :e ~/a-vim/init.vim
-endfunction
-
-function! Compile()
-    if filereadable('Makefile')
-        execute ":AsyncRun make"
-    elseif filereadable('pom.xml')
-        execute ":AsyncRun mvn compile"
-    elseif filereadable('go.mod')
-        execute ":AsyncRun go build"
-    elseif filereadable('CMakeLists.txt')
-        execute ":AsyncRun cmake ."
-        execute ":AsyncRun make"
-    else
-        echom "There is no project file"
-    endif
-endfunction
-
-function! CompileCurrentFile()
-    if &filetype  == 'java'
-        call system("javac ".expand("%"))
-    elseif &filetype  == 'c'
-        call system("gcc".expand("%"))
-    elseif &filetype  == 'cpp'
-        call system("g++".expand("%"))
-    endif
-endfunction
-
-command!  -nargs=* -bang Compile :call Compile()
-noremap <f5> :Compile<cr>
-
-function! StartTime()
-    let g:current = localtime()
-    let popupid   = popup_notification('start time', {})
-    let bufnr     = winbufnr(popupid)
-    call setbufline(bufnr, 2,g:current)
-endfunction
-
-function! EndTime()
-    if exists("g:current")
-        let s:total_time = localtime() - g:current
-        let popupid      = popup_notification('end time', {})
-        let bufnr        = winbufnr(popupid)
-        call setbufline(bufnr, 2,s:total_time / 3600."H"
-                    \.s:total_time /600."M"
-                    \.s:total_time / 60."S")
-    else
-        let popupid = popup_notification('end time', {})
-        let bufnr   = winbufnr(popupid)
-        call setbufline(bufnr, 2,"Start a timer")
-    endif
-endfunction
-
-function! AsyncGitPush()
-    execute 'AsyncRun git push'
-endfunction
-
-
-"function! EqualSign(char)
-"if a:char  =~ '='  && getline('.') =~ ".*("
-"return a:char
-"endif
-"if a:char  =~ '[\/\<\>]' && getline('.') =~ '"'
-"return a:char
-"endif
-"let ex1 = getline('.')[col('.') - 3]
-"let ex2 = getline('.')[col('.') - 2]
-
-""if &filetype == 'go' && getline('.')=~":"
-""return "\<SPACE>".a:char."=\<SPACE>"
-""endif
-
-"if ex1 =~ "[-=+><>\/\*]"
-"if ex2 !~ "\s"
-"return "\<ESC>i".a:char."\<SPACE>"
-"else
-"return "\<ESC>xa".a:char."\<SPACE>"
-"endif
-"else
-"if ex2 !~ "\s"
-"return "\<SPACE>".a:char."\<SPACE>\<ESC>a"
-"else
-"return a:char."\<SPACE>\<ESC>a"
-"endif
-"endif
-"endfunction
-
-
-
-":inoremap = <c-r>=EqualSign('=')<CR>
-":inoremap + <c-r>=EqualSign('+')<CR>
-":inoremap - <c-r>=EqualSign('-')<CR>
-":inoremap / <c-r>=EqualSign('/')<CR>
-":inoremap * <c-r>=EqualSign('*')<CR>
-":inoremap > <c-r>=EqualSign('>')<CR>
-":inoremap < <c-r>=EqualSign('<')<CR>
-"":inoremap , ,<space>
-
-function! RecollSearch()
-    let file_name = input("Input the file name that you want to search:")
-    let command = "recoll -t -q " . file_name
-    let result = system('recoll  -t   -q '.file_name)->split('\n', 1)
-    for item in result
-        let path=matchstr(item, '\[\file\:.*\]\{1}')
-        let pathlist = split(path)
-        if empty(pathlist) == 0
-            let file = pathlist[0]
-            let start=stridx(file, '[')
-            let end=stridx(file, ']')
-            let newpath = strpart(file, start+1, end-1)
-            let finalpath = strpart(newpath, 7 )
-            :call setqflist([{'bufnr':'recoll',
-                        \'filename':finalpath,
-                        \'text':item}], 'a')
-        else
-            :call setqflist([{'bufnr':'recoll','text': item}] , 'a')
-        endif
-    endfor
-    copen
-endfunction
-command! -nargs=0 Recoll call RecollSearch()
-
-function! LogPrint()
-    let logjob = job_start("tail -f /var/log/dpkg.log",
-                \ {'out_io': 'buffer', 'out_name': 'dummy',
-                \   'out_modifiable':0})
-    sbuf dummy
-endfunction
-command! -nargs=0 Log call LogPrint()
-
-function SearchInDict()
-    let word = expand("<cword>")
-    call system("goldendict " . word)
-endfunction
-
-
-function! ChangeBackground()
-    if &background == 'light'
-        :set background=dark
-    else
-        :set background=light
-    endif
-endfunction
-noremap <Leader>bt :call ChangeBackground()<cr>
-
-if !has('gui_running')
-    function! StartifyEntryFormat()
-        return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
-    endfunction
-endif
-
-"}}}
 "#####################################################################
 "#
 "# vim-plug
 "#
 "#####################################################################
-"{{{
+
 call plug#begin('~/.vim/bundle')
 
 
 "kite
 "let g:kite_supported_languages = ['python', 'javascript', 'go','c','c++','typescript']
-set completeopt+=menuone   " show the popup menu even when there is only 1 match
-set completeopt+=noinsert  " don't insert any text until user chooses a match
-set completeopt-=longest   " don't insert the longest common text
+
+
+if !has('nvim')
+    set completeopt+=popup
+    set completepopup=height:10,width:60,highlight:Pmenu,border:off
+    set completeopt+=menuone   " show the popup menu even when there is only 1 match
+    set completeopt+=noinsert  " don't insert any text until user chooses a match
+    set completeopt-=longest   " don't insert the longest common text
+endif
 "Auto Complete
 Plug 'ycm-core/YouCompleteMe'
 Plug 'ervandew/supertab'
@@ -570,13 +224,13 @@ let g:plug_window = "new"
 
 
 
-"}}}
+
 "#####################################################################
 "#
 "#  startify
 "#
 "#####################################################################
-"{{{
+
 "let g:startify_padding_left=30
 
 "let g:startify_custom_header =
@@ -598,16 +252,14 @@ let s:header=[
 
 let g:startify_custom_header=s:header
 let g:startify_custom_fotter=StartifyCenter(s:header)
-"}}}
+
 "#####################################################################
 "#
 "#  YouCompleteMe
 "#
 "#####################################################################
-"{{{
+
 " make YCM compatible with UltiSnips (using supertab)
-set completeopt+=popup
-set completepopup=height:10,width:60,highlight:Pmenu,border:off
 let g:ycm_add_preview_to_completeopt   = 1
 let g:ycm_key_list_select_completion   = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
@@ -616,7 +268,7 @@ let g:ycm_error_symbol                 = '>>'
 let g:ycm_warning_symbol               = '>*'
 let g:ycm_global_ycm_extra_conf        = "~/.ycm_extra_conf.py"
 let g:ycm_key_detailed_diagnostics= ''
-"}}}
+
 
 "#####################################################################
 "#
@@ -629,35 +281,51 @@ let g:fzf_action = {
             \ 'ctrl-s': 'split',
             \ 'ctrl-v': 'vsplit' }
 
+" CTRL-A CTRL-Q to select all and build quickfix list
+
+"function! s:build_quickfix_list(lines)
+"call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+"copen
+"cc
+"endfunction
+
+"let g:fzf_action = {
+            "\ 'ctrl-q': function('s:build_quickfix_list'),
+            "\ 'ctrl-t': 'tab split',
+            "\ 'ctrl-x': 'split',
+            "\ 'ctrl-v': 'vsplit' }
+
+"let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
+
 "#####################################################################
 "#
 "#  UltiSnips
 "#
 "#####################################################################
-"{{{
+
 " better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-"}}}
+
 "#####################################################################
 "#
 "#  airline
 "#
 "#####################################################################
-"{{{
+
 let g:airline#extensions#tabline#enabled=1
 " set the arrow of powerline
 if !has("gui_running")
     let g:airline_powerline_fonts=1
 endif
-"}}}
+
 "#####################################################################
 "#
 "#  NERDTree
 "#
 "#####################################################################
-"{{{
+
 " set the width and position of NERDTree
 let g:NERDTreeWinSize=25
 let g:NERDTreeWinPos='left'
@@ -667,7 +335,7 @@ let g:nerdtree_tabs_open_on_gui_startup = 1
 let g:nerdtree_tabs_no_startup_for_diff = 1
 let g:nerdtree_tabs_smart_startup_focus = 2
 let g:nerdtree_tabs_startup_cd = 1
-"}}}
+
 
 
 "#####################################################################
@@ -675,16 +343,16 @@ let g:nerdtree_tabs_startup_cd = 1
 "#  undotree
 "#
 "#####################################################################
-"undotree{{{
+"undotree
 let g:undotree_WindowLayout=3
 let g:undotree_SplitWidth=30
-"}}}
+
 "#####################################################################
 "#
 "#  vim-indent-guides
 "#
 "#####################################################################
-"{{{
+
 let g:indent_guides_enable_on_vim_startup=1
 let g:indent_guides_start_level=2
 let g:indent_guides_guide_size=1
@@ -695,7 +363,7 @@ let g:indent_guides_space_guides=1
 "autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=37
 "autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=36
 "let g:indent_guides_color_change_percent = 1
-"}}}
+
 "#####################################################################
 "#
 "#  ctrlp
@@ -734,7 +402,7 @@ endif
 "#
 "#####################################################################
 noremap <F3> :Autoformat<CR>
-au BufWrite * :Autoformat
+"au BufWrite * :Autoformat
 
 
 "#####################################################################
@@ -742,23 +410,23 @@ au BufWrite * :Autoformat
 "#  tagbar
 "#
 "#####################################################################
-"tagabr{{{
+"tagabr
 let g:tagbar_left=1
 let g:tagbar_width=25
 "let g:tagbar_autopreview=1
-"}}}
+
 "#####################################################################
 "#
 "#  emmet
 "#
 "#####################################################################
-"{{{
+
 "let g:user_emmet_install_global = 1
 "autocmd FileType js,html,css EmmetInstall
 ""let g:user_emmet_mode='n'    "only enable normal mode functions.
 ""let g:user_emmet_mode='inv'  "enable all functions, which is equal to
 "let g:user_emmet_mode='a'    "enable all function in all mode.
-"}}}
+
 "#####################################################################
 "#
 "#  ale
@@ -789,7 +457,7 @@ let g:ale_linters = {'jsx': ['stylelint', 'eslint'],
 "#  keybind
 "#
 "#####################################################################
-"{{{
+
 "switch buffer
 noremap <Leader>bn :bnext<cr>
 noremap <Leader>bp :bprevious<cr>
@@ -866,6 +534,8 @@ nmap     <Leader>sn <Plug>CtrlSFCwordPath
 nnoremap <Leader>st :CtrlSFToggle<CR>
 inoremap <Leader>st <Esc>:CtrlSFToggle<CR>
 
+
+"cscope keybind
 function SearchInSymbol(arg)
     execute "cs find ". a:arg ." <cword>"
     :copen
@@ -895,13 +565,13 @@ vnoremap <C-j> :m '>+1<cr>gv=gv
 noremap  <space>db :DBUIToggle<cr>
 
 
-"}}}
+
 "#####################################################################
 "#
 "#  gui settting
 "#
 "#####################################################################
-"{{{
+
 "colorscheme onedark
 let g:ctrlp_show_hidden = 1
 if has("nvim")
@@ -954,13 +624,13 @@ endif
 ":set guifont=Luxi_Mono:h12:cANSI
 "endif
 "endif
-"}}}
+
 "#####################################################################
 "#
 "#  easymotion
 "#
 "#####################################################################
-"{{{
+
 "map <Leader> <Plug>(easymotion-prefix)
 " <Leader>f{char} to move to {char}
 map  <Leader>ef <Plug>(easymotion-bd-f)
@@ -976,7 +646,7 @@ nmap <Leader>el <Plug>(easymotion-overwin-line)
 "" Move to word
 map  <Leader>ew <Plug>(easymotion-bd-w)
 nmap <Leader>ew <Plug>(easymotion-overwin-w)
-"}}}
+
 
 
 "#####################################################################
@@ -993,7 +663,7 @@ let g:goyo_width=160
 "#  vim-bookmarks
 "#
 "#####################################################################
-"{{{
+
 nmap <Leader>mt <Plug>BookmarkToggle
 nmap <Leader>mi <Plug>BookmarkAnnotate
 nmap <Leader>ms <Plug>BookmarkShowAll
@@ -1003,13 +673,13 @@ nmap <Leader>mc <Plug>BookmarkClear
 nmap <Leader>mC :BookmarkClearAll<cr>
 let g:bookmark_no_default_key_mappings = 1
 "nmap <Leader>m <Plug>BookmarkClearAll
-"}}}
+
 "#####################################################################
 "#
 "# which key
 "#
 "#####################################################################
-"{{{
+
 nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
@@ -1155,7 +825,7 @@ let g:which_key_map['o']={
 
 nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<CR>
 vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<CR>
-"}}}
+
 
 "#####################################################################
 "#
@@ -1188,7 +858,7 @@ let g:dbs = [
 "#  autocmd
 "#
 "#####################################################################
-"{{{
+
 augroup strartUpSetting
     if stridx(&rtp,"startify") != -1
         autocmd vimenter *
@@ -1214,19 +884,24 @@ autocmd TabEnter  * NERDTreeCWD
 autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
 autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
 
-autocmd TerminalOpen * setlocal nonumber | setlocal norelativenumber
+
+"Hiden line numer in terminal
+if !has('nvim')
+    au TerminalOpen * if &buftype == 'terminal' | setlocal nonumber |setlocal norelativenumber| endif
+    au BufNew * if &buftype=='quickfix' | setlocal nonumber | setlocal norelativenumber
+endif
+
+
 
 "autocmd TabEnter *
-
             "\ | wincmd w
 
-"autocmd FileType java setlocal omnifunc=javacomplete#Complete
 
 autocmd! FileType which_key
 "autocmd  FileType which_key set laststatus=0 noshowmode noruler
 autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 "autocmd BufEnter * :call BookmarkUnmapKeys()
-"}}}
+
 "let plugins=g:plugs_order
 
 "for item in plugins
@@ -1240,4 +915,6 @@ amenu Plugin.vim-plug.Update  :PlugUpdate<cr>
 amenu Plugin.vim-plug.Install :PlugInstall<cr>
 amenu Plugin.vim-plug.Clean   :PlugClean<cr>
 amenu Plugin.vim-plug.Diff    :PlugDiff<cr>
+
+hi Normal ctermfg=256 ctermbg=none
 
