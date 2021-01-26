@@ -1,7 +1,7 @@
 ":::'###:::::::::::::'##::::'##:'####:'##::::'##:'########:::'######::
 "::'## ##:::::::::::: ##:::: ##:. ##:: ###::'###: ##.... ##:'##... ##:
-":'##:. ##::::::::::: ##:::: ##:: ##:: ####'####: ##:::: ##: ##:::..::
 "'##:::. ##:'#######: ##:::: ##:: ##:: ## ### ##: ########:: ##:::::::
+":'##:. ##::::::::::: ##:::: ##:: ##:: ####'####: ##:::: ##: ##:::..::
 " #########:........:. ##:: ##::: ##:: ##. #: ##: ##.. ##::: ##:::::::
 " ##.... ##:::::::::::. ## ##:::: ##:: ##:.:: ##: ##::. ##:: ##::: ##:
 " ##:::: ##::::::::::::. ###::::'####: ##:::: ##: ##:::. ##:. ######::
@@ -12,6 +12,7 @@ let $PATH="~/bin:/local/usr/bin:/".$PATH
 let g:mapleader = "\<Space>"
 let loaded_matchparen = 1
 let g:maplocalleader = ','
+let g:current_path="~/a-vim""
 set cscopequickfix=s-,c-,d-,i-,t-,e-,a-
 set t_Co=256
 set shellslash
@@ -73,7 +74,7 @@ endif
 "#
 "#####################################################################
 
-:source common.vim
+:source ~/a-vim/common.vim
 
 "#####################################################################
 "#
@@ -96,11 +97,10 @@ if !has('nvim')
     set completeopt-=longest   " don't insert the longest common text
 endif
 "Auto Complete
-Plug 'ycm-core/YouCompleteMe'
+"Plug 'ycm-core/YouCompleteMe'
 Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-"Plug 'Shougo/echodoc.vim'
 
 if !has('gui_running')
     "Loading plugin when gvim running
@@ -109,12 +109,10 @@ if !has('gui_running')
     Plug 'https://github.com/morhetz/gruvbox.git'
 endif
 
-Plug 'edkolev/tmuxline.vim'
 Plug 'https://github.com/dracula/vim.git'
 "The appearness about vim
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-"Plug 'joshdick/onedark.vim'
 
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
@@ -124,7 +122,6 @@ Plug 'w0rp/ale'
 Plug 'tpope/vim-surround'
 
 
-"Plug 'https://github.com/ivanov/vim-ipython.git'
 
 "Userful tool
 Plug 'dyng/ctrlsf.vim'
@@ -132,11 +129,10 @@ Plug 'dyng/ctrlsf.vim'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'mattesgroeger/vim-bookmarks'
 "Plug 'KabbAmine/zeavim.vim'
-"Plug 'easymotion/vim-easymotion'
+Plug 'easymotion/vim-easymotion'
 Plug 'godlygeek/tabular'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-"Plug 'fidian/hexmode'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'Chiel92/vim-autoformat'
 Plug 'mhinz/vim-startify'
@@ -149,13 +145,11 @@ Plug 'https://github.com/tpope/vim-dadbod.git', {'on':'DBUIToggle'}
 Plug 'https://github.com/kristijanhusak/vim-dadbod-ui.git'
 Plug 'skywind3000/vim-preview'
 
-"Plug 'vim-scripts/Drawit'
 "Plug 'wakatime/vim-wakatime'
 
 "git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-"Plug 'junegunn/vim-github-dashboard'
 
 "The guide of key
 Plug 'liuchengxu/vim-which-key'
@@ -184,7 +178,7 @@ Plug 'majutsushi/tagbar'         , {'on':'TagbarToggle'}
 "Plug 'francoiscabrol/ranger.vim' , {'on':'Ranger'}
 "Plug 'mbbill/undotree'           , {'on':'UndotreeToggle'}
 "Plug 'gu-fan/colorv.vim'         , {'on':'ColorV'}
-Plug 'https://github.com/vim-scripts/fcitx.vim.git'
+"Plug 'https://github.com/vim-scripts/fcitx.vim.git'
 
 "Plug 'https://github.com/MTDL9/vim-log-highlighting.git'
 
@@ -198,7 +192,7 @@ Plug 'kana/vim-textobj-syntax'
 Plug 'kana/vim-textobj-function'              , {'for':['c' , 'cpp' , 'vim' , 'java']}
 Plug 'sgur/vim-textobj-parameter'
 Plug 'bps/vim-textobj-python'                 , {'for':['python']}
-Plug 'thinca/vim-textobj-function-javascript' , {'for':['javascript']}
+"Plug 'thinca/vim-textobj-function-javascript' , {'for':['javascript']}
 Plug 'kamichidu/vim-textobj-function-go'      , {'for':['go']}
 "Plug 'kentaro/vim-textobj-function-php'       , {'for':['php']}
 Plug 'diepm/vim-rest-console'
@@ -214,15 +208,10 @@ Plug 'diepm/vim-rest-console'
 if has('nvim')
     Plug 'icymind/NeoSolarized'
 else
-    "Plug 'https://github.com/altercation/solarized.git'
     Plug 'https://github.com/ericbn/vim-solarized.git'
 endif
 call plug#end()
 let g:plug_window = "new"
-
-"runtime! ftplugin/man.vim
-
-
 
 
 "#####################################################################
@@ -327,6 +316,7 @@ endif
 "#####################################################################
 
 " set the width and position of NERDTree
+let g:NERDTreeUseTCD=1
 let g:NERDTreeWinSize=25
 let g:NERDTreeWinPos='left'
 let g:NERDTreeHijackNetrw = 0
@@ -536,7 +526,7 @@ inoremap <Leader>st <Esc>:CtrlSFToggle<CR>
 
 
 "cscope keybind
-function SearchInSymbol(arg)
+function! SearchInSymbol(arg)
     execute "cs find ". a:arg ." <cword>"
     :copen
 endfunction
