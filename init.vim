@@ -13,7 +13,7 @@ let g:mapleader = "\<Space>"
 let loaded_matchparen = 1
 let g:maplocalleader = ','
 let g:current_path="~/a-vim""
-set cscopequickfix=s-,c-,d-,i-,t-,e-,a-
+set cscopequickfix=s-,c-,d-,i-,t-,e-,a-,g-,f-
 set t_Co=256
 set shellslash
 set nocompatible                           " be improved, required
@@ -225,6 +225,7 @@ let g:plug_window = "new"
 "let g:startify_custom_header =
             "\ 'startify#center(startify#fortune#cowsay())'
 
+let g:startify_bookmarks = systemlist("cut -sd' ' -f 2- ~/.NERDTreeBookmarks")
 let s:header=[
             \'        ___           ___                       ___           ___           ___     ',
             \'       /\  \         /\__\          ___        /\__\         /\  \         /\  \    ',
@@ -255,7 +256,7 @@ let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType    = '<C-n>'
 let g:ycm_error_symbol                 = '>>'
 let g:ycm_warning_symbol               = '>*'
-let g:ycm_global_ycm_extra_conf        = "~/.ycm_extra_conf.py"
+let g:ycm_global_ycm_extra_conf        = "~/a-vim/.ycm_extra_conf.py"
 let g:ycm_key_detailed_diagnostics= ''
 
 
@@ -586,7 +587,8 @@ else
         ":set guioptions -= m "remove the menu bar
         ":set guioptions -=T "remove the tab bar
         :set guioptions="";
-        :set guifont     =Ubuntu\ Mono\ Bold\ Italic\ 14
+        ":set guifont     =Ubuntu\ Mono\ Bold\ Italic\ 14
+        :set guifont     =Ubuntu\ Mono\ Bold\ 14
         ":set guifont     =DejaVu\ Sans\ Mono\ Nerd\ Font
         ":set guifont =Ubuntu\ Mono\ Nerd\ Font\ Bold\ Italic\ 14
         let g:tagbar_iconchars = ['▸', '▾']
@@ -870,6 +872,7 @@ augroup END
 
 autocmd VimLeave * NERDTreeTabsClose
 autocmd TabEnter  * wincmd w
+autocmd TabNew * :Startify | wincmd w | wincmd o
 autocmd TabEnter  * NERDTreeCWD
 autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
 autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
