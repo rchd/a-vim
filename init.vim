@@ -7,7 +7,7 @@
 " ##:::: ##::::::::::::. ###::::'####: ##:::: ##: ##:::. ##:. ######::
 "..:::::..::::::::::::::...:::::....::..:::::..::..:::::..:::......:::
 
-"basic seting 
+"basic seting
 let $PATH="~/bin:/local/usr/bin:/".$PATH
 let g:mapleader = "\<Space>"
 let loaded_matchparen = 1
@@ -54,8 +54,8 @@ set dictionary=/usr/share/dict/words
 "set termwinsize=10*0
 if has('nvim')
     set viminfo='100,n$HOME/.vim/files/info/viminfo
-    tnoremap <Esc> <C-\><C-n>
     tnoremap <C-[> <C-\><C-n>
+    tnoremap <Esc> <C-\><C-n>
     :tnoremap <C-w>h <C-\><C-N><C-w>h
     :tnoremap <C-w>j <C-\><C-N><C-w>j
     :tnoremap <C-w>k <C-\><C-N><C-w>k
@@ -124,7 +124,6 @@ Plug 'tpope/vim-surround'
 
 
 "Userful tool
-Plug 'dyng/ctrlsf.vim'
 "Plug 'jmcantrell/vim-virtualenv'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'mattesgroeger/vim-bookmarks'
@@ -242,7 +241,14 @@ let s:header=[
 
 let g:startify_custom_header=s:header
 let g:startify_custom_fotter=StartifyCenter(s:header)
-
+    let g:startify_lists = [
+          \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+          \ { 'type': 'files',     'header': ['   MRU']            },
+          \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+          \ { 'type': 'sessions',  'header': ['   Sessions']       },
+          \ { 'type': 'commands',  'header': ['   Commands']       },
+          \ ]
+"let t:startify_new_tab = 1
 "#####################################################################
 "#
 "#  YouCompleteMe
@@ -366,27 +372,6 @@ if executable("ag")
 endif
 
 
-"#####################################################################
-"#
-"#  ctrlsf
-"#
-"#####################################################################
-"setting ag command as the default search command
-let g:ctrlsf_ackprg='ag'
-
-if executable("ag")
-    "set grepprg=ag\ --nogroup\ --nocolor
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-endif
-
-
-"#####################################################################
-"#
-"#  echodoc
-"#
-"#####################################################################
-"set noshowmode
-"let g:echodoc_enable_at_startup=1
 "#####################################################################
 "#
 "#  autoformat
@@ -743,10 +728,8 @@ let g:which_key_map['s']={
             \'l' : ['BTags'         , 'localization-symbol-search'] ,
             \'g' : ['Tags'          , 'global-symbol-search']       ,
             \'b' : 'broswer-search' ,
-            \'t' : 'ctrlsf-toogle'  ,
-            \'n' : 'ctrlsf-search'  ,
+            \'n' : ['Ag'  , 'fzf-search']
             \}
-            "\ 'v'     : ['GV'                , 'GV']                         ,
 let g:which_key_map['g']={
             \ 'name'  : '+git/version-control' ,
             \ 'b'     : ['Gblame'            , 'fugitive-blame']             ,
@@ -831,11 +814,6 @@ let g:asyncrun_open=10
 "#  database
 "#
 "#####################################################################
-"let g:dbs = {
-            "\ 'wp': 'mysql://root@106.54.90.244/19970809rchd@',
-            "\ }
-"postgresql://stage_user:dummypassword@test.example.com/stage
-"let g:db_ui_disable_mappings= 1
 let g:db_ui_winwidth = 30
 let g:db_ui_env_variable_url = 'DATABASE_URL'
 let g:db_ui_env_variable_name = 'DATABASE_NAME'
@@ -853,13 +831,9 @@ let g:dbs = [
 
 augroup strartUpSetting
     if stridx(&rtp,"startify") != -1
-        autocmd vimenter *
-                    \ if !argc()
-                    \ | Startify
-                    \ | setlocal nowrap
-                    \ | endif
+        autocmd TabNew * Startify | setlocal nowrap  
+
     endif
-    "autocmd vimenter * Tagbar
     autocmd FileType python set sw=4
     autocmd FileType python set ts=4
     autocmd FileType python set sts=4
@@ -871,9 +845,8 @@ augroup END
 
 
 autocmd VimLeave * NERDTreeTabsClose
-autocmd TabEnter  * wincmd w
-autocmd TabNew * :Startify | wincmd w | wincmd o
-autocmd TabEnter  * NERDTreeCWD
+autocmd TabEnter * NERDTreeCWD
+"autocmd TabNew * NERDTreeTabsToggle
 autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
 autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
 
@@ -884,16 +857,9 @@ if !has('nvim')
     au BufNew * if &buftype=='quickfix' | setlocal nonumber | setlocal norelativenumber
 endif
 
-
-
-"autocmd TabEnter *
-            "\ | wincmd w
-
-
 autocmd! FileType which_key
 "autocmd  FileType which_key set laststatus=0 noshowmode noruler
 autocmd BufLeave <buffer> set laststatus=2 showmode ruler
-"autocmd BufEnter * :call BookmarkUnmapKeys()
 
 "let plugins=g:plugs_order
 
@@ -910,4 +876,6 @@ amenu Plugin.vim-plug.Clean   :PlugClean<cr>
 amenu Plugin.vim-plug.Diff    :PlugDiff<cr>
 
 hi Normal ctermfg=256 ctermbg=none
+
+runtime ftplugin/man.vim
 
