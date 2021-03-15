@@ -366,10 +366,10 @@ let g:indent_guides_space_guides=1
 "#  ctrlp
 "#
 "#####################################################################
-if executable("ag")
-    "set grepprg=ag\ --nogroup\ --nocolor
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-endif
+"if executable("ag")
+    ""set grepprg=ag\ --nogroup\ --nocolor
+    "let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+"endif
 
 
 "#####################################################################
@@ -499,16 +499,17 @@ nmap <Leader>a, :Tabularize /,<CR>
 vmap <Leader>a, :Tabularize /,<CR>
 "undotree
 nmap <Leader>tu :UndotreeToggle<cr>
+
 "nmap <Leader>u
 "CtrlSF
 "nmap     <Leader>sf <Plug>CtrlSFPrompt
 "vmap     <Leader>sf <Plug>CtrlSFVwordPath
 "vmap     <Leader>sF <Plug>CtrlSFVwordExec
-nmap     <Leader>sn <Plug>CtrlSFCwordPath
+"nmap     <Leader>sn <Plug>CtrlSFCwordPath
 "nmap     <Leader>sp <Plug>CtrlSFPwordPath
 "nnoremap <Leader>so :CtrlSFOpen<CR>
-nnoremap <Leader>st :CtrlSFToggle<CR>
-inoremap <Leader>st <Esc>:CtrlSFToggle<CR>
+"nnoremap <Leader>st :CtrlSFToggle<CR>
+"inoremap <Leader>st <Esc>:CtrlSFToggle<CR>
 
 
 "cscope keybind
@@ -587,6 +588,7 @@ else
         set background=dark
         let g:NERDTreeDirArrowExpandable='|+'
         let g:NERDTreeDirArrowCollapsible='|-'
+        colorscheme default
         "AirlineTheme aurora
     endif
 endif
