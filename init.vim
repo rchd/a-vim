@@ -1,17 +1,18 @@
 ":::'###:::::::::::::'##::::'##:'####:'##::::'##:'########:::'######::
 "::'## ##:::::::::::: ##:::: ##:. ##:: ###::'###: ##.... ##:'##... ##:
-":'##:. ##::::::::::: ##:::: ##:: ##:: ####'####: ##:::: ##: ##:::..::
 "'##:::. ##:'#######: ##:::: ##:: ##:: ## ### ##: ########:: ##:::::::
+":'##:. ##::::::::::: ##:::: ##:: ##:: ####'####: ##:::: ##: ##:::..::
 " #########:........:. ##:: ##::: ##:: ##. #: ##: ##.. ##::: ##:::::::
 " ##.... ##:::::::::::. ## ##:::: ##:: ##:.:: ##: ##::. ##:: ##::: ##:
 " ##:::: ##::::::::::::. ###::::'####: ##:::: ##: ##:::. ##:. ######::
 "..:::::..::::::::::::::...:::::....::..:::::..::..:::::..:::......:::
 
-"basic seting 
+"basic seting
 let $PATH="~/bin:/local/usr/bin:/".$PATH
 let g:mapleader = "\<Space>"
 let loaded_matchparen = 1
 let g:maplocalleader = ','
+set cscopequickfix=s-,c-,d-,i-,t-,e-,a-,g-,f-
 set t_Co=256
 set cscopequickfix=s-,c-,d-,i-,t-,e-,a-
 set shellslash
@@ -53,8 +54,8 @@ set dictionary=/usr/share/dict/words
 "set termwinsize=10*0
 if has('nvim')
     set viminfo='100,n$HOME/.vim/files/info/viminfo
-    tnoremap <Esc> <C-\><C-n>
     tnoremap <C-[> <C-\><C-n>
+    tnoremap <Esc> <C-\><C-n>
     :tnoremap <C-w>h <C-\><C-N><C-w>h
     :tnoremap <C-w>j <C-\><C-N><C-w>j
     :tnoremap <C-w>k <C-\><C-N><C-w>k
@@ -73,7 +74,11 @@ endif
 "#
 "#####################################################################
 
+<<<<<<< HEAD
 source ~/a-vim/common.vim
+=======
+:source ~/a-vim/common.vim
+>>>>>>> ff51ecb1df984f11ff4c23c5ba98dfaf63772e3d
 
 "#####################################################################
 "#
@@ -96,7 +101,7 @@ if !has('nvim')
     set completeopt-=longest   " don't insert the longest common text
 endif
 "Auto Complete
-Plug 'ycm-core/YouCompleteMe'
+"Plug 'ycm-core/YouCompleteMe'
 Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -108,7 +113,10 @@ if !has('gui_running')
     Plug 'https://github.com/morhetz/gruvbox.git'
 endif
 
+<<<<<<< HEAD
 "Plug 'edkolev/tmuxline.vim'
+=======
+>>>>>>> ff51ecb1df984f11ff4c23c5ba98dfaf63772e3d
 Plug 'https://github.com/dracula/vim.git'
 "The appearness about vim
 Plug 'vim-airline/vim-airline'
@@ -124,7 +132,6 @@ Plug 'tpope/vim-surround'
 
 
 "Userful tool
-Plug 'dyng/ctrlsf.vim'
 "Plug 'jmcantrell/vim-virtualenv'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'mattesgroeger/vim-bookmarks'
@@ -178,7 +185,7 @@ Plug 'majutsushi/tagbar'         , {'on':'TagbarToggle'}
 "Plug 'francoiscabrol/ranger.vim' , {'on':'Ranger'}
 "Plug 'mbbill/undotree'           , {'on':'UndotreeToggle'}
 "Plug 'gu-fan/colorv.vim'         , {'on':'ColorV'}
-Plug 'https://github.com/vim-scripts/fcitx.vim.git'
+"Plug 'https://github.com/vim-scripts/fcitx.vim.git'
 
 "Plug 'https://github.com/MTDL9/vim-log-highlighting.git'
 
@@ -225,6 +232,7 @@ let g:plug_window = "new"
 "let g:startify_custom_header =
             "\ 'startify#center(startify#fortune#cowsay())'
 
+let g:startify_bookmarks = systemlist("cut -sd' ' -f 2- ~/.NERDTreeBookmarks")
 let s:header=[
             \'        ___           ___                       ___           ___           ___     ',
             \'       /\  \         /\__\          ___        /\__\         /\  \         /\  \    ',
@@ -241,7 +249,14 @@ let s:header=[
 
 let g:startify_custom_header=s:header
 let g:startify_custom_fotter=StartifyCenter(s:header)
-
+    let g:startify_lists = [
+          \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+          \ { 'type': 'files',     'header': ['   MRU']            },
+          \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+          \ { 'type': 'sessions',  'header': ['   Sessions']       },
+          \ { 'type': 'commands',  'header': ['   Commands']       },
+          \ ]
+"let t:startify_new_tab = 1
 "#####################################################################
 "#
 "#  YouCompleteMe
@@ -255,7 +270,7 @@ let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType    = '<C-n>'
 let g:ycm_error_symbol                 = '>>'
 let g:ycm_warning_symbol               = '>*'
-let g:ycm_global_ycm_extra_conf        = "~/.ycm_extra_conf.py"
+let g:ycm_global_ycm_extra_conf        = "~/a-vim/.ycm_extra_conf.py"
 let g:ycm_key_detailed_diagnostics= ''
 
 
@@ -316,6 +331,7 @@ endif
 "#####################################################################
 
 " set the width and position of NERDTree
+let g:NERDTreeUseTCD=1
 let g:NERDTreeWinSize=25
 let g:NERDTreeWinPos='left'
 let g:NERDTreeHijackNetrw = 0
@@ -358,33 +374,12 @@ let g:indent_guides_space_guides=1
 "#  ctrlp
 "#
 "#####################################################################
-if executable("ag")
-    "set grepprg=ag\ --nogroup\ --nocolor
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-endif
+"if executable("ag")
+    ""set grepprg=ag\ --nogroup\ --nocolor
+    "let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+"endif
 
 
-"#####################################################################
-"#
-"#  ctrlsf
-"#
-"#####################################################################
-"setting ag command as the default search command
-let g:ctrlsf_ackprg='ag'
-
-if executable("ag")
-    "set grepprg=ag\ --nogroup\ --nocolor
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-endif
-
-
-"#####################################################################
-"#
-"#  echodoc
-"#
-"#####################################################################
-"set noshowmode
-"let g:echodoc_enable_at_startup=1
 "#####################################################################
 "#
 "#  autoformat
@@ -512,16 +507,17 @@ nmap <Leader>a, :Tabularize /,<CR>
 vmap <Leader>a, :Tabularize /,<CR>
 "undotree
 nmap <Leader>tu :UndotreeToggle<cr>
+
 "nmap <Leader>u
 "CtrlSF
 "nmap     <Leader>sf <Plug>CtrlSFPrompt
 "vmap     <Leader>sf <Plug>CtrlSFVwordPath
 "vmap     <Leader>sF <Plug>CtrlSFVwordExec
-nmap     <Leader>sn <Plug>CtrlSFCwordPath
+"nmap     <Leader>sn <Plug>CtrlSFCwordPath
 "nmap     <Leader>sp <Plug>CtrlSFPwordPath
 "nnoremap <Leader>so :CtrlSFOpen<CR>
-nnoremap <Leader>st :CtrlSFToggle<CR>
-inoremap <Leader>st <Esc>:CtrlSFToggle<CR>
+"nnoremap <Leader>st :CtrlSFToggle<CR>
+"inoremap <Leader>st <Esc>:CtrlSFToggle<CR>
 
 
 "cscope keybind
@@ -600,6 +596,7 @@ else
         set background=dark
         let g:NERDTreeDirArrowExpandable='|+'
         let g:NERDTreeDirArrowCollapsible='|-'
+        colorscheme default
         "AirlineTheme aurora
     endif
 endif
@@ -741,10 +738,8 @@ let g:which_key_map['s']={
             \'l' : ['BTags'         , 'localization-symbol-search'] ,
             \'g' : ['Tags'          , 'global-symbol-search']       ,
             \'b' : 'broswer-search' ,
-            \'t' : 'ctrlsf-toogle'  ,
-            \'n' : 'ctrlsf-search'  ,
+            \'n' : ['Ag'  , 'fzf-search']
             \}
-            "\ 'v'     : ['GV'                , 'GV']                         ,
 let g:which_key_map['g']={
             \ 'name'  : '+git/version-control' ,
             \ 'b'     : ['Gblame'            , 'fugitive-blame']             ,
@@ -829,11 +824,6 @@ let g:asyncrun_open=10
 "#  database
 "#
 "#####################################################################
-"let g:dbs = {
-            "\ 'wp': 'mysql://root@106.54.90.244/19970809rchd@',
-            "\ }
-"postgresql://stage_user:dummypassword@test.example.com/stage
-"let g:db_ui_disable_mappings= 1
 let g:db_ui_winwidth = 30
 let g:db_ui_env_variable_url = 'DATABASE_URL'
 let g:db_ui_env_variable_name = 'DATABASE_NAME'
@@ -851,13 +841,9 @@ let g:dbs = [
 
 augroup strartUpSetting
     if stridx(&rtp,"startify") != -1
-        autocmd vimenter *
-                    \ if !argc()
-                    \ | Startify
-                    \ | setlocal nowrap
-                    \ | endif
+        autocmd TabNew * Startify | setlocal nowrap  
+
     endif
-    "autocmd vimenter * Tagbar
     autocmd FileType python set sw=4
     autocmd FileType python set ts=4
     autocmd FileType python set sts=4
@@ -869,8 +855,8 @@ augroup END
 
 
 autocmd VimLeave * NERDTreeTabsClose
-autocmd TabEnter  * wincmd w
-autocmd TabEnter  * NERDTreeCWD
+autocmd TabEnter * NERDTreeCWD
+"autocmd TabNew * NERDTreeTabsToggle
 autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
 autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
 
@@ -881,16 +867,9 @@ if !has('nvim')
     au BufNew * if &buftype=='quickfix' | setlocal nonumber | setlocal norelativenumber
 endif
 
-
-
-"autocmd TabEnter *
-            "\ | wincmd w
-
-
 autocmd! FileType which_key
 "autocmd  FileType which_key set laststatus=0 noshowmode noruler
 autocmd BufLeave <buffer> set laststatus=2 showmode ruler
-"autocmd BufEnter * :call BookmarkUnmapKeys()
 
 "let plugins=g:plugs_order
 
@@ -907,4 +886,6 @@ amenu Plugin.vim-plug.Clean   :PlugClean<cr>
 amenu Plugin.vim-plug.Diff    :PlugDiff<cr>
 
 hi Normal ctermfg=256 ctermbg=none
+
+runtime ftplugin/man.vim
 
