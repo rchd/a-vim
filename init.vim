@@ -74,11 +74,7 @@ endif
 "#
 "#####################################################################
 
-<<<<<<< HEAD
-source ~/a-vim/common.vim
-=======
 :source ~/a-vim/common.vim
->>>>>>> ff51ecb1df984f11ff4c23c5ba98dfaf63772e3d
 
 "#####################################################################
 "#
@@ -113,10 +109,6 @@ if !has('gui_running')
     Plug 'https://github.com/morhetz/gruvbox.git'
 endif
 
-<<<<<<< HEAD
-"Plug 'edkolev/tmuxline.vim'
-=======
->>>>>>> ff51ecb1df984f11ff4c23c5ba98dfaf63772e3d
 Plug 'https://github.com/dracula/vim.git'
 "The appearness about vim
 Plug 'vim-airline/vim-airline'
