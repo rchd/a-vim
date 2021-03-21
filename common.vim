@@ -348,6 +348,7 @@ noremap <Leader>bt :call ChangeBackground()<cr>
 function LinuxKernel()
   let path="~/ISO/linux-kernel/linux-2.6.28.8" 
   execute "cd " . path
+  cs add cscope.out
   "echo "The current work directory: " . path
   execute "pwd"
 endfunction
