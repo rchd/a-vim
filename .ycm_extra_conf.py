@@ -33,6 +33,7 @@ import platform
 import os.path as p
 import subprocess
 
+
 DIR_OF_THIS_SCRIPT = p.abspath( p.dirname( __file__ ) )
 DIR_OF_THIRD_PARTY = p.join( DIR_OF_THIS_SCRIPT, 'third_party' )
 DIR_OF_WATCHDOG_DEPS = p.join( DIR_OF_THIRD_PARTY, 'watchdog_deps' )
@@ -84,6 +85,10 @@ get_python_inc(),
 '-isystem',
 'cpp/ycm/benchmarks/benchmark/include',
 '-std=c++17',
+'-isystem',
+'/usr/include/x86_64-linux-gnu/',
+'-isystem',
+'/usr/local/include/SDL2/',
 ]
 
 # Set this to the absolute path to the folder (NOT the file!) containing the

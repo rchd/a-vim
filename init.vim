@@ -97,7 +97,7 @@ if !has('nvim')
     set completeopt-=longest   " don't insert the longest common text
 endif
 "Auto Complete
-"Plug 'ycm-core/YouCompleteMe'
+Plug 'ycm-core/YouCompleteMe'
 Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'

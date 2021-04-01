@@ -1,15 +1,15 @@
 "maximize current windows and restore layout
-if exists("g:vimcommonfunctionloaded")
+if exists("g:vimCommonFunctionLoaded")
     finish
 else
-    let g:vimcommonfunctionloaded=1
+    let g:vimCommonFunctionLoaded=1
 endif
 
-if !has('gui_running')
-    function! StartifyEntryFormat()
-        return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
-    endfunction
-endif
+"if !has('gui_running')
+    "function! StartifyEntryFormat()
+        "return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
+    "endfunction
+"endif
 
 function! StartifyCenter(lines) abort
     let longest_line=max(map(copy(a:lines),'strwidth(v:val)'))
