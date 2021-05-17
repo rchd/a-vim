@@ -118,7 +118,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'https://github.com/jiangmiao/auto-pairs.git'
-Plug 'w0rp/ale'
+"Plug 'w0rp/ale'
 Plug 'tpope/vim-surround'
 
 
@@ -138,8 +138,8 @@ Plug 'mhinz/vim-startify'
 Plug 'haya14busa/incsearch.vim'
 Plug 'https://github.com/skywind3000/asyncrun.vim.git'
 Plug 'ludovicchabant/vim-gutentags'
-"Plug 'skanehira/docker.vim'
-"Plug 'skanehira/docker-compose.vim'
+Plug 'skanehira/docker.vim'
+Plug 'skanehira/docker-compose.vim'
 Plug 'https://github.com/tpope/vim-dadbod.git', {'on':'DBUIToggle'}
 Plug 'https://github.com/kristijanhusak/vim-dadbod-ui.git'
 Plug 'skywind3000/vim-preview'
@@ -161,7 +161,7 @@ Plug 'liuchengxu/vim-which-key'
 "Plug 'mxw/vim-jsx'             , {'for':'js'}
 "Plug 'https://github.com/peitalin/vim-jsx-typescript.git', {'for':['ts', 'tsx']}
 "Plug 'lvht/phpcd.vim'          , { 'for': 'php'   , 'do': 'composer install' }
-Plug 'jupyter-vim/jupyter-vim' , {'for':'python'}
+"Plug 'jupyter-vim/jupyter-vim' , {'for':'python'}
 Plug  'https://github.com/jmcantrell/vim-virtualenv.git' , {'for':'python'}
 
 "code format
@@ -195,6 +195,9 @@ Plug 'bps/vim-textobj-python'                 , {'for':['python']}
 Plug 'kamichidu/vim-textobj-function-go'      , {'for':['go']}
 "Plug 'kentaro/vim-textobj-function-php'       , {'for':['php']}
 Plug 'diepm/vim-rest-console'
+
+Plug 'edkolev/tmuxline.vim'
+Plug 'preservim/vimux'
 
 "test
 "Plug 'https://github.com/vim-test/vim-test.git'
@@ -248,7 +251,7 @@ let g:startify_custom_fotter=StartifyCenter(s:header)
           \ { 'type': 'sessions',  'header': ['   Sessions']       },
           \ { 'type': 'commands',  'header': ['   Commands']       },
           \ ]
-"let t:startify_new_tab = 1
+"let t:startify_new_tab = 0
 "#####################################################################
 "#
 "#  YouCompleteMe
@@ -575,6 +578,7 @@ else
         :set guioptions="";
         ":set guifont     =Ubuntu\ Mono\ Bold\ Italic\ 14
         :set guifont     =Ubuntu\ Mono\ Bold\ 14
+        ":set guifont = Sarasa\ Mono\ SC\ Light 
         ":set guifont     =DejaVu\ Sans\ Mono\ Nerd\ Font
         ":set guifont =Ubuntu\ Mono\ Nerd\ Font\ Bold\ Italic\ 14
         let g:tagbar_iconchars = ['▸', '▾']
@@ -585,10 +589,9 @@ else
         highlight CursorLine   cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
         "highlight CursorColumn cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
         "colorscheme gruvbox
-        set background=dark
+        :colorscheme dracula
         let g:NERDTreeDirArrowExpandable='|+'
         let g:NERDTreeDirArrowCollapsible='|-'
-        colorscheme default
         "AirlineTheme aurora
     endif
 endif
@@ -833,8 +836,8 @@ let g:dbs = [
 
 augroup strartUpSetting
     if stridx(&rtp,"startify") != -1
-        autocmd TabNew * Startify | setlocal nowrap  
-
+        "autocmd TabNew * Startify | setlocal nowrap  
+        "autocmd BufNew * Startify | setlocal nowrap
     endif
     autocmd FileType python set sw=4
     autocmd FileType python set ts=4
@@ -848,7 +851,7 @@ augroup END
 
 autocmd VimLeave * NERDTreeTabsClose
 autocmd TabEnter * NERDTreeCWD
-"autocmd TabNew * NERDTreeTabsToggle
+autocmd TabNew * wincmd o  
 autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
 autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
 
