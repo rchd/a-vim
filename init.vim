@@ -130,8 +130,10 @@ Plug 'mattesgroeger/vim-bookmarks'
 "Plug 'KabbAmine/zeavim.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'godlygeek/tabular'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+"Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+"Plug 'junegunn/fzf', {'do': {->fzf#install()}}
+"Plug 'junegunn/fzf.vim'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'Chiel92/vim-autoformat'
 Plug 'mhinz/vim-startify'
@@ -216,6 +218,37 @@ call plug#end()
 let g:plug_window = "new"
 
 
+
+" gutentags 搜索工程目录的标志，当前文件路径向上递归直到碰到这些文件/目录名
+let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
+
+" 所生成的数据文件的名称
+let g:gutentags_ctags_tagfile = '.tags'
+
+" 同时开启 ctags 和 gtags 支持：
+let g:gutentags_modules = []
+if executable('ctags')
+	let g:gutentags_modules += ['ctags']
+endif
+if executable('gtags-cscope') && executable('gtags')
+	let g:gutentags_modules += ['gtags_cscope']
+endif
+
+" 将自动生成的 ctags/gtags 文件全部放入 ~/.cache/tags 目录中，避免污染工程目录
+let g:gutentags_cache_dir = expand('~/.cache/tags')
+
+" 配置 ctags 的参数，老的 Exuberant-ctags 不能有 --extra=+q，注意
+let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
+let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
+
+" 如果使用 universal ctags 需要增加下面一行，老的 Exuberant-ctags 不能加下一行
+let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
+
+" 禁用 gutentags 自动加载 gtags 数据库的行为
+let g:gutentags_auto_add_gtags_cscope = 0
+
+
 "#####################################################################
 "#
 "#  startify
@@ -268,6 +301,7 @@ let g:ycm_warning_symbol               = '>*'
 let g:ycm_global_ycm_extra_conf        = "~/a-vim/.ycm_extra_conf.py"
 let g:ycm_key_detailed_diagnostics= ''
 
+let g:Lf_WindowPosition='popup'
 
 "#####################################################################
 "#
@@ -279,6 +313,8 @@ let g:fzf_action = {
             \ 'ctrl-t': 'tab split',
             \ 'ctrl-s': 'split',
             \ 'ctrl-v': 'vsplit' }
+
+"let g:fzf_layout = { 'window': '10split enew' }
 
 " CTRL-A CTRL-Q to select all and build quickfix list
 
@@ -711,7 +747,7 @@ let g:which_key_map['b']={
             \'n' : ['bnext'     , 'next-buffer']     ,
             \'p' : ['bprevious' , 'previous-buffer'] ,
             \'d' : ['bdelete'   , 'delete-buffer']   ,
-            \'s' : ['Buffers'   , 'switch-buffer']   ,
+            \'s' : ['LeaderfBuffer'   , 'switch-buffer']   ,
             \'t' : 'background'   ,
             \}
 let g:which_key_map['p']={
@@ -739,11 +775,11 @@ let g:which_key_map['s']={
             \'name':'+search/session',
             \'a' : ['SLoad'         , 'load-session']               ,
             \'s' : ['SSave'         , 'save-session']               ,
-            \'f' : ['FZF'           , 'file-search']                ,
-            \'l' : ['BTags'         , 'localization-symbol-search'] ,
-            \'g' : ['Tags'          , 'global-symbol-search']       ,
+            \'f' : ['LeaderfFile '  , 'file-search']                ,
+            \'l' : ['LeaderfBufTag'  , 'localization-symbol-search'] ,
+            \'g' : ['LeaderfTag'    , 'global-symbol-search']       ,
             \'b' : 'broswer-search' ,
-            \'n' : ['Ag'  , 'fzf-search']
+            \'n' : ['LeaderfRgInteractive'            , 'fzf-search']
             \}
 let g:which_key_map['g']={
             \ 'name'  : '+git/version-control' ,
