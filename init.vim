@@ -521,6 +521,16 @@ function! SearchInSymbol(arg)
     :copen
 endfunction
 
+"bind keybind to vimux command
+function! RunCommandInTmux()
+    call inputsave()
+    let g:command=input("Enter a command: ")
+    call VimuxRunCommand(g:command)
+endfunction
+
+nnoremap <Leader>tr :call RunCommandInTmux() <cr>
+nnoremap <Leader>tj :VimuxScrollDownInspect <cr>
+nnoremap <Leader>tk :VimuxScrollUpInspect <cr>
 
 nnoremap <Leader>os :call SearchInSymbol("s") <cr>
 nnoremap <Leader>og :call SearchInSymbol("g")<cr>
@@ -595,7 +605,7 @@ else
         "AirlineTheme aurora
     endif
 endif
-:set background=light
+":set background=light
 "if has("gui_running")
 "if has("gui_gtk2")
 ":set guifont=Luxi\ Mono\ 12
