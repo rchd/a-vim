@@ -178,7 +178,6 @@ Plug  'https://github.com/jmcantrell/vim-virtualenv.git' , {'for':'python'}
 Plug 'majutsushi/tagbar'         , {'on':'TagbarToggle'}
 "Plug 'francoiscabrol/ranger.vim' , {'on':'Ranger'}
 "Plug 'mbbill/undotree'           , {'on':'UndotreeToggle'}
-"Plug 'gu-fan/colorv.vim'         , {'on':'ColorV'}
 "Plug 'https://github.com/vim-scripts/fcitx.vim.git'
 
 "Plug 'https://github.com/MTDL9/vim-log-highlighting.git'
@@ -235,7 +234,7 @@ if executable('gtags-cscope') && executable('gtags')
 endif
 
 " 将自动生成的 ctags/gtags 文件全部放入 ~/.cache/tags 目录中，避免污染工程目录
-let g:gutentags_cache_dir = expand('~/.cache/tags')
+"let g:gutentags_cache_dir = expand('~/.cache/tags')
 
 " 配置 ctags 的参数，老的 Exuberant-ctags 不能有 --extra=+q，注意
 let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
@@ -507,7 +506,7 @@ noremap <Leader>tn :NERDTreeTabsToggle<cr>
 "TagbarToggle
 noremap <Leader>tt :TagbarToggle<cr>
 "ColorV
-noremap <Leader>tc :ColorV<cr>
+"noremap <Leader>tc :ColorV<cr>
 map / <Plug>(incsearch-forward)
 map ? <Plug>(incsearch-backward)
 
@@ -565,6 +564,8 @@ function! RunCommandInTmux()
 endfunction
 
 nnoremap <Leader>tr :call RunCommandInTmux() <cr>
+nnoremap <Leader>tl :VimuxRunLastCommand <cr>
+nnoremap <Leader>tc :VimuxInterruptRunner <cr>
 nnoremap <Leader>tj :VimuxScrollDownInspect <cr>
 nnoremap <Leader>tk :VimuxScrollUpInspect <cr>
 
@@ -800,11 +801,16 @@ let g:which_key_map['g']={
             \ 'f'     : ['GitGutterFold'     , 'gitgutter-fold']             ,
             \}
 let g:which_key_map['t']={
-            \'name' : '+tool-window'    ,
-            \'n'    : 'NERDTree-window' ,
-            \'t'    : 'Tagbar-window'   ,
-            \'u'    : 'UndoTree-window' ,
-            \'g'    : ['SearchInDict()','goldendict-search'] ,
+            \'name' : '+tool-window'          ,
+            \'n'    : 'NERDTree-window'       ,
+            \'r'    : 'tmux-run-command'      ,
+            \'c'    : 'tmux-interrupt'        ,
+            \'l'    : 'tmux-run-last-command' ,
+            \'j'    : 'tmux-scroll-up'        ,
+            \'k'    : 'tmux-scroll-down'      ,
+            \'t'    : 'Tagbar-window'         ,
+            \'u'    : 'UndoTree-window'       ,
+            \'g'    : ['SearchInDict()'       , 'goldendict-search'] ,
             \}
 let g:which_key_map['k']={
             \'name':'+docker',
@@ -930,3 +936,5 @@ hi Normal ctermfg=256 ctermbg=none
 
 runtime ftplugin/man.vim
 
+unmap <Leader>b 
+unmap <Leader>f
